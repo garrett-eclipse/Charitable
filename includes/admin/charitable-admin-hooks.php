@@ -24,7 +24,7 @@ add_action( 'admin_enqueue_scripts', array( Charitable_Admin::get_instance(), 'a
 /**
  * Enqueue Charitable's block editor assets.
  *
- * @see Charitable_Adming::enqueue_block_editor_assets()
+ * @see Charitable_Admin::enqueue_block_editor_assets()
  */
 add_action( 'enqueue_block_editor_assets', array( Charitable_Admin::get_instance(), 'enqueue_block_editor_assets' ) );
 
