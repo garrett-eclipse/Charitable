@@ -1,3 +1,6 @@
+const { __ } = wp.i18n;
+const { registerBlockType } = wp.blocks;
+
 // var el = wp.element.createElement,
 //     registerBlockType = wp.blocks.registerBlockType;
 
