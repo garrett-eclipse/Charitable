@@ -42,33 +42,9 @@ if ( ! class_exists( 'Charitable_Donation_Form_Shortcode' ) ) :
 			/* Parse incoming $atts into an array and merge it with $defaults. */
 			$args = shortcode_atts( $defaults, $atts, 'charitable_donation_form' );
 
-			if ( ! charitable_campaign_can_receive_donations( $args['campaign_id'] ) ) {
-				return '';
-			}
-
-			$donation_id = get_query_var( 'donation_id', false );
-
-			/* If a donation ID is included, make sure it belongs to the current user. */
-			if ( $donation_id && ! charitable_user_can_access_donation( $donation_id ) ) {
-				return '';
-			}
-
 			ob_start();
 
-			if ( ! wp_script_is( 'charitable-script', 'enqueued' ) ) {
-				Charitable_Public::get_instance()->enqueue_donation_form_scripts();
-			}
-
-			$form = charitable_get_campaign( $args['campaign_id'] )->get_donation_form();
-
-			do_action( 'charitable_donation_form_before', $form );
-
-			$args['form'] = $form;
-			$args['campaign'] = $form->get_campaign();
-
-			charitable_template( 'donation-form/form-donation.php', $args );
-
-			do_action( 'charitable_donation_form_after', $form );
+			charitable_template_donation_form( $args['campaign_id'] );
 
 			return ob_get_clean();
 		}

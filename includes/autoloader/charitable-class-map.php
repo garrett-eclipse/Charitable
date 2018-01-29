@@ -52,7 +52,6 @@ return array(
 	'Charitable_Campaign' => 'campaigns/class-charitable-campaign.php',
 	'Charitable_Campaigns' => 'campaigns/class-charitable-campaigns.php',
 	'Charitable_Cron' => 'class-charitable-cron.php',
-	'Charitable_Gutenberg' => 'class-charitable-gutenberg.php',
 	'Charitable_i18n' => 'class-charitable-i18n.php',
 	'Charitable_Install' => 'class-charitable-install.php',
 	'Charitable_Locations' => 'class-charitable-locations.php',

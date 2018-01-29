@@ -569,9 +569,77 @@ if ( ! function_exists( 'charitable_template_campaign_loop_modal_donation_window
 
 endif;
 
-// //////////////////////////////
-// DONATION RECEIPT
-// //////////////////////////////
+/**********************************************/
+/* DONATION FORM
+/**********************************************/
+
+if ( ! function_exists( 'charitable_template_donation_form' ) ) :
+
+	/**
+	 * Display a campaign's donation form.
+	 *
+	 * @since  1.5.9
+	 *
+	 * @param  int   $campaign_id The campaign ID.
+	 * @param  array $args        Args to pass to the view.
+	 * @return false|void
+	 */
+	function charitable_template_donation_form( $campaign_id, $args = array() ) {
+		if ( Charitable::CAMPAIGN_POST_TYPE !== get_post_type( $campaign_id ) ) {
+			return false;
+		}
+
+		if ( ! array_key_exists( 'campaign_id', $args ) ) {
+			$args['campaign_id'] = $campaign_id;
+		}
+
+		if ( ! charitable_campaign_can_receive_donations( $args['campaign_id'] ) ) {
+			return false;
+		}
+
+		$donation_id = get_query_var( 'donation_id', false );
+
+		/* If a donation ID is included, make sure it belongs to the current user. */
+		if ( $donation_id && ! charitable_user_can_access_donation( $donation_id ) ) {
+			return false;
+		}
+
+		if ( ! wp_script_is( 'charitable-script', 'enqueued' ) ) {
+			Charitable_Public::get_instance()->enqueue_donation_form_scripts();
+		}
+
+		$form = charitable_get_campaign( $campaign_id )->get_donation_form();
+
+		/**
+		 * Do something before rendering the donation form.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param Charitable_Donation_Form $form The donation form instance.
+		 */
+		do_action( 'charitable_donation_form_before', $form );
+
+		$args['form']     = $form;
+		$args['campaign'] = $form->get_campaign();
+
+		charitable_template( 'donation-form/form-donation.php', $args );
+
+		/**
+		 * Do something after rendering the donation form.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param Charitable_Donation_Form $form The donation form instance.
+		 */
+		do_action( 'charitable_donation_form_after', $form );
+	}
+
+endif;
+
+/**********************************************/
+/* DONATION RECEIPT
+/**********************************************/
+
 if ( ! function_exists( 'charitable_template_donation_receipt_content' ) ) :
 
 	/**
