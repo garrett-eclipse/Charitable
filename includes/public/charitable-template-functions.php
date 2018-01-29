@@ -583,7 +583,6 @@ if ( ! function_exists( 'charitable_template_donation_receipt_content' ) ) :
 	 * @return string
 	 */
 	function charitable_template_donation_receipt_content( $content ) {
-
 		if ( ! in_the_loop() || ! charitable_is_page( 'donation_receipt_page' ) ) {
 			return $content;
 		}
@@ -594,7 +593,6 @@ if ( ! function_exists( 'charitable_template_donation_receipt_content' ) ) :
 		}
 
 		return charitable_template_donation_receipt_output( $content );
-
 	}
 
 endif;

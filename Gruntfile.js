@@ -27,7 +27,13 @@ module.exports = function(grunt) {
                     'assets/css/**'
                 ],
                 'tasks': ['sass:dist']
-            }, 
+            },
+            'babel': {
+                'files': [
+                    'assets/js/src/*.js'
+                ],
+                'tasks': ['babel:dist']
+            }
         },
 
         // Sass
@@ -117,6 +123,19 @@ module.exports = function(grunt) {
 
                         return pot;
                     }
+                }
+            }
+        },
+        
+        // babel
+        'babel' : {
+            'options' : {
+                'sourceMap' : true,
+                'presets' : [ 'env' ]
+            },
+            'dist' : {
+                'files' : {
+                    'assets/js/charitable-blocks.js' : 'assets/js/src/blocks.js'
                 }
             }
         },
@@ -285,5 +304,6 @@ module.exports = function(grunt) {
     // Build task(s).
     grunt.registerTask( 'build-scripts', [ 'uglify' ] );
     grunt.registerTask( 'build-styles', [ 'cssmin' ] );
-    grunt.registerTask( 'build', [ 'classmap', 'uglify', 'cssmin', 'makepot', 'clean', 'copy', 'compress' ] );
+
+    grunt.registerTask( 'build', [ 'classmap', 'babel', 'uglify', 'cssmin', 'makepot', 'clean', 'copy', 'compress' ] );
 };

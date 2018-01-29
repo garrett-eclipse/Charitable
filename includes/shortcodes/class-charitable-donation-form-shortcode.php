@@ -71,7 +71,6 @@ if ( ! class_exists( 'Charitable_Donation_Form_Shortcode' ) ) :
 			do_action( 'charitable_donation_form_after', $form );
 
 			return ob_get_clean();
-
 		}
 	}
 

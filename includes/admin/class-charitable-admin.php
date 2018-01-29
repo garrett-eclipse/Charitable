@@ -262,21 +262,6 @@ if ( ! class_exists( 'Charitable_Admin' ) ) :
 		}
 
 		/**
-		 * Enqueue block editor assets for Gutenberg integration.
-		 *
-		 * @since  1.6.0
-		 *
-		 * @return void
-		 */
-		public function enqueue_block_editor_assets() {
-			wp_enqueue_script(
-				'charitable-gutenberg',
-				charitable()->get_path( 'assets', false ) . 'js/charitable-gutenberg.js',
-				array( 'wp-blocks', 'wp-element' )
-			);
-		}
-
-		/**
 		 * Set admin body classes.
 		 *
 		 * @since  1.5.0

@@ -74,50 +74,48 @@ if ( ! class_exists( 'Charitable_Post_Types' ) ) :
 			 *
 			 * To change any of the arguments used for the post type, other than the name
 			 * of the post type itself, use the 'charitable_campaign_post_type' filter.
-			 *
-			 * @since 1.0.0
-			 *
-			 * @param array $args Post type arguments.
-			 */
-			$args = apply_filters( 'charitable_campaign_post_type', array(
-				'labels'              => array(
-					'name'               => __( 'Campaigns', 'charitable' ),
-					'singular_name'      => __( 'Campaign', 'charitable' ),
-					'menu_name'          => _x( 'Campaigns', 'Admin menu name', 'charitable' ),
-					'add_new'            => __( 'Add Campaign', 'charitable' ),
-					'add_new_item'       => __( 'Add New Campaign', 'charitable' ),
-					'edit'               => __( 'Edit', 'charitable' ),
-					'edit_item'          => __( 'Edit Campaign', 'charitable' ),
-					'new_item'           => __( 'New Campaign', 'charitable' ),
-					'view'               => __( 'View Campaign', 'charitable' ),
-					'view_item'          => __( 'View Campaign', 'charitable' ),
-					'search_items'       => __( 'Search Campaigns', 'charitable' ),
-					'not_found'          => __( 'No Campaigns found', 'charitable' ),
-					'not_found_in_trash' => __( 'No Campaigns found in trash', 'charitable' ),
-					'parent'             => __( 'Parent Campaign', 'charitable' ),
-				),
-				'description'         => __( 'This is where you can create new campaigns for people to support.', 'charitable' ),
-				'public'              => true,
-				'show_ui'             => true,
-				'capability_type'     => 'campaign',
-				'menu_icon'           => '',
-				'map_meta_cap'        => true,
-				'publicly_queryable'  => true,
-				'exclude_from_search' => false,
-				'hierarchical'        => false,
-				'rewrite'             => array(
-					'slug'       => 'campaigns',
-					'with_front' => true,
-				),
-				'query_var'           => true,
-				'supports'            => array( 'title', 'thumbnail', 'comments' ),
-				'has_archive'         => false,
-				'show_in_nav_menus'   => true,
-				'show_in_menu'        => false,
-				'show_in_admin_bar'   => true,
-			) );
-
-			register_post_type( 'campaign', $args );
+		 	*/
+			register_post_type( 'campaign',
+				apply_filters( 'charitable_campaign_post_type',
+					array(
+						'labels' => array(
+							'name'                  => __( 'Campaigns', 'charitable' ),
+							'singular_name'         => __( 'Campaign', 'charitable' ),
+							'menu_name'             => _x( 'Campaigns', 'Admin menu name', 'charitable' ),
+							'add_new'               => __( 'Add Campaign', 'charitable' ),
+							'add_new_item'          => __( 'Add New Campaign', 'charitable' ),
+							'edit'                  => __( 'Edit', 'charitable' ),
+							'edit_item'             => __( 'Edit Campaign', 'charitable' ),
+							'new_item'              => __( 'New Campaign', 'charitable' ),
+							'view'                  => __( 'View Campaign', 'charitable' ),
+							'view_item'             => __( 'View Campaign', 'charitable' ),
+							'search_items'          => __( 'Search Campaigns', 'charitable' ),
+							'not_found'             => __( 'No Campaigns found', 'charitable' ),
+							'not_found_in_trash'    => __( 'No Campaigns found in trash', 'charitable' ),
+							'parent'                => __( 'Parent Campaign', 'charitable' ),
+						),
+						'description'           => __( 'This is where you can create new campaigns for people to support.', 'charitable' ),
+						'public'                => true,
+						'show_ui'               => true,
+						'capability_type'       => 'campaign',
+						'menu_icon'             => '',
+						'map_meta_cap'          => true,
+						'publicly_queryable'    => true,
+						'exclude_from_search'   => false,
+						'hierarchical'          => false,
+						'rewrite'               => array( 'slug' => 'campaigns', 'with_front' => true ),
+						'query_var'             => true,
+						'supports'              => array( 'title', 'thumbnail', 'comments' ),
+						'has_archive'           => false,
+						'show_in_nav_menus'     => true,
+						'show_in_menu'          => false,
+						'show_in_admin_bar'     => true,
+						'show_in_rest'          => true,
+						'rest_base'             => 'campaign',
+						'rest_controller_class' => 'WP_REST_Posts_Controller',
+					)
+				)
+			);
 
 			/**
 			 * Filter the donation post type definition.
@@ -263,13 +261,16 @@ if ( ! class_exists( 'Charitable_Post_Types' ) ) :
 			);
 
 			$args = array(
-				'labels'            => $labels,
-				'hierarchical'      => true,
-				'public'            => true,
-				'show_ui'           => true,
-				'show_admin_column' => true,
-				'show_in_nav_menus' => true,
-				'show_tagcloud'     => true,
+				'labels'                => $labels,
+				'hierarchical'          => true,
+				'public'                => true,
+				'show_ui'               => true,
+				'show_admin_column'     => true,
+				'show_in_nav_menus'     => true,
+				'show_tagcloud'         => true,
+				'show_in_rest'          => true,
+				'rest_base'             => 'campaign_category',
+				'rest_controller_class' => 'WP_REST_Terms_Controller',
 			);
 
 			register_taxonomy( 'campaign_category', array( 'campaign' ), $args );
@@ -295,13 +296,16 @@ if ( ! class_exists( 'Charitable_Post_Types' ) ) :
 			);
 
 			$args = array(
-				'labels'            => $labels,
-				'hierarchical'      => false,
-				'public'            => true,
-				'show_ui'           => true,
-				'show_admin_column' => true,
-				'show_in_nav_menus' => true,
-				'show_tagcloud'     => true,
+				'labels'                => $labels,
+				'hierarchical'          => false,
+				'public'                => true,
+				'show_ui'               => true,
+				'show_admin_column'     => true,
+				'show_in_nav_menus'     => true,
+				'show_tagcloud'         => true,
+				'show_in_rest'          => true,
+				'rest_base'             => 'campaign_tag',
+				'rest_controller_class' => 'WP_REST_Terms_Controller',
 			);
 
 			register_taxonomy( 'campaign_tag', array( 'campaign' ), $args );
