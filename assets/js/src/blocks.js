@@ -1,9 +1,12 @@
+import { CampaignSelect } from './campaign-select.js';
+
 const { __ } = wp.i18n;
-const { 
+const {
     registerBlockType,
     InspectorControls,
     BlockDescription,
 } = wp.blocks;
+const { withAPIData } = wp.components;
 const {
     SelectControl
 } = InspectorControls;
@@ -34,21 +37,17 @@ registerBlockType( 'charitable/donation-form', {
             !! props.focus && (
                 <InspectorControls key="inspector"
                     description={ __( 'Configure' ) }
-                    >                    
-                    <SelectControl
+                    >
+                    <CampaignSelect
+                        key="campaign-select"
                         label={ __( 'Campaign' ) }
-						value={ props.attributes.campaign }
-						onChange={ onChangeCampaign }
-						options={ [
-                            { key: 'fancypantskey1', value: '1', label: __( 'Attachment Page' ) },
-                            { key: 'fancypantskey2', value: '2', label: __( 'Media File' ) },
-                            { key: 'fancypantskey3', value: '3', label: __( 'None' ) },
-                        ] }
+                        selectedCampaign={ props.attributes.campaign }
+                        onChange={ onChangeCampaign }
                     />
                 </InspectorControls>
             ),
             <p>
-                { __( 'Hello editor.' ) }
+                { __( 'DONATION FORM' ) }
             </p>
         ];
     },
