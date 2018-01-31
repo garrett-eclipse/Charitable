@@ -160,7 +160,7 @@ module.exports = function(grunt) {
                 entry: ['./src/blocks/index.js'],
                 output: {
                     path: path.join( __dirname, 'assets/js' ),
-                    filename: 'blocks.js'
+                    filename: 'charitable-blocks.js'
                 },
                 stats: {
                     colors: false,

@@ -1,5 +1,4 @@
-import { CampaignSelect } from './campaign-select.js';
-
+// import { CampaignSelect } from './campaign-select/index.js';
 const { __ } = wp.i18n;
 const {
     registerBlockType,
