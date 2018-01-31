@@ -1,10 +1,13 @@
 'use strict';
 
+var _campaignSelect = require('./campaign-select.js');
+
 var __ = wp.i18n.__;
 var _wp$blocks = wp.blocks,
     registerBlockType = _wp$blocks.registerBlockType,
     InspectorControls = _wp$blocks.InspectorControls,
     BlockDescription = _wp$blocks.BlockDescription;
+var withAPIData = wp.components.withAPIData;
 var SelectControl = InspectorControls.SelectControl;
 
 
@@ -34,16 +37,16 @@ registerBlockType('charitable/donation-form', {
             { key: 'inspector',
                 description: __('Configure')
             },
-            wp.element.createElement(SelectControl, {
+            wp.element.createElement(_campaignSelect.CampaignSelect, {
+                key: 'campaign-select',
                 label: __('Campaign'),
-                value: props.attributes.campaign,
-                onChange: onChangeCampaign,
-                options: [{ key: 'fancypantskey1', value: '1', label: __('Attachment Page') }, { key: 'fancypantskey2', value: '2', label: __('Media File') }, { key: 'fancypantskey3', value: '3', label: __('None') }]
+                selectedCampaign: props.attributes.campaign,
+                onChange: onChangeCampaign
             })
         ), wp.element.createElement(
             'p',
             null,
-            __('Hello editor.')
+            __('DONATION FORM')
         )];
     },
 

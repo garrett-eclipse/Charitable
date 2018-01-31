@@ -111,7 +111,7 @@ if ( ! class_exists( 'Charitable_Post_Types' ) ) :
 						'show_in_menu'          => false,
 						'show_in_admin_bar'     => true,
 						'show_in_rest'          => true,
-						'rest_base'             => 'campaign',
+						'rest_base'             => 'campaigns',
 						'rest_controller_class' => 'WP_REST_Posts_Controller',
 					)
 				)
@@ -269,7 +269,7 @@ if ( ! class_exists( 'Charitable_Post_Types' ) ) :
 				'show_in_nav_menus'     => true,
 				'show_tagcloud'         => true,
 				'show_in_rest'          => true,
-				'rest_base'             => 'campaign_category',
+				'rest_base'             => 'campaignCategories',
 				'rest_controller_class' => 'WP_REST_Terms_Controller',
 			);
 
@@ -304,7 +304,7 @@ if ( ! class_exists( 'Charitable_Post_Types' ) ) :
 				'show_in_nav_menus'     => true,
 				'show_tagcloud'         => true,
 				'show_in_rest'          => true,
-				'rest_base'             => 'campaign_tag',
+				'rest_base'             => 'campaignTags',
 				'rest_controller_class' => 'WP_REST_Terms_Controller',
 			);
 

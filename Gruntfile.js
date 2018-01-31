@@ -135,7 +135,7 @@ module.exports = function(grunt) {
             },
             'dist' : {
                 'files' : {
-                    'assets/js/charitable-blocks.js' : 'assets/js/src/blocks.js'
+                    'assets/js/charitable-blocks.js' : 'assets/js/src/*.js'
                 }
             }
         },
