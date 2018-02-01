@@ -56,42 +56,6 @@ if ( ! class_exists( 'Charitable_Blocks' ) ) :
 		 * @return void
 		 */
 		public function register_blocks() {
-			// register_block_type( 'core/latest-posts', array(
-			// 	'attributes'      => array(
-			// 		'categories'      => array(
-			// 			'type' => 'string',
-			// 		),
-			// 		'postsToShow'     => array(
-			// 			'type'    => 'number',
-			// 			'default' => 5,
-			// 		),
-			// 		'displayPostDate' => array(
-			// 			'type'    => 'boolean',
-			// 			'default' => false,
-			// 		),
-			// 		'layout'          => array(
-			// 			'type'    => 'string',
-			// 			'default' => 'list',
-			// 		),
-			// 		'columns'         => array(
-			// 			'type'    => 'number',
-			// 			'default' => 3,
-			// 		),
-			// 		'align'           => array(
-			// 			'type'    => 'string',
-			// 			'default' => 'center',
-			// 		),
-			// 		'order'           => array(
-			// 			'type'    => 'string',
-			// 			'default' => 'desc',
-			// 		),
-			// 		'orderBy'         => array(
-			// 			'type'    => 'string',
-			// 			'default' => 'date',
-			// 		),
-			// 	),
-			// 	'render_callback' => 'gutenberg_render_block_core_latest_posts',
-			// ) );
 			register_block_type( 'charitable/donation-form', array(
 				'attributes' => array(
 					'campaign' => array(
@@ -100,8 +64,6 @@ if ( ! class_exists( 'Charitable_Blocks' ) ) :
 				),
 				'render_callback' => array( $this, 'render_donation_form' ),
 			) );
-
-			// echo '<pre>'; var_dump( $ret ); echo '</pre>';
 		}
 
 		/**

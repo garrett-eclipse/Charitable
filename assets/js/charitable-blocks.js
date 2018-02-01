@@ -113,8 +113,8 @@ registerBlockType('charitable/donation-form', {
     keywords: [__('Donate'), __('Charitable')],
 
     edit: function edit(props) {
-        var onChangeCampaign = function onChangeCampaign() {
-            props.setAttributes({ campaign: !props.attributes.campaign });
+        var setCampaign = function setCampaign(campaign) {
+            return props.setAttributes({ campaign: campaign });
         };
 
         return [!!props.focus && wp.element.createElement(
@@ -126,7 +126,7 @@ registerBlockType('charitable/donation-form', {
                 key: 'campaign-select',
                 label: __('Campaign'),
                 selectedCampaign: props.attributes.campaign,
-                onChange: onChangeCampaign
+                onChange: setCampaign
             })
         ), wp.element.createElement(
             'p',
@@ -153,12 +153,24 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
  * External dependencies
  */
 
-// import { unescape as unescapeString, repeat, flatMap, compact } from 'lodash';
 
 var InspectorControls = wp.blocks.InspectorControls;
 var SelectControl = InspectorControls.SelectControl;
 var withAPIData = wp.components.withAPIData;
 
+
+var getCampaignOptions = function getCampaignOptions(campaigns) {
+	if (campaigns.data.length === 0) {
+		return {};
+	}
+
+	return campaigns.data.map(function (campaign) {
+		return {
+			label: campaign.title.rendered,
+			value: campaign.id
+		};
+	});
+};
 
 function CampaignSelect(_ref) {
 	var label = _ref.label,
@@ -166,17 +178,11 @@ function CampaignSelect(_ref) {
 	    selectedCampaign = _ref.selectedCampaign,
 	    onChange = _ref.onChange;
 
-	if (campaigns.isLoading) {
-		return;
+	if (!campaigns.data) {
+		return "loading!";
 	}
 
-	console.log(campaigns);
-	var options = campaigns.data.map(function (campaign) {
-		return {
-			label: campaign.name,
-			value: campaign.id
-		};
-	});
+	var options = getCampaignOptions(campaigns);
 
 	return wp.element.createElement(SelectControl, _extends({ label: label, onChange: onChange, options: options }, {
 		value: selectedCampaign
@@ -186,14 +192,12 @@ function CampaignSelect(_ref) {
 /* harmony default export */ __webpack_exports__["a"] = (withAPIData(function () {
 	var query = Object(__WEBPACK_IMPORTED_MODULE_0_querystringify__["stringify"])({
 		per_page: 100,
-		_fields: ['id', 'name', 'parent']
+		_fields: ['id', 'title', 'parent']
 	});
 	return {
 		campaigns: '/wp/v2/campaigns?' + query
 	};
 })(CampaignSelect));
-
-// export default applyWithAPIData( CampaignSelect );
 
 /***/ }),
 /* 4 */
