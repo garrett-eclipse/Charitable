@@ -1,14 +1,20 @@
 /**
  * External dependencies
  */
-import { unescape as unescapeString, repeat, flatMap, compact } from 'lodash';
+import { stringify } from 'querystringify';
+// import { unescape as unescapeString, repeat, flatMap, compact } from 'lodash';
 
 const {  InspectorControls } = wp.blocks;
 const { SelectControl } = InspectorControls;
 const { withAPIData } = wp.components;
 
 function CampaignSelect( { label, campaigns, selectedCampaign, onChange } ) {
-	const options = campaigns.map( ( campaign ) => {
+	if ( campaigns.isLoading ) {
+		return;
+	}
+	
+	console.log(campaigns);
+	const options = campaigns.data.map( ( campaign ) => {
         return {
             label: campaign.name,
             value: campaign.id
@@ -23,7 +29,7 @@ function CampaignSelect( { label, campaigns, selectedCampaign, onChange } ) {
 	);
 }
 
-const applyWithAPIData = withAPIData( () => {
+export default withAPIData( () => {
 	const query = stringify( {
 		per_page: 100,
 		_fields: [ 'id', 'name', 'parent' ],
@@ -31,6 +37,6 @@ const applyWithAPIData = withAPIData( () => {
 	return {
 		campaigns: `/wp/v2/campaigns?${ query }`,
 	};
-} );
+} )( CampaignSelect );
 
-export default applyWithAPIData( CampaignSelect );
+// export default applyWithAPIData( CampaignSelect );
