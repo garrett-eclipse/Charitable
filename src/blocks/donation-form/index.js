@@ -28,9 +28,7 @@ registerBlockType( 'charitable/donation-form', {
     ],
     
     edit:  props => {
-        const onChangeCampaign = () => {
-            props.setAttributes( { campaign: ! props.attributes.campaign } );
-        }
+        const setCampaign = ( campaign ) => props.setAttributes( { campaign: campaign } );
 
         return [
             !! props.focus && (
@@ -41,7 +39,7 @@ registerBlockType( 'charitable/donation-form', {
                         key="campaign-select"
                         label={ __( 'Campaign' ) }
                         selectedCampaign={ props.attributes.campaign }
-                        onChange={ onChangeCampaign }
+                        onChange={ setCampaign }
                     />
                 </InspectorControls>
             ),
