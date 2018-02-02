@@ -60,88 +60,11 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 0);
+/******/ 	return __webpack_require__(__webpack_require__.s = 1);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(1);
-
-
-/***/ }),
-/* 1 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__donation_form___ = __webpack_require__(2);
-
-
-/***/ }),
-/* 2 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__campaign_select_index_js__ = __webpack_require__(3);
-
-
-var __ = wp.i18n.__;
-var _wp$blocks = wp.blocks,
-    registerBlockType = _wp$blocks.registerBlockType,
-    InspectorControls = _wp$blocks.InspectorControls,
-    BlockDescription = _wp$blocks.BlockDescription;
-var withAPIData = wp.components.withAPIData;
-var SelectControl = InspectorControls.SelectControl;
-
-
-var blockIcon = wp.element.createElement(
-    'svg',
-    { xmlns: 'http://www.w3.org/2000/svg', width: '20px', height: '20px', viewBox: '0 0 20 20' },
-    wp.element.createElement('path', { d: 'M22.634 4.583h-10.914c-0.32 0-0.651 0.749-0.966 0.777-3.394-3.971-6.44-1.634-6.44-1.634l1.84 3.897c-1.48 1.097-2.623 4.486-3.246 4.486h-2.011c-0.48 0-0.891 0.566-0.891 1.040v6.051c0 0.48 0.411 0.434 0.891 0.434h2.326c0.806 1.88 2.131 3.423 3.783 4.389l-0.526 2.794c-0.114 0.571 0.263 1.183 0.834 1.291l4.046 0.823c0.571 0.109 1.12-0.377 1.234-0.949l0.509-2.709h8.137l0.509 2.72c0.114 0.571 0.663 1.006 1.234 0.891l4.046-0.76c0.571-0.114 0.949-0.651 0.834-1.223l-0.52-2.68c2.783-1.611 4.657-4.606 4.657-8.051v-0.777c0.006-5.16-4.2-10.811-9.366-10.811zM8.217 14.629c-0.949 0-1.72-0.771-1.72-1.72 0-0.954 0.771-1.72 1.72-1.72s1.72 0.771 1.72 1.72-0.771 1.72-1.72 1.72zM20.714 10.229h-7.531v-1.88h7.531v1.88z'
-    })
-);
-
-registerBlockType('charitable/donation-form', {
-    title: __('Donation Form'),
-
-    category: 'widgets',
-
-    icon: blockIcon,
-
-    keywords: [__('Donate'), __('Charitable')],
-
-    edit: function edit(props) {
-        var setCampaign = function setCampaign(campaign) {
-            return props.setAttributes({ campaign: campaign });
-        };
-
-        return [!!props.focus && wp.element.createElement(
-            InspectorControls,
-            { key: 'inspector',
-                description: __('Configure')
-            },
-            wp.element.createElement(__WEBPACK_IMPORTED_MODULE_0__campaign_select_index_js__["a" /* default */], {
-                key: 'campaign-select',
-                label: __('Campaign'),
-                selectedCampaign: props.attributes.campaign,
-                onChange: setCampaign
-            })
-        ), wp.element.createElement(
-            'p',
-            null,
-            __('DONATION FORM')
-        )];
-    },
-
-    save: function save() {
-        return null;
-    }
-});
-
-/***/ }),
-/* 3 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -198,6 +121,83 @@ function CampaignSelect(_ref) {
 		campaigns: '/wp/v2/campaigns?' + query
 	};
 })(CampaignSelect));
+
+/***/ }),
+/* 1 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(2);
+
+
+/***/ }),
+/* 2 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__donation_form___ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__donors___ = __webpack_require__(6);
+/**
+ * Load blocks.
+ */
+
+
+
+/***/ }),
+/* 3 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__campaign_select_index_js__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__icon__ = __webpack_require__(5);
+
+
+
+var __ = wp.i18n.__;
+var _wp$blocks = wp.blocks,
+    registerBlockType = _wp$blocks.registerBlockType,
+    InspectorControls = _wp$blocks.InspectorControls,
+    BlockDescription = _wp$blocks.BlockDescription;
+var withAPIData = wp.components.withAPIData;
+var SelectControl = InspectorControls.SelectControl;
+
+
+registerBlockType('charitable/donation-form', {
+    title: __('Donation Form'),
+
+    category: 'widgets',
+
+    icon: __WEBPACK_IMPORTED_MODULE_1__icon__["a" /* default */],
+
+    keywords: [__('Donate'), __('Charitable')],
+
+    edit: function edit(props) {
+        var setCampaign = function setCampaign(campaign) {
+            return props.setAttributes({ campaign: campaign });
+        };
+
+        return [!!props.focus && wp.element.createElement(
+            InspectorControls,
+            { key: 'inspector',
+                description: __('Configure')
+            },
+            wp.element.createElement(__WEBPACK_IMPORTED_MODULE_0__campaign_select_index_js__["a" /* default */], {
+                key: 'campaign-select',
+                label: __('Campaign'),
+                selectedCampaign: props.attributes.campaign,
+                onChange: setCampaign
+            })
+        ), wp.element.createElement(
+            'p',
+            null,
+            __('DONATION FORM')
+        )];
+    },
+
+    save: function save() {
+        return null;
+    }
+});
 
 /***/ }),
 /* 4 */
@@ -277,6 +277,269 @@ function querystringify(obj, prefix) {
 exports.stringify = querystringify;
 exports.parse = querystring;
 
+
+/***/ }),
+/* 5 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var icon = wp.element.createElement(
+    "svg",
+    { xmlns: "http://www.w3.org/2000/svg", width: "20px", height: "20px", viewBox: "0 0 20 20" },
+    wp.element.createElement("path", { d: "M17.69,2.31V5.69H2.31V2.31H17.69M20,0H0V8H20V0Z" }),
+    wp.element.createElement("path", { d: "M17.69,8.31v3.38H2.31V8.31H17.69M20,6H0v8H20V6Z" }),
+    wp.element.createElement("path", { d: "M17.69,14.31v3.38H2.31V14.31H17.69M20,12H0v8H20V12Z" })
+);
+
+/* harmony default export */ __webpack_exports__["a"] = (icon);
+
+/***/ }),
+/* 6 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__icon__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__block__ = __webpack_require__(8);
+/**
+ * Block dependencies
+ */
+
+
+
+/**
+ * Internal block libraries
+ */
+var __ = wp.i18n.__;
+var registerBlockType = wp.blocks.registerBlockType;
+
+/**
+ * Register block
+ */
+
+registerBlockType('charitable/donors', {
+    title: __('Donors'),
+
+    category: 'widgets',
+
+    icon: __WEBPACK_IMPORTED_MODULE_0__icon__["a" /* default */],
+
+    keywords: [__('Donator'), __('Charitable'), __('Backer')],
+
+    edit: __WEBPACK_IMPORTED_MODULE_1__block__["a" /* default */],
+
+    save: function save() {
+        return wp.element.createElement(
+            'p',
+            null,
+            __('DONORS')
+        );
+    }
+});
+
+/***/ }),
+/* 7 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var icon = wp.element.createElement(
+    "svg",
+    { xmlns: "http://www.w3.org/2000/svg", width: "20px", height: "20px", viewBox: "0 0 20 20" },
+    wp.element.createElement("path", { d: "M0,0V20H20V0ZM10,3A3,3,0,1,1,7,6,3,3,0,0,1,10,3Zm5,14H5V12.89A2.89,2.89,0,0,1,7.89,10h4.22A2.89,2.89,0,0,1,15,12.89Z" })
+);
+
+/* harmony default export */ __webpack_exports__["a"] = (icon);
+
+/***/ }),
+/* 8 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__campaign_select_index_js__ = __webpack_require__(0);
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+/**
+ * Block dependencies
+ */
+
+
+/**
+ * WordPress dependencies
+ */
+var __ = wp.i18n.__;
+var Component = wp.element.Component;
+var _wp$blocks = wp.blocks,
+    InspectorControls = _wp$blocks.InspectorControls,
+    BlockDescription = _wp$blocks.BlockDescription;
+var _wp$components = wp.components,
+    PanelBody = _wp$components.PanelBody,
+    PanelRow = _wp$components.PanelRow,
+    withAPIData = _wp$components.withAPIData;
+var SelectControl = InspectorControls.SelectControl,
+    ToggleControl = InspectorControls.ToggleControl,
+    RangeControl = InspectorControls.RangeControl;
+
+var CharitableDonorsBlock = function (_Component) {
+    _inherits(CharitableDonorsBlock, _Component);
+
+    function CharitableDonorsBlock() {
+        _classCallCheck(this, CharitableDonorsBlock);
+
+        var _this = _possibleConstructorReturn(this, (CharitableDonorsBlock.__proto__ || Object.getPrototypeOf(CharitableDonorsBlock)).apply(this, arguments));
+
+        _this.toggleDisplayDonorName = _this.toggleDisplayDonorName.bind(_this);
+        _this.toggleDisplayDonorLocation = _this.toggleDisplayDonorLocation.bind(_this);
+        _this.toggleDisplayDonorAvatar = _this.toggleDisplayDonorAvatar.bind(_this);
+        return _this;
+    }
+
+    _createClass(CharitableDonorsBlock, [{
+        key: 'toggleDisplayDonorName',
+        value: function toggleDisplayDonorName() {
+            var displayDonorName = this.props.attributes.displayDonorName;
+            var setAttributes = this.props.setAttributes;
+
+
+            setAttributes({ displayDonorName: !displayDonorName });
+        }
+    }, {
+        key: 'toggleDisplayDonorLocation',
+        value: function toggleDisplayDonorLocation() {
+            var displayDonorLocation = this.props.attributes.displayDonorLocation;
+            var setAttributes = this.props.setAttributes;
+
+
+            setAttributes({ displayDonorLocation: !displayDonorLocation });
+        }
+    }, {
+        key: 'toggleDisplayDonorAvatar',
+        value: function toggleDisplayDonorAvatar() {
+            var displayDonorAvatar = this.props.attributes.displayDonorAvatar;
+            var setAttributes = this.props.setAttributes;
+
+
+            setAttributes({ displayDonorAvatar: !displayDonorAvatar });
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            var _this2 = this;
+
+            var setCampaign = function setCampaign(campaign) {
+                return _this2.props.setAttributes({ campaign: campaign });
+            };
+            var _props = this.props,
+                attributes = _props.attributes,
+                focus = _props.focus,
+                setAttributes = _props.setAttributes;
+            var number = attributes.number,
+                orderBy = attributes.orderBy,
+                campaign = attributes.campaign,
+                displayDonorName = attributes.displayDonorName,
+                displayDonorLocation = attributes.displayDonorLocation,
+                displayDonorAvatar = attributes.displayDonorAvatar;
+
+
+            var inspectorControls = focus && wp.element.createElement(
+                InspectorControls,
+                { key: 'inspector', description: __('Configure') },
+                wp.element.createElement(
+                    PanelBody,
+                    { title: __('Filter & Sort') },
+                    wp.element.createElement(
+                        PanelRow,
+                        null,
+                        wp.element.createElement(RangeControl, {
+                            key: 'filter-panel-number-control',
+                            label: __('Number of donors'),
+                            value: number,
+                            onChange: function onChange(value) {
+                                return setAttributes({ number: value });
+                            },
+                            min: '-1',
+                            max: '999'
+                        })
+                    ),
+                    wp.element.createElement(
+                        PanelRow,
+                        null,
+                        wp.element.createElement(__WEBPACK_IMPORTED_MODULE_0__campaign_select_index_js__["a" /* default */], {
+                            key: 'filter-panel-campaign-select',
+                            label: __('Campaign'),
+                            selectedCampaign: campaign,
+                            onChange: setCampaign
+                        })
+                    ),
+                    wp.element.createElement(
+                        PanelRow,
+                        null,
+                        wp.element.createElement(SelectControl, {
+                            key: 'filter-panel-orderby-select',
+                            label: __('Order by'),
+                            value: orderBy,
+                            options: [{
+                                label: __('Most recent'),
+                                value: 'recent'
+                            }, {
+                                label: __('Amount donated'),
+                                value: 'amount'
+                            }],
+                            onChange: function onChange(value) {
+                                return setAttributes({ orderBy: value });
+                            }
+                        })
+                    )
+                ),
+                wp.element.createElement(
+                    PanelBody,
+                    { title: __('Display Settings') },
+                    wp.element.createElement(
+                        PanelRow,
+                        null,
+                        wp.element.createElement(ToggleControl, {
+                            label: __('Display the name of the donor'),
+                            checked: displayDonorName,
+                            onChange: this.toggleDisplayDonorName
+                        })
+                    ),
+                    wp.element.createElement(
+                        PanelRow,
+                        null,
+                        wp.element.createElement(ToggleControl, {
+                            label: __('Display the location of the donor'),
+                            checked: displayDonorLocation,
+                            onChange: this.toggleDisplayDonorLocation
+                        })
+                    ),
+                    wp.element.createElement(
+                        PanelRow,
+                        null,
+                        wp.element.createElement(ToggleControl, {
+                            label: __('Display the avatar of the donor'),
+                            checked: displayDonorAvatar,
+                            onChange: this.toggleDisplayDonorAvatar
+                        })
+                    )
+                )
+            );
+
+            return [inspectorControls, wp.element.createElement(
+                'p',
+                null,
+                __('DONORS')
+            )];
+        }
+    }]);
+
+    return CharitableDonorsBlock;
+}(Component);
+
+/* harmony default export */ __webpack_exports__["a"] = (CharitableDonorsBlock);
 
 /***/ })
 /******/ ]);
