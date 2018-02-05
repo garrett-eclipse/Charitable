@@ -2,6 +2,7 @@
  * External dependencies
  */
 import { stringify } from 'querystringify';
+import { flatMap, compact, concat } from 'lodash';
 
 const {  InspectorControls } = wp.blocks;
 const { SelectControl } = InspectorControls;
@@ -20,17 +21,19 @@ const getCampaignOptions = ( campaigns ) => {
 	} );
 }
 
-function CampaignSelect( { label, campaigns, selectedCampaign, onChange } ) {
+function CampaignSelect( { label, campaigns, withOptions, selectedOption, onChange } ) {
 	if ( ! campaigns.data ) {
 		return "loading!";
 	}
 
-	const options = getCampaignOptions( campaigns );
-	
+	const options = withOptions.length 
+		? concat( withOptions, ...getCampaignOptions( campaigns ) )
+		: getCampaignOptions( campaigns );
+
 	return (
 		<SelectControl
 			{ ...{ label, onChange, options } }
-			value={ selectedCampaign }
+			value={ selectedOption }
 		/>
 	);
 }
