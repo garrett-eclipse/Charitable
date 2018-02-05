@@ -35,7 +35,7 @@ registerBlockType( 'charitable/donation-form', {
                     <CampaignSelect
                         key="campaign-select"
                         label={ __( 'Campaign' ) }
-                        selectedCampaign={ props.attributes.campaign }
+                        selectedOption={ props.attributes.campaign }
                         onChange={ setCampaign }
                     />
                 </InspectorControls>

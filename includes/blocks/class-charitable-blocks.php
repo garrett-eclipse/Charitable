@@ -78,13 +78,25 @@ if ( ! class_exists( 'Charitable_Blocks' ) ) :
 						'type'    => 'string',
 						'default' => 'recent',
 					),
+					'distinctDonors' => array(
+						'type'    => 'boolean',
+						'default' => false,
+					),
+					'orientation' => array(
+						'type'    => 'string',
+						'default' => 'horizontal',
+					),
+					'displayDonorAmount' => array(
+						'type'    => 'boolean',
+						'default' => true,
+					),
 					'displayDonorAvatar' => array(
 						'type'    => 'boolean',
 						'default' => true,
 					),
 					'displayDonorName' => array(
 						'type'    => 'boolean',
-						'default' => false,
+						'default' => true,
 					),
 					'displayDonorLocation' => array(
 						'type'    => 'boolean',
@@ -127,12 +139,15 @@ if ( ! class_exists( 'Charitable_Blocks' ) ) :
 		 */
 		public function render_donors( $attributes ) {
 			return Charitable_Donors_Shortcode::display( array(
-				'number'        => $attributes['number'],
-				'campaign'      => $attributes['campaign'],
-				'orderby'       => $attributes['orderBy'],
-				'show_avatar'   => $attributes['displayDonorAvatar'],
-				'show_name'     => $attributes['displayDonorName'],
-				'show_location' => $attributes['displayDonorLocation'],
+				'number'          => $attributes['number'],
+				'campaign'        => $attributes['campaign'],
+				'orderby'         => $attributes['orderBy'],
+				'distinct_donors' => $attributes['distinctDonors'],
+				'orientation'     => $attributes['orientation'],
+				'show_amount'     => $attributes['displayDonorAmount'],
+				'show_avatar'     => $attributes['displayDonorAvatar'],
+				'show_name'       => $attributes['displayDonorName'],
+				'show_location'   => $attributes['displayDonorLocation'],
 			) );
 		}
 	}
