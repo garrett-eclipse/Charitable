@@ -2,7 +2,7 @@
  * External dependencies
  */
 import { stringify } from 'querystringify';
-import { flatMap, compact, concat } from 'lodash';
+import { concat } from 'lodash';
 
 const {  InspectorControls } = wp.blocks;
 const { SelectControl } = InspectorControls;
