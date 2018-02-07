@@ -105,6 +105,40 @@ if ( ! class_exists( 'Charitable_Blocks' ) ) :
 				),
 				'render_callback' => array( $this, 'render_donors' ),
 			) );
+
+			register_block_type( 'charitable/campaigns', array(
+				'attributes' => array(
+					'category' => array(
+						'type'    => 'string',
+						'default' => '',
+					),
+					'order' => array(
+						'type'    => 'string',
+						'default' => 'DESC',
+					),
+					'orderBy' => array(
+						'type'    => 'string',
+						'default' => 'post_date',
+					),
+					'number' => array(
+						'type'    => 'number',
+						'default' => 10,
+					),
+					'columns' => array(
+						'type'    => 'number',
+						'default' => 2,
+					),
+					'masonryLayout' => array(
+						'type'    => 'boolean',
+						'default' => false,
+					),
+					'responsiveLayout' => array(
+						'type'    => 'boolean',
+						'default' => true,
+					),
+				),
+				'render_callback' => array( $this, 'render_campaigns' ),
+			) );
 		}
 
 		/**
@@ -148,6 +182,30 @@ if ( ! class_exists( 'Charitable_Blocks' ) ) :
 				'show_avatar'     => $attributes['displayDonorAvatar'],
 				'show_name'       => $attributes['displayDonorName'],
 				'show_location'   => $attributes['displayDonorLocation'],
+			) );
+		}
+
+		/**
+		 * Display the campaigns block.
+		 *
+		 * @since  1.6.0
+		 *
+		 * @param  array $attributes The block attributes.
+		 *
+		 * @return string Returns the campaigns block content.
+		 */
+		public function render_campaigns( $attributes ) {
+			// echo '<pre>';
+			// var_dump( $attributes );
+			// echo '</pre>';
+			return Charitable_Campaigns_Shortcode::display( array(
+				'number'     => $attributes['number'],
+				'category'   => $attributes['category'],
+				'orderby'    => $attributes['orderBy'],
+				'order'      => $attributes['order'],
+				'columns'    => $attributes['columns'],
+				'masonry'    => $attributes['masonryLayout'],
+				'responsive' => $attributes['responsiveLayout'],
 			) );
 		}
 	}

@@ -1,4 +1,4 @@
-import CampaignSelect from './../campaign-select/index.js';
+import CampaignSelect from './../../components/campaign-select/index.js';
 import icon from './icon';
 
 const { __ } = wp.i18n;

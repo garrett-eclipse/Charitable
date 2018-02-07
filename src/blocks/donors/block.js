@@ -1,7 +1,7 @@
 /**
  * Block dependencies
  */
-import CampaignSelect from './../campaign-select/index.js';
+import CampaignSelect from './../../components/campaign-select/index.js';
 
 /**
  * WordPress dependencies
