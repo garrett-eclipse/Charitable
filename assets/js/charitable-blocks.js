@@ -60,401 +60,11 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 1);
+/******/ 	return __webpack_require__(__webpack_require__.s = 3);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_querystringify__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_querystringify___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_querystringify__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_lodash__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_lodash___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_lodash__);
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
-/**
- * External dependencies
- */
-
-
-
-var InspectorControls = wp.blocks.InspectorControls;
-var SelectControl = InspectorControls.SelectControl;
-var withAPIData = wp.components.withAPIData;
-
-
-var getCampaignOptions = function getCampaignOptions(campaigns) {
-	if (campaigns.data.length === 0) {
-		return {};
-	}
-
-	return campaigns.data.map(function (campaign) {
-		return {
-			label: campaign.title.rendered,
-			value: campaign.id
-		};
-	});
-};
-
-function CampaignSelect(_ref) {
-	var label = _ref.label,
-	    campaigns = _ref.campaigns,
-	    withOptions = _ref.withOptions,
-	    selectedOption = _ref.selectedOption,
-	    onChange = _ref.onChange;
-
-	if (!campaigns.data) {
-		return "loading!";
-	}
-
-	var options = withOptions.length ? __WEBPACK_IMPORTED_MODULE_1_lodash__["concat"].apply(undefined, [withOptions].concat(_toConsumableArray(getCampaignOptions(campaigns)))) : getCampaignOptions(campaigns);
-
-	return wp.element.createElement(SelectControl, _extends({ label: label, onChange: onChange, options: options }, {
-		value: selectedOption
-	}));
-}
-
-/* harmony default export */ __webpack_exports__["a"] = (withAPIData(function () {
-	var query = Object(__WEBPACK_IMPORTED_MODULE_0_querystringify__["stringify"])({
-		per_page: 100,
-		_fields: ['id', 'title', 'parent']
-	});
-	return {
-		campaigns: '/wp/v2/campaigns?' + query
-	};
-})(CampaignSelect));
-
-/***/ }),
-/* 1 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(2);
-
-
-/***/ }),
-/* 2 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__campaigns___ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__donation_form___ = __webpack_require__(6);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__donors___ = __webpack_require__(12);
-/**
- * Load blocks.
- */
-
-
-
-
-/***/ }),
-/* 3 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__icon__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__block__ = __webpack_require__(5);
-/**
- * Block dependencies
- */
-
-
-
-/**
- * Internal block libraries
- */
-var __ = wp.i18n.__;
-var registerBlockType = wp.blocks.registerBlockType;
-
-/**
- * Register block
- */
-
-registerBlockType('charitable/campaigns', {
-    title: __('Campaigns'),
-
-    category: 'widgets',
-
-    icon: __WEBPACK_IMPORTED_MODULE_0__icon__["a" /* default */],
-
-    keywords: [__('Fundraisers'), __('Charitable'), __('Donation')],
-
-    edit: __WEBPACK_IMPORTED_MODULE_1__block__["a" /* default */],
-
-    save: function save() {
-        return null;
-    }
-});
-
-/***/ }),
-/* 4 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-var icon = wp.element.createElement(
-    "svg",
-    { xmlns: "http://www.w3.org/2000/svg", width: "20px", height: "20px", viewBox: "0 0 20 20" },
-    wp.element.createElement("path", { d: "M18.9,1.1V18.9H1.1V1.1H18.9M20,0H0V20H20V0Z" }),
-    wp.element.createElement("rect", { width: "20", height: "9" }),
-    wp.element.createElement("rect", { x: "3", y: "11", width: "11", height: "2" }),
-    wp.element.createElement("rect", { x: "3", y: "15", width: "14", height: "2" })
-);
-
-/* harmony default export */ __webpack_exports__["a"] = (icon);
-
-/***/ }),
-/* 5 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_category_select_index_js__ = __webpack_require__(15);
-var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-/**
- * Block dependencies
- */
-
-
-/**
- * WordPress dependencies
- */
-var __ = wp.i18n.__;
-var Component = wp.element.Component;
-var _wp$blocks = wp.blocks,
-    InspectorControls = _wp$blocks.InspectorControls,
-    BlockDescription = _wp$blocks.BlockDescription;
-var _wp$components = wp.components,
-    PanelBody = _wp$components.PanelBody,
-    PanelRow = _wp$components.PanelRow,
-    withAPIData = _wp$components.withAPIData;
-var SelectControl = InspectorControls.SelectControl,
-    ToggleControl = InspectorControls.ToggleControl,
-    RangeControl = InspectorControls.RangeControl;
-
-var CharitableCampaignsBlock = function (_Component) {
-    _inherits(CharitableCampaignsBlock, _Component);
-
-    function CharitableCampaignsBlock() {
-        _classCallCheck(this, CharitableCampaignsBlock);
-
-        var _this = _possibleConstructorReturn(this, (CharitableCampaignsBlock.__proto__ || Object.getPrototypeOf(CharitableCampaignsBlock)).apply(this, arguments));
-
-        _this.toggleMasonryLayout = _this.toggleMasonryLayout.bind(_this);
-        _this.toggleResponsiveLayout = _this.toggleResponsiveLayout.bind(_this);
-        return _this;
-    }
-
-    _createClass(CharitableCampaignsBlock, [{
-        key: 'toggleMasonryLayout',
-        value: function toggleMasonryLayout() {
-            var masonryLayout = this.props.attributes.masonryLayout;
-            var setAttributes = this.props.setAttributes;
-
-
-            setAttributes({ masonryLayout: !masonryLayout });
-        }
-    }, {
-        key: 'toggleResponsiveLayout',
-        value: function toggleResponsiveLayout() {
-            var responsiveLayout = this.props.attributes.responsiveLayout;
-            var setAttributes = this.props.setAttributes;
-
-
-            setAttributes({ responsiveLayout: !responsiveLayout });
-        }
-    }, {
-        key: 'render',
-        value: function render() {
-            var _props = this.props,
-                attributes = _props.attributes,
-                focus = _props.focus,
-                setAttributes = _props.setAttributes;
-            var category = attributes.category,
-                number = attributes.number,
-                orderBy = attributes.orderBy,
-                order = attributes.order,
-                columns = attributes.columns,
-                masonryLayout = attributes.masonryLayout,
-                responsiveLayout = attributes.responsiveLayout;
-
-
-            var inspectorControls = focus && wp.element.createElement(
-                InspectorControls,
-                { key: 'inspector', description: __('Configure') },
-                wp.element.createElement(SelectControl, {
-                    key: 'orderby-select',
-                    label: __('Order by'),
-                    value: orderBy,
-                    options: [{
-                        label: __('Date created (newest to oldest)'),
-                        value: 'post_date/DESC'
-                    }, {
-                        label: __('Date created (oldest to newest)'),
-                        value: 'post_date/ASC'
-                    }, {
-                        label: __('Amount donated'),
-                        value: 'popular/DESC'
-                    }, {
-                        label: __('Time left (least first)'),
-                        value: 'ending/DESC'
-                    }, {
-                        label: __('Time left (longest first)'),
-                        value: 'ending/ASC'
-                    }],
-                    onChange: function onChange(value) {
-                        var _value$split = value.split('/'),
-                            _value$split2 = _slicedToArray(_value$split, 2),
-                            newOrderBy = _value$split2[0],
-                            newOrder = _value$split2[1];
-
-                        if (newOrder !== order) {
-                            setAttributes({ order: newOrder });
-                        }
-                        if (newOrderBy !== orderBy) {
-                            setAttributes({ orderBy: newOrderBy });
-                        }
-                    }
-                }),
-                wp.element.createElement(__WEBPACK_IMPORTED_MODULE_0__components_category_select_index_js__["a" /* default */], {
-                    key: 'category-select',
-                    label: __('Category'),
-                    noOptionLabel: __('All'),
-                    selectedCategory: category,
-                    onChange: function onChange(value) {
-                        return setAttributes({ category: '' !== value ? value : undefined });
-                    }
-                }),
-                wp.element.createElement(RangeControl, {
-                    key: 'number-control',
-                    label: __('Number of campaigns'),
-                    value: number,
-                    onChange: function onChange(value) {
-                        return setAttributes({ number: value });
-                    },
-                    min: '-1',
-                    max: '999'
-                }),
-                wp.element.createElement(
-                    PanelBody,
-                    { title: __('Display Settings') },
-                    wp.element.createElement(
-                        PanelRow,
-                        null,
-                        wp.element.createElement(RangeControl, {
-                            key: 'columns-select',
-                            label: __('Columns'),
-                            value: columns,
-                            min: '1',
-                            max: '4',
-                            onChange: function onChange(value) {
-                                return setAttributes({ columns: value });
-                            }
-                        })
-                    ),
-                    wp.element.createElement(
-                        PanelRow,
-                        null,
-                        wp.element.createElement(ToggleControl, {
-                            label: __('Masonry layout'),
-                            checked: masonryLayout,
-                            onChange: this.toggleMasonryLayout
-                        })
-                    ),
-                    wp.element.createElement(
-                        PanelRow,
-                        null,
-                        wp.element.createElement(ToggleControl, {
-                            label: __('Responsive layout'),
-                            checked: responsiveLayout,
-                            onChange: this.toggleResponsiveLayout
-                        })
-                    )
-                )
-            );
-
-            return [inspectorControls, wp.element.createElement(
-                'p',
-                null,
-                __('CAMPAIGNS')
-            )];
-        }
-    }]);
-
-    return CharitableCampaignsBlock;
-}(Component);
-
-/* harmony default export */ __webpack_exports__["a"] = (CharitableCampaignsBlock);
-
-/***/ }),
-/* 6 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_campaign_select_index_js__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__icon__ = __webpack_require__(11);
-
-
-
-var __ = wp.i18n.__;
-var _wp$blocks = wp.blocks,
-    registerBlockType = _wp$blocks.registerBlockType,
-    InspectorControls = _wp$blocks.InspectorControls,
-    BlockDescription = _wp$blocks.BlockDescription;
-var withAPIData = wp.components.withAPIData;
-var SelectControl = InspectorControls.SelectControl;
-
-
-registerBlockType('charitable/donation-form', {
-    title: __('Donation Form'),
-
-    category: 'widgets',
-
-    icon: __WEBPACK_IMPORTED_MODULE_1__icon__["a" /* default */],
-
-    keywords: [__('Donate'), __('Charitable')],
-
-    edit: function edit(props) {
-        var setCampaign = function setCampaign(campaign) {
-            return props.setAttributes({ campaign: campaign });
-        };
-
-        return [!!props.focus && wp.element.createElement(
-            InspectorControls,
-            { key: 'inspector',
-                description: __('Configure')
-            },
-            wp.element.createElement(__WEBPACK_IMPORTED_MODULE_0__components_campaign_select_index_js__["a" /* default */], {
-                key: 'campaign-select',
-                label: __('Campaign'),
-                selectedOption: props.attributes.campaign,
-                onChange: setCampaign
-            })
-        ), wp.element.createElement(
-            'p',
-            null,
-            __('DONATION FORM')
-        )];
-    },
-
-    save: function save() {
-        return null;
-    }
-});
-
-/***/ }),
-/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -533,7 +143,7 @@ exports.parse = querystring;
 
 
 /***/ }),
-/* 8 */
+/* 1 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global, module) {var __WEBPACK_AMD_DEFINE_RESULT__;/**
@@ -17625,6 +17235,401 @@ exports.parse = querystring;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(9), __webpack_require__(10)(module)))
 
 /***/ }),
+/* 2 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_querystringify__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_querystringify___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_querystringify__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_lodash__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_lodash___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_lodash__);
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+/**
+ * External dependencies
+ */
+
+
+
+var InspectorControls = wp.blocks.InspectorControls;
+var SelectControl = InspectorControls.SelectControl;
+var withAPIData = wp.components.withAPIData;
+
+
+var getCampaignOptions = function getCampaignOptions(campaigns) {
+	if (campaigns.data.length === 0) {
+		return {};
+	}
+
+	return campaigns.data.map(function (campaign) {
+		return {
+			label: campaign.title.rendered,
+			value: campaign.id
+		};
+	});
+};
+
+function CampaignSelect(_ref) {
+	var label = _ref.label,
+	    campaigns = _ref.campaigns,
+	    withOptions = _ref.withOptions,
+	    selectedOption = _ref.selectedOption,
+	    onChange = _ref.onChange;
+
+	if (!campaigns.data) {
+		return "loading!";
+	}
+
+	var options = withOptions.length ? __WEBPACK_IMPORTED_MODULE_1_lodash__["concat"].apply(undefined, [withOptions].concat(_toConsumableArray(getCampaignOptions(campaigns)))) : getCampaignOptions(campaigns);
+
+	return wp.element.createElement(SelectControl, _extends({ label: label, onChange: onChange, options: options }, {
+		value: selectedOption
+	}));
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (withAPIData(function () {
+	var query = Object(__WEBPACK_IMPORTED_MODULE_0_querystringify__["stringify"])({
+		per_page: 100,
+		_fields: ['id', 'title', 'parent']
+	});
+	return {
+		campaigns: '/wp/v2/campaigns?' + query
+	};
+})(CampaignSelect));
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(4);
+
+
+/***/ }),
+/* 4 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__campaigns___ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__donation_form___ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__donors___ = __webpack_require__(13);
+/**
+ * Load blocks.
+ */
+
+
+
+
+/***/ }),
+/* 5 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__icon__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__block__ = __webpack_require__(7);
+/**
+ * Block dependencies
+ */
+
+
+
+/**
+ * Internal block libraries
+ */
+var __ = wp.i18n.__;
+var registerBlockType = wp.blocks.registerBlockType;
+
+/**
+ * Register block
+ */
+
+registerBlockType('charitable/campaigns', {
+    title: __('Campaigns'),
+
+    category: 'widgets',
+
+    icon: __WEBPACK_IMPORTED_MODULE_0__icon__["a" /* default */],
+
+    keywords: [__('Fundraisers'), __('Charitable'), __('Donation')],
+
+    edit: __WEBPACK_IMPORTED_MODULE_1__block__["a" /* default */],
+
+    save: function save() {
+        return null;
+    }
+});
+
+/***/ }),
+/* 6 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var icon = wp.element.createElement(
+    "svg",
+    { xmlns: "http://www.w3.org/2000/svg", width: "20px", height: "20px", viewBox: "0 0 20 20" },
+    wp.element.createElement("path", { d: "M18.9,1.1V18.9H1.1V1.1H18.9M20,0H0V20H20V0Z" }),
+    wp.element.createElement("rect", { width: "20", height: "9" }),
+    wp.element.createElement("rect", { x: "3", y: "11", width: "11", height: "2" }),
+    wp.element.createElement("rect", { x: "3", y: "15", width: "14", height: "2" })
+);
+
+/* harmony default export */ __webpack_exports__["a"] = (icon);
+
+/***/ }),
+/* 7 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_category_select_index_js__ = __webpack_require__(8);
+var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+/**
+ * Block dependencies
+ */
+
+
+/**
+ * WordPress dependencies
+ */
+var __ = wp.i18n.__;
+var Component = wp.element.Component;
+var _wp$blocks = wp.blocks,
+    InspectorControls = _wp$blocks.InspectorControls,
+    BlockDescription = _wp$blocks.BlockDescription;
+var _wp$components = wp.components,
+    PanelBody = _wp$components.PanelBody,
+    PanelRow = _wp$components.PanelRow,
+    withAPIData = _wp$components.withAPIData;
+var SelectControl = InspectorControls.SelectControl,
+    ToggleControl = InspectorControls.ToggleControl,
+    RangeControl = InspectorControls.RangeControl;
+
+var CharitableCampaignsBlock = function (_Component) {
+    _inherits(CharitableCampaignsBlock, _Component);
+
+    function CharitableCampaignsBlock() {
+        _classCallCheck(this, CharitableCampaignsBlock);
+
+        var _this = _possibleConstructorReturn(this, (CharitableCampaignsBlock.__proto__ || Object.getPrototypeOf(CharitableCampaignsBlock)).apply(this, arguments));
+
+        _this.toggleMasonryLayout = _this.toggleMasonryLayout.bind(_this);
+        _this.toggleResponsiveLayout = _this.toggleResponsiveLayout.bind(_this);
+        return _this;
+    }
+
+    _createClass(CharitableCampaignsBlock, [{
+        key: 'toggleMasonryLayout',
+        value: function toggleMasonryLayout() {
+            var masonryLayout = this.props.attributes.masonryLayout;
+            var setAttributes = this.props.setAttributes;
+
+
+            setAttributes({ masonryLayout: !masonryLayout });
+        }
+    }, {
+        key: 'toggleResponsiveLayout',
+        value: function toggleResponsiveLayout() {
+            var responsiveLayout = this.props.attributes.responsiveLayout;
+            var setAttributes = this.props.setAttributes;
+
+
+            setAttributes({ responsiveLayout: !responsiveLayout });
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            var _props = this.props,
+                attributes = _props.attributes,
+                focus = _props.focus,
+                setAttributes = _props.setAttributes;
+            var category = attributes.category,
+                number = attributes.number,
+                orderBy = attributes.orderBy,
+                order = attributes.order,
+                columns = attributes.columns,
+                masonryLayout = attributes.masonryLayout,
+                responsiveLayout = attributes.responsiveLayout;
+
+
+            var inspectorControls = focus && wp.element.createElement(
+                InspectorControls,
+                { key: 'inspector', description: __('Configure') },
+                wp.element.createElement(SelectControl, {
+                    key: 'orderby-select',
+                    label: __('Order by'),
+                    value: orderBy,
+                    options: [{
+                        label: __('Date created (newest to oldest)'),
+                        value: 'post_date/DESC'
+                    }, {
+                        label: __('Date created (oldest to newest)'),
+                        value: 'post_date/ASC'
+                    }, {
+                        label: __('Amount donated'),
+                        value: 'popular/DESC'
+                    }, {
+                        label: __('Time left (least first)'),
+                        value: 'ending/DESC'
+                    }, {
+                        label: __('Time left (longest first)'),
+                        value: 'ending/ASC'
+                    }],
+                    onChange: function onChange(value) {
+                        var _value$split = value.split('/'),
+                            _value$split2 = _slicedToArray(_value$split, 2),
+                            newOrderBy = _value$split2[0],
+                            newOrder = _value$split2[1];
+
+                        if (newOrder !== order) {
+                            setAttributes({ order: newOrder });
+                        }
+                        if (newOrderBy !== orderBy) {
+                            setAttributes({ orderBy: newOrderBy });
+                        }
+                    }
+                }),
+                wp.element.createElement(__WEBPACK_IMPORTED_MODULE_0__components_category_select_index_js__["a" /* default */], {
+                    key: 'category-select',
+                    label: __('Category'),
+                    noOptionLabel: __('All'),
+                    selectedCategory: category,
+                    onChange: function onChange(value) {
+                        return setAttributes({ category: '' !== value ? value : undefined });
+                    }
+                }),
+                wp.element.createElement(RangeControl, {
+                    key: 'number-control',
+                    label: __('Number of campaigns'),
+                    value: number,
+                    onChange: function onChange(value) {
+                        return setAttributes({ number: value });
+                    },
+                    min: '-1',
+                    max: '999'
+                }),
+                wp.element.createElement(
+                    PanelBody,
+                    { title: __('Display Settings') },
+                    wp.element.createElement(
+                        PanelRow,
+                        null,
+                        wp.element.createElement(RangeControl, {
+                            key: 'columns-select',
+                            label: __('Columns'),
+                            value: columns,
+                            min: '1',
+                            max: '4',
+                            onChange: function onChange(value) {
+                                return setAttributes({ columns: value });
+                            }
+                        })
+                    ),
+                    wp.element.createElement(
+                        PanelRow,
+                        null,
+                        wp.element.createElement(ToggleControl, {
+                            label: __('Masonry layout'),
+                            checked: masonryLayout,
+                            onChange: this.toggleMasonryLayout
+                        })
+                    ),
+                    wp.element.createElement(
+                        PanelRow,
+                        null,
+                        wp.element.createElement(ToggleControl, {
+                            label: __('Responsive layout'),
+                            checked: responsiveLayout,
+                            onChange: this.toggleResponsiveLayout
+                        })
+                    )
+                )
+            );
+
+            return [inspectorControls, wp.element.createElement(
+                'p',
+                null,
+                __('CAMPAIGNS')
+            )];
+        }
+    }]);
+
+    return CharitableCampaignsBlock;
+}(Component);
+
+/* harmony default export */ __webpack_exports__["a"] = (CharitableCampaignsBlock);
+
+/***/ }),
+/* 8 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_querystringify__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_querystringify___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_querystringify__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_lodash__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_lodash___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_lodash__);
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+/**
+ * External dependencies
+ */
+
+
+
+/**
+ * WordPress dependencies
+ */
+var buildTermsTree = wp.utils.buildTermsTree;
+var withAPIData = wp.components.withAPIData;
+var TermTreeSelect = wp.blocks.TermTreeSelect;
+
+
+var getCampaignOptions = function getCampaignOptions(campaigns) {
+	if (campaigns.data.length === 0) {
+		return {};
+	}
+
+	return campaigns.data.map(function (campaign) {
+		return {
+			label: campaign.title.rendered,
+			value: campaign.id
+		};
+	});
+};
+
+function CategorySelect(_ref) {
+	var label = _ref.label,
+	    noOptionLabel = _ref.noOptionLabel,
+	    categories = _ref.categories,
+	    selectedCategory = _ref.selectedCategory,
+	    onChange = _ref.onChange;
+
+	var termsTree = buildTermsTree(Object(__WEBPACK_IMPORTED_MODULE_1_lodash__["get"])(categories, 'data', {}));
+	return wp.element.createElement(TermTreeSelect, _extends({ label: label, noOptionLabel: noOptionLabel, onChange: onChange, termsTree: termsTree }, {
+		selectedTerm: selectedCategory
+	}));
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (withAPIData(function () {
+	var query = Object(__WEBPACK_IMPORTED_MODULE_0_querystringify__["stringify"])({
+		per_page: 100,
+		_fields: ['id', 'name', 'parent']
+	});
+	return {
+		categories: '/wp/v2/campaignCategories?' + query
+	};
+})(CategorySelect));
+
+/***/ }),
 /* 9 */
 /***/ (function(module, exports) {
 
@@ -17684,6 +17689,62 @@ module.exports = function(module) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_campaign_select_index_js__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__icon__ = __webpack_require__(12);
+
+
+
+var __ = wp.i18n.__;
+var _wp$blocks = wp.blocks,
+    registerBlockType = _wp$blocks.registerBlockType,
+    InspectorControls = _wp$blocks.InspectorControls,
+    BlockDescription = _wp$blocks.BlockDescription;
+var withAPIData = wp.components.withAPIData;
+var SelectControl = InspectorControls.SelectControl;
+
+
+registerBlockType('charitable/donation-form', {
+    title: __('Donation Form'),
+
+    category: 'widgets',
+
+    icon: __WEBPACK_IMPORTED_MODULE_1__icon__["a" /* default */],
+
+    keywords: [__('Donate'), __('Charitable')],
+
+    edit: function edit(props) {
+        var setCampaign = function setCampaign(campaign) {
+            return props.setAttributes({ campaign: campaign });
+        };
+
+        return [!!props.focus && wp.element.createElement(
+            InspectorControls,
+            { key: 'inspector',
+                description: __('Configure')
+            },
+            wp.element.createElement(__WEBPACK_IMPORTED_MODULE_0__components_campaign_select_index_js__["a" /* default */], {
+                key: 'campaign-select',
+                label: __('Campaign'),
+                selectedOption: props.attributes.campaign,
+                onChange: setCampaign
+            })
+        ), wp.element.createElement(
+            'p',
+            null,
+            __('DONATION FORM')
+        )];
+    },
+
+    save: function save() {
+        return null;
+    }
+});
+
+/***/ }),
+/* 12 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
 var icon = wp.element.createElement(
     "svg",
     { xmlns: "http://www.w3.org/2000/svg", width: "20px", height: "20px", viewBox: "0 0 20 20" },
@@ -17695,12 +17756,12 @@ var icon = wp.element.createElement(
 /* harmony default export */ __webpack_exports__["a"] = (icon);
 
 /***/ }),
-/* 12 */
+/* 13 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__icon__ = __webpack_require__(13);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__block__ = __webpack_require__(14);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__icon__ = __webpack_require__(14);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__block__ = __webpack_require__(15);
 /**
  * Block dependencies
  */
@@ -17738,7 +17799,7 @@ registerBlockType('charitable/donors', {
 });
 
 /***/ }),
-/* 13 */
+/* 14 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -17751,11 +17812,11 @@ var icon = wp.element.createElement(
 /* harmony default export */ __webpack_exports__["a"] = (icon);
 
 /***/ }),
-/* 14 */
+/* 15 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_campaign_select_index_js__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_campaign_select_index_js__ = __webpack_require__(2);
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -17985,67 +18046,6 @@ var CharitableDonorsBlock = function (_Component) {
 }(Component);
 
 /* harmony default export */ __webpack_exports__["a"] = (CharitableDonorsBlock);
-
-/***/ }),
-/* 15 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_querystringify__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_querystringify___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_querystringify__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_lodash__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_lodash___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_lodash__);
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-/**
- * External dependencies
- */
-
-
-
-/**
- * WordPress dependencies
- */
-var buildTermsTree = wp.utils.buildTermsTree;
-var withAPIData = wp.components.withAPIData;
-var TermTreeSelect = wp.blocks.TermTreeSelect;
-
-
-var getCampaignOptions = function getCampaignOptions(campaigns) {
-	if (campaigns.data.length === 0) {
-		return {};
-	}
-
-	return campaigns.data.map(function (campaign) {
-		return {
-			label: campaign.title.rendered,
-			value: campaign.id
-		};
-	});
-};
-
-function CategorySelect(_ref) {
-	var label = _ref.label,
-	    noOptionLabel = _ref.noOptionLabel,
-	    categories = _ref.categories,
-	    selectedCategory = _ref.selectedCategory,
-	    onChange = _ref.onChange;
-
-	var termsTree = buildTermsTree(Object(__WEBPACK_IMPORTED_MODULE_1_lodash__["get"])(categories, 'data', {}));
-	return wp.element.createElement(TermTreeSelect, _extends({ label: label, noOptionLabel: noOptionLabel, onChange: onChange, termsTree: termsTree }, {
-		selectedTerm: selectedCategory
-	}));
-}
-
-/* harmony default export */ __webpack_exports__["a"] = (withAPIData(function () {
-	var query = Object(__WEBPACK_IMPORTED_MODULE_0_querystringify__["stringify"])({
-		per_page: 100,
-		_fields: ['id', 'name', 'parent']
-	});
-	return {
-		categories: '/wp/v2/campaignCategories?' + query
-	};
-})(CategorySelect));
 
 /***/ })
 /******/ ]);
