@@ -3,7 +3,7 @@
 /*jshint -W097*/
 "use strict";
 
-// const webpackConfig = require('./webpack.config');
+const webpackConfig = require('./webpack.config');
 var path = require('path');
 
 module.exports = function(grunt) {
@@ -53,7 +53,8 @@ module.exports = function(grunt) {
         // Sass
         sass: {
             dist: {
-                files: {                    
+                files: {
+                    'assets/css/charitable-select2.css'         : 'assets/css/scss/charitable-select2.scss', 
                     'assets/css/charitable-admin-pages.css'     : 'assets/css/scss/charitable-admin-pages.scss', 
                     'assets/css/charitable-admin-menu.css'      : 'assets/css/scss/charitable-admin-menu.scss', 
                     'assets/css/charitable-admin.css'           : 'assets/css/scss/charitable-admin.scss',
@@ -156,28 +157,10 @@ module.exports = function(grunt) {
         
         // webpack
         webpack: {
-            build: {
-                entry: ['./src/blocks/index.js'],
-                output: {
-                    path: path.join( __dirname, 'assets/js' ),
-                    filename: 'charitable-blocks.js'
-                },
-                stats: {
-                    colors: false,
-                    modules: true,
-                    reasons: true
-                },
-                storeStatsTo: 'webpackStats',
-                progress: true,
-                failOnError: true,
-                watch: true,
-                keepalive: true,
-                module: {
-                    loaders: [
-                        { test: /\.js$/, exclude: /node_modules/, loader: "babel-loader" }
-                    ]
-                }
-            }
+            options: {
+                stats: ! process.env.NODE_ENV || process.env.NODE_ENV === 'development'
+            },
+            build: Object.assign({ watch: true }, webpackConfig)
         },
 
         // javascript linting with jshint

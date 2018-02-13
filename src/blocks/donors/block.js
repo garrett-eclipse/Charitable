@@ -174,7 +174,7 @@ class CharitableDonorsBlock extends Component {
         
         return [
             inspectorControls,
-            <p>
+            <p key="charitable-donors">
                 { __( 'DONORS' ) }
             </p>
         ];

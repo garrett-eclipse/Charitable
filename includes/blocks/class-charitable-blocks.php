@@ -41,10 +41,13 @@ if ( ! class_exists( 'Charitable_Blocks' ) ) :
 		 * @return void
 		 */
 		public function enqueue_block_editor_assets() {
+			charitable()->registry()->get( 'assets' )->setup_assets();
+
+			wp_enqueue_style( 'select2' );
 			wp_enqueue_script(
 				'charitable-blocks',
 				charitable()->get_path( 'assets', false ) . 'js/charitable-blocks.js',
-				array( 'wp-blocks', 'wp-element' )
+				array( 'wp-blocks', 'wp-element', 'selectWoo' )
 			);
 		}
 

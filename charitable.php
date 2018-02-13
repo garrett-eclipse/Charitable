@@ -265,10 +265,12 @@ if ( ! class_exists( 'Charitable' ) ) :
 				$this->registry->register_object( Charitable_User_Dashboard::get_instance() );
 				$this->registry->register_object( Charitable_Locations::get_instance() );
 				$this->registry->register_object( new Charitable_Privacy );
-				
+
 				if ( function_exists( 'register_block_type' ) ) {
 					$this->registry->register_object( new Charitable_Blocks );
 				}
+
+				$this->registry->register_object( new Charitable_Assets );
 			}
 
 			return $this->registry;

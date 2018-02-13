@@ -44,6 +44,7 @@ return array(
 	'Charitable_Privacy_Settings' => 'admin/settings/class-charitable-privacy-settings.php',
 	'Charitable_Settings' => 'admin/settings/class-charitable-settings.php',
 	'Charitable_API_Route_Reports' => 'api/class-charitable-api-route-reports.php',
+	'Charitable_Assets' => 'assets/class-charitable-assets.php',
 	'Charitable_Map' => 'autoloader/charitable-class-map.php',
 	'Charitable_Registry' => 'autoloader/class-charitable-registry.php',
 	'Charitable_Blocks' => 'blocks/class-charitable-blocks.php',
