@@ -15,13 +15,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Enqueue Charitable's admin-area scripts & styles.
- *
- * @see Charitable_Admin::admin_enqueue_scripts()
- */
-add_action( 'admin_enqueue_scripts', array( Charitable_Admin::get_instance(), 'admin_enqueue_scripts' ) );
-
-/**
  * Set custom admin body classes.
  *
  * @see Charitable_Admin::set_body_class()
