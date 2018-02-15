@@ -1,6 +1,7 @@
 /**
  * Block dependencies
  */
+import CampaignSelect from './../../components/campaign-select/index.js';
 import CampaignCategorySelect from './../../components/category-select/index.js';
 
 /**
@@ -27,6 +28,8 @@ const {
     RangeControl
 } = InspectorControls;
 
+const { findDOMNode } = wp.element;
+
 class CharitableCampaignsBlock extends Component {
 	constructor() {
 		super( ...arguments );
@@ -51,10 +54,10 @@ class CharitableCampaignsBlock extends Component {
 
     render() {
 		const { attributes, focus, setAttributes } = this.props;
-        const { category, number, orderBy, order, columns, masonryLayout, responsiveLayout } = attributes;
+        const { category, number, campaigns, orderBy, order, columns, masonryLayout, responsiveLayout } = attributes;
         
         const inspectorControls = focus && (
-            <InspectorControls key="inspector" description={ __( 'Configure' ) }>
+            <InspectorControls key="inspector" description={ __( 'Configure' ) } >
                 <SelectControl
                     key="orderby-select"
                     label={ __( 'Order by' ) }
@@ -105,6 +108,19 @@ class CharitableCampaignsBlock extends Component {
                     onChange={ ( value ) => setAttributes( { number: value } ) }
                     min="-1"
                     max="999"
+                />
+                <CampaignSelect
+                    key="campaign-select"
+                    label={ __( 'Campaigns' ) }
+                    withOptions={ [
+                        {
+                            label: __( 'All Campaigns' ),
+                            value: 'all',
+                        }
+                    ] }
+                    selectedOption={ campaigns }
+                    onChange={  }
+                    multiple
                 />
                 <PanelBody title={ __( 'Display Settings' ) }>
                     <PanelRow>

@@ -47,7 +47,8 @@ if ( ! class_exists( 'Charitable_Blocks' ) ) :
 			wp_enqueue_script(
 				'charitable-blocks',
 				charitable()->get_path( 'assets', false ) . 'js/charitable-blocks.js',
-				array( 'wp-blocks', 'wp-element', 'selectWoo' )
+				array( 'wp-blocks', 'wp-element', 'selectWoo' ),
+				charitable()->get_version()
 			);
 		}
 
