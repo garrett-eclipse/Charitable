@@ -26,6 +26,8 @@ const {
 
 const { findDOMNode } = wp.element;
 
+const { findDOMNode } = wp.element;
+
 class CharitableCampaignsBlock extends Component {
 	constructor() {
 		super( ...arguments );
