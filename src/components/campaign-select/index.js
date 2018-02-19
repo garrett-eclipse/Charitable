@@ -1,6 +1,7 @@
 /**
  * External dependencies
  */
+import { Select } from 'react-select';
 import { stringify } from 'querystringify';
 import { concat } from 'lodash';
 

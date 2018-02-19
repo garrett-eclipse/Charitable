@@ -7,6 +7,10 @@ module.exports = {
         path: path.join( __dirname, 'assets/js' ),
         filename: 'charitable-blocks.js'
     },
+    externals: {
+		react: 'React',
+		'react-dom': 'ReactDOM',
+	},
     stats: {
         colors: false,
         modules: true,

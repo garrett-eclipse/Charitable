@@ -119,7 +119,7 @@ class CharitableCampaignsBlock extends Component {
                         }
                     ] }
                     selectedOption={ campaigns }
-                    onChange={  }
+                    onChange={ ( value ) => setAttributes( { campaigns: value } ) }
                     multiple
                 />
                 <PanelBody title={ __( 'Display Settings' ) }>
