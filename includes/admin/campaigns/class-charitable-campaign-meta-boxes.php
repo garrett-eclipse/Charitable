@@ -133,7 +133,24 @@ if ( ! class_exists( 'Charitable_Campaign_Meta_Boxes' ) ) :
 		}
 
 		/**
+<<<<<<< HEAD
 		 * Return campaign settings panels.
+=======
+		 * Wrap elements around the main editor.
+		 *
+		 * @since  1.0.0
+		 *
+		 * @return void
+		 */
+		public function wrap_editor() {
+			add_filter( 'edit_form_after_title', array( $this, 'advanced_campaign_settings' ), 20 );
+		}
+
+		/**
+		 * Display advanced campaign fields.
+		 *
+		 * @since  1.0.0
+>>>>>>> Started playing around with adding meta boxes for campaign block editor.
 		 *
 		 * @since  1.6.0
 		 *

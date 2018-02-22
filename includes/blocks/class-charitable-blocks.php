@@ -28,6 +28,7 @@ if ( ! class_exists( 'Charitable_Blocks' ) ) :
 		 * @since 1.6.0
 		 */
 		public function __construct() {
+			add_filter( 'charitable_campaign_meta_boxes', array( $this, 'setup_block_editor_meta_boxes' ), 9999 );
 			add_action( 'enqueue_block_editor_assets', array( $this, 'enqueue_block_editor_assets' ) );
 
 			$this->register_blocks();
@@ -211,6 +212,33 @@ if ( ! class_exists( 'Charitable_Blocks' ) ) :
 				'masonry'    => $attributes['masonryLayout'],
 				'responsive' => $attributes['responsiveLayout'],
 			) );
+		}
+
+		/**
+		 * Set up the campaign meta boxes in the block editor.
+		 *
+		 * @since  1.6.0
+		 *
+		 * @param  array $meta_boxes The meta boxes.
+		 * @return array
+		 */
+		public function setup_block_editor_meta_boxes( $meta_boxes ) {
+			$meta_boxes[] = array(
+				'id'                                 => 'campaign-settings',
+				'title'                              => __( 'Campaign Settings', 'charitable' ),
+				'context'                            => 'advanced',
+				'priority'                           => 'high',
+				'view'                               => 'metaboxes/campaign-settings',
+				'__block_editor_compatible_meta_box' => true,
+			);
+
+			foreach ( $meta_boxes as $key => $box ) {
+				if ( in_array( $box['context'], array( 'campaign-top', 'campaign-advanced' ) ) ) {
+					unset( $meta_boxes[ $key ] );
+				}
+			}
+
+			return $meta_boxes;
 		}
 	}
 

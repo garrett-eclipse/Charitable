@@ -105,7 +105,7 @@ if ( ! class_exists( 'Charitable_Post_Types' ) ) :
 						'hierarchical'          => false,
 						'rewrite'               => array( 'slug' => 'campaigns', 'with_front' => true ),
 						'query_var'             => true,
-						'supports'              => array( 'title', 'thumbnail', 'comments' ),
+						'supports'              => array( 'editor', 'title', 'thumbnail', 'comments' ),
 						'has_archive'           => false,
 						'show_in_nav_menus'     => true,
 						'show_in_menu'          => false,
