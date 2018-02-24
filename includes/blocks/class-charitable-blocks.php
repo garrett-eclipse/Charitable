@@ -229,6 +229,7 @@ if ( ! class_exists( 'Charitable_Blocks' ) ) :
 				'context'                            => 'advanced',
 				'priority'                           => 'high',
 				'view'                               => 'metaboxes/campaign-advanced-settings',
+				'meta_boxes'                         => array(),
 				'__block_editor_compatible_meta_box' => true,
 			);
 
@@ -238,7 +239,6 @@ if ( ! class_exists( 'Charitable_Blocks' ) ) :
 				}
 
 				if ( 'campaign-advanced' == $box['context'] ) {
-					// $settings_box['meta_boxes'][ $key ] = $box;
 					$settings_box['meta_boxes'][] = $box;
 				}
 			}
