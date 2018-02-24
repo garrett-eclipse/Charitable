@@ -223,12 +223,12 @@ if ( ! class_exists( 'Charitable_Blocks' ) ) :
 		 * @return array
 		 */
 		public function setup_block_editor_meta_boxes( $meta_boxes ) {
-			$meta_boxes[] = array(
+			$settings_box = array(
 				'id'                                 => 'campaign-settings',
 				'title'                              => __( 'Campaign Settings', 'charitable' ),
 				'context'                            => 'advanced',
 				'priority'                           => 'high',
-				'view'                               => 'metaboxes/campaign-settings',
+				'view'                               => 'metaboxes/campaign-advanced-settings',
 				'__block_editor_compatible_meta_box' => true,
 			);
 
@@ -236,7 +236,14 @@ if ( ! class_exists( 'Charitable_Blocks' ) ) :
 				if ( in_array( $box['context'], array( 'campaign-top', 'campaign-advanced' ) ) ) {
 					unset( $meta_boxes[ $key ] );
 				}
+
+				if ( 'campaign-advanced' == $box['context'] ) {
+					// $settings_box['meta_boxes'][ $key ] = $box;
+					$settings_box['meta_boxes'][] = $box;
+				}
 			}
+
+			$meta_boxes[] = $settings_box;
 
 			return $meta_boxes;
 		}
