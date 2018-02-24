@@ -308,7 +308,6 @@ if ( ! class_exists( 'Charitable_Blocks' ) ) :
 				}
 
 				if ( 'campaign-advanced' == $box['context'] ) {
-					// $settings_box['meta_boxes'][ $key ] = $box;
 					$settings_box['meta_boxes'][] = $box;
 				}
 			}
