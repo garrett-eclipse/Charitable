@@ -306,7 +306,14 @@ if ( ! class_exists( 'Charitable_Blocks' ) ) :
 				if ( in_array( $box['id'], $side_boxes ) ) {
 					$meta_boxes[ $key ]['section'] = 'side';
 				}
+
+				if ( 'campaign-advanced' == $box['context'] ) {
+					// $settings_box['meta_boxes'][ $key ] = $box;
+					$settings_box['meta_boxes'][] = $box;
+				}
 			}
+
+			$meta_boxes[] = $settings_box;
 
 			return $meta_boxes;
 		}
