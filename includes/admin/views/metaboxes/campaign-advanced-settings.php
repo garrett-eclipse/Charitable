@@ -10,6 +10,8 @@
 
 global $post;
 
+error_log( var_export( $view_args, true ) );
+
 if ( ! isset( $view_args['meta_boxes'] ) || empty( $view_args['meta_boxes'] ) ) {
 	return;
 }
