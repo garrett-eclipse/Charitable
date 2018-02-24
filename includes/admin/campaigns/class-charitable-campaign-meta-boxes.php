@@ -83,6 +83,7 @@ if ( ! class_exists( 'Charitable_Campaign_Meta_Boxes' ) ) :
 		 * @return void
 		 */
 		public function add_meta_boxes() {
+<<<<<<< HEAD
 			$meta_boxes = array_merge(
 				$this->get_campaign_top_meta_boxes(),
 				array(
@@ -94,6 +95,39 @@ if ( ! class_exists( 'Charitable_Campaign_Meta_Boxes' ) ) :
 						'view'     => 'metaboxes/campaign-settings',
 					),
 				)
+=======
+			$meta_boxes = array(
+				array(
+					'id'       => 'campaign-description',
+					'title'    => __( 'Campaign Description', 'charitable' ),
+					'context'  => 'campaign-top',
+					'priority' => 'high',
+					'view'     => 'metaboxes/campaign-description',
+				),
+				array(
+					'id'          => 'campaign-goal',
+					'title'       => __( 'Fundraising Goal ($)', 'charitable' ),
+					'context'     => 'campaign-top',
+					'priority'    => 'high',
+					'view'        => 'metaboxes/campaign-goal',
+					'description' => __( 'Leave empty for campaigns without a fundraising goal.', 'charitable' ),
+				),
+				array(
+					'id'          => 'campaign-end-date',
+					'title'       => __( 'End Date', 'charitable' ),
+					'context'     => 'campaign-top',
+					'priority'    => 'high',
+					'view'        => 'metaboxes/campaign-end-date',
+					'description' => __( 'Leave empty for ongoing campaigns.', 'charitable' ),
+				),
+				array(
+					'id'       => 'campaign-settings',
+					'title'    => __( 'Campaign Settings', 'charitable' ),
+					'context'  => 'normal',
+					'priority' => 'high',
+					'view'     => 'metaboxes/campaign-settings',
+				),
+>>>>>>> Early pass at setting up a single Campaign Settings meta box, but this is basically working as a foundation to build on.
 			);
 
 			/**
@@ -136,6 +170,7 @@ if ( ! class_exists( 'Charitable_Campaign_Meta_Boxes' ) ) :
 		 * Return campaign settings panels.
 		 *
 		 * @since  1.6.0
+<<<<<<< HEAD
 		 *
 		 * @return array
 		 */
@@ -175,6 +210,80 @@ if ( ! class_exists( 'Charitable_Campaign_Meta_Boxes' ) ) :
 			 * @param $panels array Set of panels.
 			 */
 			return apply_filters( 'charitable_campaign_settings_panels', $panels );
+=======
+		 *
+		 * @return array
+		 */
+		public function get_campaign_settings_panels() {
+			$panels = array(
+				'campaign-donation-options' => array(
+					'title'  => __( 'Donation Options', 'charitable' ),
+					'fields' => apply_filters( 'charitable_campaign_donation_options_fields', array(
+						'donations'     => array(
+							'priority' => 4,
+							'view'     => 'metaboxes/campaign-donation-options/suggested-amounts',
+							'label'    => __( 'Suggested Donation Amounts', 'charitable' ),
+							'fields'   => apply_filters( 'charitable_campaign_donation_suggested_amounts_fields', array(
+								'amount'      => array(
+									'column_header' => __( 'Amount', 'charitable' ),
+									'placeholder'   => __( 'Amount', 'charitable' ),
+								),
+								'description' => array(
+									'column_header' => __( 'Description (optional)', 'charitable' ),
+									'placeholder'   => __( 'Optional Description', 'charitable' ),
+								),
+							) ),
+						),
+						'_campaign_allow_custom_donations' => array(
+							'priority' => 6,
+							'type'     => 'checkbox',
+							'label'    => __( 'Allow Custom Donations', 'charitable' ),
+							'value'    => 1,
+						),
+					) ),
+				),
+				'campaign-extended-settings' => array(
+					'title'  => __( 'Extended Settings', 'charitable' ),
+					'fields' => array(),
+				),
+			);
+
+			$panels = $this->add_legacy_meta_boxes( $panels );
+
+			/**
+			 * Filter the array of settings panels.
+			 *
+			 * @since 1.6.0
+			 *
+			 * @param $panels array Set of panels.
+			 */
+			return apply_filters( 'charitable_campaign_settings_panels', $panels );
+		}
+
+		/**
+		 * Add panels for any meta boxes previously added to the campaign-advanced section
+		 * using the `charitable_campaign_meta_boxes` filter.
+		 *
+		 * @since  1.6.0
+		 *
+		 * @param  array $panels Core registered panels.
+		 * @return array
+		 */
+		public function add_legacy_meta_boxes( $panels ) {
+			foreach ( apply_filters( 'charitable_campaign_meta_boxes', array() ) as $panel ) {
+				if ( 'campaign-advanced' != $panel['context'] ) {
+					continue;
+				}
+
+				$id = $panel['id'];
+
+				unset( $panel['id'] );
+
+				$panels[ $id ] = $panel;
+			}
+
+			return $panels;
+>>>>>>> Early pass at setting up a single Campaign Settings meta box, but this is basically working as a foundation to build on.
 		}
 
 		/**
