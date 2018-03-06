@@ -182,8 +182,6 @@ if ( ! class_exists( 'Charitable_Admin_Form_View' ) ) :
 
 			/* Increment the tabindex. */
 			$this->tabindex = $field['tabindex'] + 1;
-			
-			error_log( var_export( $field, true ) );
 
 			return charitable_admin_view( $field['view'], $field );
 		}
