@@ -94,7 +94,9 @@ if ( ! class_exists( 'Charitable_Object_Fields' ) ) :
 		 * @return boolean
 		 */
 		public function has_value_callback( $field_key ) {
+			error_log($field_key);
 			$field = $this->registry->get_field( $field_key );
+			error_log($field->value_callback);
 			return $field && false !== $field->value_callback;
 		}
 	}

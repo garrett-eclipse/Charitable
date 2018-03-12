@@ -209,9 +209,10 @@ if ( ! class_exists( 'Charitable_Campaign_Field' ) ) :
 				return $value;
 			}
 
+			$label    = array_key_exists( 'label', $this->raw_args ) ? $this->raw_args['label'] : '';
 			$defaults = array(
-				'description' => $this->label,
-				'preview'     => $this->label,
+				'description' => $label,
+				'preview'     => $label,
 				'tag'         => $this->field,
 			);
 

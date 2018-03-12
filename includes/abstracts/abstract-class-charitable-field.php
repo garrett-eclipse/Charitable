@@ -112,44 +112,6 @@ if ( ! class_exists( 'Charitable_Field' ) ) :
 		}
 
 		/**
-		 * Set a field argument.
-		 *
-		 * Unlike __set(), this also supports setting a setting within an argument.
-		 * For example, it allows you to modify the `label` of `donation_form`.
-		 *
-		 * @since  1.6.0
-		 *
-		 * @param  string $key     The field's key.
-		 * @param  string $setting The individual setting within an array-like argument.
-		 *                         If not set, the entire argument is changed.
-		 * @param  mixed  $value   The field's value.
-		 * @return Charitable_Field
-		 */
-		public function set( $key, $setting, $value ) {
-			if ( empty( $setting ) ) {
-				return $this->__set( $key, $value );
-			}
-
-			$arg = $this->args[ $key ];
-
-			if ( ! is_array( $arg ) ) {
-				charitable_get_deprecated()->doing_it_wrong(
-					__METHOD__,
-					/* translators: %s: argument key */
-					sprintf( _x( 'Attempting to set an argument setting for a non-array argument. Argument: %s', 'argument key', 'charitable' ), $key ),
-					'1.6.0'
-				);
-
-				return $this;
-			}
-
-			$arg[ $setting ]    = $value;
-			$this->args[ $key ] = $this->sanitize_arg( $key, $arg );
-
-			return $this;
-		}
-
-		/**
 		 * Set a specific argument.
 		 *
 		 * @since  1.5.0

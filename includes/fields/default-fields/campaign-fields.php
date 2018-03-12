@@ -87,6 +87,11 @@ return apply_filters( 'charitable_default_campaign_fields', array(
 			'description' => __( 'The end date of the campaign', 'charitable' ),
 			'preview'     => date( get_option( 'date_format', 'd/m/Y' ) ),
 		),
+		'email_tag'      => array(
+			'tag'         => 'campaign_end_date',
+			'description' => __( 'The end date of the campaign', 'charitable' ),
+			'preview'     => date( get_option( 'date_format', 'd/m/Y' ) ),
+		),
 		'show_in_export' => true,
 	),
 	'suggested_donations'      => array(
@@ -245,6 +250,7 @@ return apply_filters( 'charitable_default_campaign_fields', array(
 		),
 		'show_in_export' => true,
 	),
+<<<<<<< HEAD
 	'status'                   => array(
 		'label'          => __( 'Campaign Status', 'charitable' ),
 		'data_type'      => 'core',
@@ -253,6 +259,8 @@ return apply_filters( 'charitable_default_campaign_fields', array(
 		'email_tag'      => false,
 		'show_in_export' => true,
 	),
+=======
+>>>>>>> Added all campaign email fields into the campaign fields API.
 	'permalink'                => array(
 		'label'          => __( 'Campaign Permalink', 'charitable' ),
 		'data_type'      => 'core',

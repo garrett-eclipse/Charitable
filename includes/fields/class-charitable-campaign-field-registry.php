@@ -204,7 +204,7 @@ if ( ! class_exists( 'Charitable_Campaign_Field_Registry' ) ) :
 		 * @return false|string|callable            Returns a callable function or false if none is set and
 		 *                                          we don't have a default one for the data type.
 		 */
-		public function get_field_value_callback( $field ) {
+		public function get_field_value_callback( $field ) {		
 			return isset( $field->value_callback ) && is_callable( $field->value_callback ) ? $field->value_callback : false;
 		}
 

@@ -659,17 +659,6 @@ if ( ! class_exists( 'Charitable_Campaign' ) ) :
 		 *
 		 * @return string|false The permalink URL or false if post does not exist.
 		 */
-		public function get_permalink() {
-			return get_permalink( $this->ID );
-		}
-
-		/**
-		 * Return the admin edit link for this campaign.
-		 *
-		 * @since  1.6.0
-		 *
-		 * @return string
-		 */
 		public function get_admin_edit_link() {
 			$post_type_object = get_post_type_object( Charitable::CAMPAIGN_POST_TYPE );
 
