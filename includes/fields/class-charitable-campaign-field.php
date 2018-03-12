@@ -195,6 +195,33 @@ if ( ! class_exists( 'Charitable_Campaign_Field' ) ) :
 				'section'   => charitable()->campaign_fields()->get_default_section( 'admin' ),
 			) );
 		}
+
+		/**
+		 * Sanitize the email tag.
+		 *
+		 * @since  1.6.0
+		 *
+		 * @param  mixed $value The argument setting.
+		 * @return false|array
+		 */
+		public function sanitize_email_tag( $value ) {
+			if ( false === $value ) {
+				return $value;
+			}
+
+			$label    = array_key_exists( 'label', $this->raw_args ) ? $this->raw_args['label'] : '';
+			$defaults = array(
+				'description' => $label,
+				'preview'     => $label,
+				'tag'         => $this->field,
+			);
+
+			if ( ! is_array( $value ) ) {
+				return $defaults;
+			}
+
+			return array_merge( $defaults, $value );
+		}
 	}
 
 endif;

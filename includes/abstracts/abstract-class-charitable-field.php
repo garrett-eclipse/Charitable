@@ -53,7 +53,7 @@ if ( ! class_exists( 'Charitable_Field' ) ) :
 		/**
 		 * Raw field arguments. These are the arguments that were passed when instantiating the field.
 		 *
-		 * @since 1.6.0
+		 * @since 1.5.0
 		 *
 		 * @var   array
 		 */

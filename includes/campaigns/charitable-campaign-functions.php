@@ -84,7 +84,7 @@ function charitable_is_current_campaign_creator( $campaign_id = null ) {
 /**
  * Returns whether the given campaign can receive donations.
  *
- * @since  1.5.14
+ * @since  1.7.0
  *
  * @param  int $campaign_id The campaign ID.
  * @return boolean
