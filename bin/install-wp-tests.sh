@@ -2,6 +2,8 @@
 
 # Include useful functions
 . "$(dirname "$0")/includes.sh"
+
+echo -e $(status_message "Present...")
 if [ $# -lt 3 ]; then
 	echo "usage: $0 <db-name> <db-user> <db-pass> [db-host] [wp-version] [skip-database-creation]"
 	exit 1
