@@ -312,8 +312,6 @@ if ( ! class_exists( 'Charitable_Blocks' ) ) :
 				}
 			}
 
-			$meta_boxes[] = $settings_box;
-
 			return $meta_boxes;
 		}
 	}
