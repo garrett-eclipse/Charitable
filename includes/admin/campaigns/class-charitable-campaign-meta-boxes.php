@@ -92,6 +92,7 @@ if ( ! class_exists( 'Charitable_Campaign_Meta_Boxes' ) ) :
 						'context'  => 'normal',
 						'priority' => 'high',
 						'view'     => 'metaboxes/campaign-settings',
+						'__block_editor_compatible_meta_box' => true,
 					),
 				)
 			);

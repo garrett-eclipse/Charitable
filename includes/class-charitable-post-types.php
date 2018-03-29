@@ -74,7 +74,7 @@ if ( ! class_exists( 'Charitable_Post_Types' ) ) :
 			 *
 			 * To change any of the arguments used for the post type, other than the name
 			 * of the post type itself, use the 'charitable_campaign_post_type' filter.
-		 	*/
+			 */
 			register_post_type( 'campaign',
 				apply_filters( 'charitable_campaign_post_type',
 					array(
@@ -113,6 +113,26 @@ if ( ! class_exists( 'Charitable_Post_Types' ) ) :
 						'show_in_rest'          => true,
 						'rest_base'             => 'campaigns',
 						'rest_controller_class' => 'WP_REST_Posts_Controller',
+						'template'              => array(
+							array(
+								'core/image',
+								array(
+									'align' => 'left',
+								),
+							),
+							array(
+								'core/heading',
+								array(
+									'placeholder' => 'Add Author...',
+								),
+							),
+							array(
+								'core/paragraph',
+								array(
+									'placeholder' => 'Add Description...',
+								),
+							),
+						),
 					)
 				)
 			);

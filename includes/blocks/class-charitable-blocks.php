@@ -28,7 +28,7 @@ if ( ! class_exists( 'Charitable_Blocks' ) ) :
 		 * @since 1.6.0
 		 */
 		public function __construct() {
-			add_filter( 'charitable_campaign_meta_boxes', array( $this, 'setup_block_editor_meta_boxes' ), 9999 );
+			// add_filter( 'charitable_campaign_meta_boxes', array( $this, 'setup_block_editor_meta_boxes' ), 9999 );
 			add_action( 'enqueue_block_editor_assets', array( $this, 'enqueue_block_editor_assets' ) );
 
 			$this->register_blocks();
@@ -223,27 +223,16 @@ if ( ! class_exists( 'Charitable_Blocks' ) ) :
 		 * @return array
 		 */
 		public function setup_block_editor_meta_boxes( $meta_boxes ) {
-			$settings_box = array(
-				'id'                                 => 'campaign-settings',
-				'title'                              => __( 'Campaign Settings', 'charitable' ),
-				'context'                            => 'advanced',
-				'priority'                           => 'high',
-				'view'                               => 'metaboxes/campaign-advanced-settings',
-				'meta_boxes'                         => array(),
-				'__block_editor_compatible_meta_box' => true,
+			$side_boxes = array(
+				'campaign-goal',
+				'campaign-end-date',
 			);
 
 			foreach ( $meta_boxes as $key => $box ) {
-				if ( in_array( $box['context'], array( 'campaign-top', 'campaign-advanced' ) ) ) {
-					unset( $meta_boxes[ $key ] );
-				}
-
-				if ( 'campaign-advanced' == $box['context'] ) {
-					$settings_box['meta_boxes'][] = $box;
+				if ( in_array( $box['id'], $side_boxes ) ) {
+					$meta_boxes[ $key ]['section'] = 'side';
 				}
 			}
-
-			$meta_boxes[] = $settings_box;
 
 			return $meta_boxes;
 		}
