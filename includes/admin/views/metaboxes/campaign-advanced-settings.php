@@ -2,10 +2,11 @@
 /**
  * Loops over the meta boxes inside the advanced settings area of the Campaign post type.
  *
- * @author 		Studio 164a
- * @package     Charitable/Admin Views/Metaboxes
- * @copyright 	Copyright (c) 2018, Studio 164a
- * @since 		1.0.0
+ * @author    Studio 164a
+ * @package   Charitable/Admin Views/Metaboxes
+ * @copyright Copyright (c) 2018, Studio 164a
+ * @since     1.0.0
+ * @version   1.6.0
  */
 
 global $post;
