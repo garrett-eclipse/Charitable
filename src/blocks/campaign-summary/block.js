@@ -53,7 +53,11 @@ class CharitableCampaignSummaryBlock extends Component {
     render() {
 		const { attributes, isSelected, setAttributes } = this.props;
         const { campaign, columns } = attributes;
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> Tidied up some Gutenberg code that was broken by core updates.
         const inspectorControls = isSelected && (
             <InspectorControls key="inspector" description={ __( 'Configure' ) } >
                 <CampaignSelect
@@ -62,7 +66,11 @@ class CharitableCampaignSummaryBlock extends Component {
                     selectedOption={ attributes.campaign }
                     onChange={ ( value ) => props.setAttributes( { campaign: value } ) }
                 />
+<<<<<<< HEAD
                 <PanelBody title={ getCurrentPostType( this.state ) }>
+=======
+                <PanelBody title={ __( 'Display Settings' ) }>
+>>>>>>> Tidied up some Gutenberg code that was broken by core updates.
                     <PanelRow>
                         <RangeControl
                             key="columns-select"

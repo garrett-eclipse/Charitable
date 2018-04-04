@@ -5,9 +5,10 @@
 import { stringify } from 'querystringify';
 import { concat } from 'lodash';
 
-const {  InspectorControls } = wp.blocks;
-const { SelectControl } = InspectorControls;
-const { withAPIData } = wp.components;
+const {
+	SelectControl,
+	withAPIData
+} = wp.components;
 
 const getCampaignOptions = ( campaigns ) => {
 	if ( campaigns.data.length === 0 ) {
@@ -27,7 +28,7 @@ function CampaignSelect( { label, campaigns, withOptions, selectedOption, onChan
 		return "loading!";
 	}
 
-	const options = withOptions.length 
+	const options = 'undefined' !== typeof withOptions && withOptions.length
 		? concat( withOptions, ...getCampaignOptions( campaigns ) )
 		: getCampaignOptions( campaigns );
 
