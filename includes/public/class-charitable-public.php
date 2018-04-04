@@ -52,27 +52,12 @@ if ( ! class_exists( 'Charitable_Public' ) ) :
 		 * @since 1.0.0
 		 */
 		private function __construct() {
-			add_action( 'after_setup_theme', array( $this, 'load_template_files' ) );
 			add_action( 'wp_enqueue_scripts', array( $this, 'maybe_enqueue_donation_form_scripts' ), 11 );
 			add_action( 'charitable_campaign_loop_before', array( $this, 'maybe_enqueue_donation_form_scripts' ) );
 			add_filter( 'post_class', array( $this, 'campaign_post_class' ) );
 			add_filter( 'comments_open', array( $this, 'disable_comments_on_application_pages' ) );
 
 			do_action( 'charitable_public_start', $this );
-		}
-
-		/**
-		 * Load the template functions after theme is loaded.
-		 *
-		 * This gives themes time to override the functions.
-		 *
-		 * @since  1.2.3
-		 *
-		 * @return void
-		 */
-		public function load_template_files() {
-			require_once( 'charitable-template-functions.php' );
-			require_once( 'charitable-template-hooks.php' );
 		}
 
 		/**
@@ -135,7 +120,7 @@ if ( ! class_exists( 'Charitable_Public' ) ) :
 		 * Disable comments on application pages like the donation page.
 		 *
 		 * @since   1.3.0
-	 	 *
+		 *
 		 * @param   boolean $open Whether comments are open.
 		 * @return  boolean
 		 */
@@ -149,7 +134,7 @@ if ( ! class_exists( 'Charitable_Public' ) ) :
 			|| charitable_is_page( 'campaign_widget_page' )
 			|| charitable_is_page( 'donation_receipt_page' )
 			|| charitable_is_page( 'donation_processing_page' ) ) {
-				 $open = false;
+				$open = false;
 			}
 
 			return $open;

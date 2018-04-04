@@ -210,6 +210,20 @@ if ( ! class_exists( 'Charitable' ) ) :
 		}
 
 		/**
+		 * Load template files.
+		 *
+		 * @since  1.6.0
+		 *
+		 * @return void
+		 */
+		public function load_template_files() {
+			$includes_path = $this->get_path( 'includes' );
+
+			require_once( $includes_path . 'public/charitable-template-functions.php' );
+			require_once( $includes_path . 'public/charitable-template-hooks.php' );
+		}
+
+		/**
 		 * Dynamically loads the class attempting to be instantiated elsewhere in the
 		 * plugin by looking at the $class_name parameter being passed as an argument.
 		 *
@@ -293,6 +307,7 @@ if ( ! class_exists( 'Charitable' ) ) :
 			add_action( 'plugins_loaded', array( $this, 'register_donormeta_table' ) );
 			add_action( 'plugins_loaded', 'charitable_load_compat_functions' );
 			add_action( 'setup_theme', array( 'Charitable_Customizer', 'start' ) );
+			add_action( 'after_setup_theme', array( $this, 'load_template_files' ) );
 			add_action( 'wp_enqueue_scripts', array( $this, 'maybe_start_qunit' ), 100 );
 			add_action( 'rest_api_init', 'charitable_register_api_routes' );
 

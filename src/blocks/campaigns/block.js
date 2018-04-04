@@ -12,21 +12,17 @@ const { __ } = wp.i18n;
 const { Component } = wp.element;
 
 const {
-    InspectorControls,
-    BlockDescription,
+    InspectorControls
 } = wp.blocks;
 
 const {
     PanelBody,
     PanelRow,
-    withAPIData 
-} = wp.components;
-
-const {
+    withAPIData,
     SelectControl,
     ToggleControl,
     RangeControl
-} = InspectorControls;
+} = wp.components;
 
 const { findDOMNode } = wp.element;
 
@@ -53,10 +49,10 @@ class CharitableCampaignsBlock extends Component {
     }    
 
     render() {
-		const { attributes, focus, setAttributes } = this.props;
+		const { attributes, isSelected, setAttributes } = this.props;
         const { category, number, campaigns, orderBy, order, columns, masonryLayout, responsiveLayout } = attributes;
         
-        const inspectorControls = focus && (
+        const inspectorControls = isSelected && (
             <InspectorControls key="inspector" description={ __( 'Configure' ) } >
                 <SelectControl
                     key="orderby-select"

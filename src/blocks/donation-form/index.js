@@ -7,10 +7,10 @@ const {
     InspectorControls,
     BlockDescription,
 } = wp.blocks;
-const { withAPIData } = wp.components;
 const {
+    withAPIData,
     SelectControl
-} = InspectorControls;
+} = wp.components;
 
 registerBlockType( 'charitable/donation-form', {
     title : __( 'Donation Form' ),
@@ -28,7 +28,7 @@ registerBlockType( 'charitable/donation-form', {
         const setCampaign = ( campaign ) => props.setAttributes( { campaign: campaign } );
 
         return [
-            !! props.focus && (
+            props.isSelected && (
                 <InspectorControls key="inspector"
                     description={ __( 'Configure' ) }
                     >
@@ -40,7 +40,7 @@ registerBlockType( 'charitable/donation-form', {
                     />
                 </InspectorControls>
             ),
-            <p>
+            <p key="donation-form">
                 { __( 'DONATION FORM' ) }
             </p>
         ];

@@ -144,6 +144,15 @@ if ( ! class_exists( 'Charitable_Blocks' ) ) :
 				),
 				'render_callback' => array( $this, 'render_campaigns' ),
 			) );
+
+			register_block_type( 'charitable/campaign-summary', array(
+				'attributes' => array(
+					'campaign' => array(
+						'type' => 'string',
+					),
+				),
+				'render_callback' => array( $this, 'render_campaign_summary' ),
+			) );
 		}
 
 		/**
@@ -156,10 +165,6 @@ if ( ! class_exists( 'Charitable_Blocks' ) ) :
 		 * @return string Returns the donation form content.
 		 */
 		public function render_donation_form( $attributes ) {
-			if ( ! function_exists( 'charitable_template_donation_form' ) ) {
-				require_once( charitable()->get_path( 'includes' ) . 'public/charitable-template-functions.php' );
-			}
-
 			ob_start();
 
 			charitable_template_donation_form( $attributes['campaign'] );
@@ -212,6 +217,23 @@ if ( ! class_exists( 'Charitable_Blocks' ) ) :
 				'masonry'    => $attributes['masonryLayout'],
 				'responsive' => $attributes['responsiveLayout'],
 			) );
+		}
+
+		/**
+		 * Render the campaign summary block.
+		 *
+		 * @since  1.6.0
+		 *
+		 * @param  array $attributes The block attributes.
+		 *
+		 * @return string Returns the campaigns block content.
+		 */
+		public function render_campaign_summary( $attributes ) {
+			ob_start();
+
+			charitable_template_campaign_summary( charitable_get_campaign( $attributes['campaign'] ) );
+
+			return ob_get_clean();
 		}
 
 		/**
