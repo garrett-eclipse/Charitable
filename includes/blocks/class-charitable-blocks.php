@@ -281,12 +281,9 @@ if ( ! class_exists( 'Charitable_Blocks' ) ) :
 				$fields['end_date']['admin_form'],
 				array(
 					'section' => 'campaign-general-settings',
+					'title'   => $fields['end_date']['label'],
 				)
 			);
-
-			// unset( $fields['end_date']['admin_form']['view'] );
-
-			error_log( var_export( $fields, true ) );
 
 			return $fields;
 		}

@@ -432,19 +432,6 @@ body.post-type-campaign .postbox-container .empty-container {
 /* --- End Date --- */
 #charitable-campaign-end-date-metabox-wrap {
   position: relative; }
-  #charitable-campaign-end-date-metabox-wrap label {
-    border: 0;
-    clip: rect(1px, 1px, 1px, 1px);
-    -webkit-clip-path: inset(50%);
-    clip-path: inset(50%);
-    height: 1px;
-    margin: -1px;
-    overflow: hidden;
-    padding: 0;
-    position: absolute;
-    width: 1px;
-    word-wrap: normal !important;
-    /* many screen reader and browser combinations announce broken words as they would appear visually */ }
   #charitable-campaign-end-date-metabox-wrap .charitable-end-time {
     position: absolute;
     right: 0;
@@ -645,6 +632,16 @@ body.post-type-campaign .postbox-container .empty-container {
   padding-top: 24px;
   margin-top: 12px;
   border-top: 1px solid #e1e1e1; }
+
+/* --- Gutenberg Editor --- */
+.gutenberg #campaign-settings input,
+.gutenberg #campaign-settings textarea {
+  box-sizing: border-box; }
+.gutenberg #charitable-campaign-end-date-metabox-wrap .charitable-end-time {
+  top: 26px; }
+  @media (min-width: 48.875em) {
+    .gutenberg #charitable-campaign-end-date-metabox-wrap .charitable-end-time {
+      padding-bottom: 12px; } }
 
 body.post-type-donation #post-body-content,
 body.post-type-donation #titlediv {

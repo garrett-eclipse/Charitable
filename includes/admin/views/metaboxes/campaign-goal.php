@@ -2,7 +2,7 @@
 /**
  * Renders the campaign goal block in the settings metabox for the Campaign post type.
  *
- * @author 	Studio 164a
+ * @author  Studio 164a
  * @since   1.0.0
  * @package Charitable/Admin Views/Metaboxes
  */
