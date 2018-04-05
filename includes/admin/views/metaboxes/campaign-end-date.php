@@ -17,7 +17,7 @@ $description 		= array_key_exists( 'description', $view_args ) ? $view_args['des
 
 ?>
 <div id="charitable-campaign-end-date-metabox-wrap" class="charitable-metabox-wrap">
-	<label for="campaign_end_date"><?php echo $title ?></label>
+	<label for="campaign_end_date"><?php echo $title; ?></label>
 	<input type="text" id="campaign_end_date" name="_campaign_end_date" placeholder="&#8734;" class="charitable-datepicker" data-date="<?php echo $end_date_formatted ?>" />
 	<?php if ( $end_date ) : ?>
 		<span class="charitable-end-time"><?php echo date_i18n( '@ G:i A', $end_time ); ?></span>

@@ -15,7 +15,7 @@ if ( ! array_key_exists( 'form_view', $view_args ) || ! $view_args['form_view']-
 
 ?>
 <input type="hidden" 
-	id="<?php echo esc_attr( $view_args['id'] ); ?>"
+	id="<?php echo esc_attr( $view_args['id'] ); ?>" 
 	name="<?php echo esc_attr( $view_args['key'] ); ?>"
 	value="<?php echo esc_attr( $view_args['value'] ); ?>"
 />

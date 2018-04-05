@@ -63,6 +63,13 @@ if ( ! class_exists( 'Charitable_Campaign_Field_Registry' ) ) :
 		 * @return array
 		 */
 		private function get_core_sections() {
+			/**
+			 * Default campaign sections.
+			 *
+			 * @since 1.6.0
+			 *
+			 * @param array $sections The full array of sections for all forms, including defaults.
+			 */
 			return apply_filters( 'charitable_default_campaign_sections', array(
 				'defaults' => array(
 					'admin' => 'campaign-extended-settings',

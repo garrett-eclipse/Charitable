@@ -26,11 +26,11 @@ if ( ! array_key_exists( 'form_view', $view_args ) || ! $view_args['form_view']-
 			?>
 			<optgroup label="<?php echo esc_attr( $label ); ?>">
 			<?php foreach ( $option['options'] as $k => $opt ) : ?>
-				<option value="<?php echo esc_attr( $k ); ?>" <?php selected( $k, $view_args['value'] ); ?>><?php echo $opt ?></option>
+				<option value="<?php echo esc_attr( $k ); ?>" <?php selected( $k, $view_args['value'] ); ?>><?php echo $opt; ?></option>
 			<?php endforeach ?>
 			</optgroup>
 		<?php else : ?>
-			<option value="<?php echo esc_attr( $key ); ?>" <?php selected( $key, $view_args['value'] ); ?>><?php echo $option ?></option>
+			<option value="<?php echo esc_attr( $key ); ?>" <?php selected( $key, $view_args['value'] ); ?>><?php echo $option; ?></option>
 		<?php
 		endif;
 	endforeach;

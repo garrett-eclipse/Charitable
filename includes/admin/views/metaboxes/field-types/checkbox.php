@@ -6,7 +6,7 @@
  * @package   Charitable/Admin Views/Metaboxes
  * @copyright Copyright (c) 2018, Studio 164a
  * @since     1.0.0
- * @version   1.5.9
+ * @version   1.6.0
  */
 
 if ( ! array_key_exists( 'form_view', $view_args ) || ! $view_args['form_view']->field_has_required_args( $view_args ) ) {
@@ -21,6 +21,7 @@ if ( ! array_key_exists( 'form_view', $view_args ) || ! $view_args['form_view']-
 		name="<?php echo esc_attr( $view_args['key'] ); ?>"
 		tabindex="<?php echo esc_attr( $view_args['tabindex'] ); ?>"
 		value="<?php echo esc_attr( $view_args['value'] ); ?>"
+		placeholder="<?php echo esc_attr( $view_args['placeholder'] ); ?>"
 		<?php checked( $view_args['checked'], $view_args['value'] ); ?>
 		/>
 	<?php if ( isset( $view_args['label'] ) ) : ?>

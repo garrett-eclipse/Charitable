@@ -28,6 +28,8 @@ if ( ! class_exists( 'Charitable_Blocks' ) ) :
 		 * @since 1.6.0
 		 */
 		public function __construct() {
+			add_filter( 'charitable_default_campaign_fields', array( $this, 'change_campaign_fields_settings' ) );
+			add_filter( 'charitable_default_campaign_sections', array( $this, 'add_extra_campaign_settings_sections' ) );
 			// add_filter( 'charitable_campaign_meta_boxes', array( $this, 'setup_block_editor_meta_boxes' ), 9999 );
 			add_action( 'enqueue_block_editor_assets', array( $this, 'enqueue_block_editor_assets' ) );
 
@@ -234,6 +236,59 @@ if ( ! class_exists( 'Charitable_Blocks' ) ) :
 			charitable_template_campaign_summary( charitable_get_campaign( $attributes['campaign'] ) );
 
 			return ob_get_clean();
+		}
+
+		/**
+		 * Add additional sections for the Campaign Settings meta box in the Gutenberg editor.
+		 *
+		 * @since  1.6.0
+		 *
+		 * @param  array $sections The full array of sections for all forms, including defaults.
+		 * @return array
+		 */
+		public function add_extra_campaign_settings_sections( $sections ) {
+			$sections['admin'] = array_merge(
+				array(
+					'campaign-general-settings' => __( 'General', 'charitable' ),
+				),
+				$sections['admin']
+			);
+
+			return $sections;
+		}
+
+		/**
+		 * Change the settings of the Goal & End Date fields to place them inside the 'campaign-general-settings' block.
+		 *
+		 * @since  1.6.0
+		 *
+		 * @param  array $fields The multi-dimensional array of keys in $key => $args format.
+		 * @return array
+		 */
+		public function change_campaign_fields_settings( $fields ) {
+			$fields['goal']['admin_form'] = array_merge(
+				$fields['goal']['admin_form'],
+				array(
+					'section'     => 'campaign-general-settings',
+					'placeholder' => '&#8734;',
+					'type'        => 'text',
+				)
+			);
+
+			unset( $fields['goal']['admin_form']['view'] );
+
+			$fields['end_date']['admin_form'] = array_merge(
+				$fields['end_date']['admin_form'],
+				array(
+					'section' => 'campaign-general-settings',
+				)
+			);
+
+			// unset( $fields['end_date']['admin_form']['view'] );
+
+			error_log( var_export( $fields, true ) );
+
+			return $fields;
 		}
 
 		/**
