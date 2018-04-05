@@ -23,7 +23,7 @@ if ( ! array_key_exists( 'form_view', $view_args ) || ! $view_args['form_view']-
 		value="<?php echo esc_attr( $view_args['value'] ); ?>"
 		placeholder="<?php echo esc_attr( $view_args['placeholder'] ); ?>"
 		<?php checked( $view_args['checked'], $view_args['value'] ); ?>
-		/>
+	/>
 	<?php if ( isset( $view_args['label'] ) ) : ?>
 		<label for="<?php echo esc_attr( $view_args['id'] ); ?>"><?php echo esc_html( $view_args['label'] ); ?></label>
 	<?php endif ?>

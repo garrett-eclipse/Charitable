@@ -110,7 +110,7 @@ if ( ! class_exists( 'Charitable_Admin_Form_View' ) ) :
 		 *
 		 * @since  1.5.0
 		 *
-		 * @return void
+		 * @return boolean True if any fields were rendered. False otherwise.
 		 */
 		public function render_notices() {
 			return false;
