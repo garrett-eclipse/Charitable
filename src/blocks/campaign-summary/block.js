@@ -25,6 +25,9 @@ const {
 
 const { findDOMNode } = wp.element;
 
+const { Store } = wp.editor;
+const { getCurrentPostType } = Store;
+
 class CharitableCampaignSummaryBlock extends Component {
 	constructor() {
 		super( ...arguments );
@@ -50,7 +53,7 @@ class CharitableCampaignSummaryBlock extends Component {
     render() {
 		const { attributes, isSelected, setAttributes } = this.props;
         const { campaign, columns } = attributes;
-        
+
         const inspectorControls = isSelected && (
             <InspectorControls key="inspector" description={ __( 'Configure' ) } >
                 <CampaignSelect
@@ -59,7 +62,7 @@ class CharitableCampaignSummaryBlock extends Component {
                     selectedOption={ attributes.campaign }
                     onChange={ ( value ) => props.setAttributes( { campaign: value } ) }
                 />
-                <PanelBody title={ __( 'Display Settings' ) }>
+                <PanelBody title={ getCurrentPostType( this.state ) }>
                     <PanelRow>
                         <RangeControl
                             key="columns-select"

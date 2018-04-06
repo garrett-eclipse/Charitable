@@ -10,6 +10,9 @@ import CharitableCampaignSummaryBlock from './block';
 const { __ } = wp.i18n;
 const { registerBlockType } = wp.blocks;
 
+// import { getCurrentPostType } from '../../store/selectors';
+// import { getCurrentPostType } from '../../store/selectors';
+
 /**
  * Register block
  */
