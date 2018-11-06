@@ -50,8 +50,8 @@ if ( ! class_exists( 'Charitable_Blocks' ) ) :
 			wp_enqueue_script(
 				'charitable-blocks',
 				charitable()->get_path( 'assets', false ) . 'js/charitable-blocks.js',
-				array( 'wp-blocks', 'wp-element', 'selectWoo' ),
-				charitable()->get_version()
+				array( 'wp-blocks', 'wp-element', 'wp-components', 'wp-editor' ),
+				filemtime( charitable()->get_path( 'assets', true ) . 'js/charitable-blocks.js' )
 			);
 		}
 
@@ -64,7 +64,8 @@ if ( ! class_exists( 'Charitable_Blocks' ) ) :
 		 */
 		public function register_blocks() {
 			register_block_type( 'charitable/donation-form', array(
-				'attributes' => array(
+				'editor_script' => 'charitable-blocks',
+				'attributes'    => array(
 					'campaign' => array(
 						'type' => 'string',
 					),
@@ -72,89 +73,92 @@ if ( ! class_exists( 'Charitable_Blocks' ) ) :
 				'render_callback' => array( $this, 'render_donation_form' ),
 			) );
 
-			register_block_type( 'charitable/donors', array(
-				'attributes' => array(
-					'number' => array(
-						'type'    => 'number',
-						'default' => 10,
-					),
-					'campaign' => array(
-						'type' => 'string',
-					),
-					'orderBy' => array(
-						'type'    => 'string',
-						'default' => 'recent',
-					),
-					'distinctDonors' => array(
-						'type'    => 'boolean',
-						'default' => false,
-					),
-					'orientation' => array(
-						'type'    => 'string',
-						'default' => 'horizontal',
-					),
-					'displayDonorAmount' => array(
-						'type'    => 'boolean',
-						'default' => true,
-					),
-					'displayDonorAvatar' => array(
-						'type'    => 'boolean',
-						'default' => true,
-					),
-					'displayDonorName' => array(
-						'type'    => 'boolean',
-						'default' => true,
-					),
-					'displayDonorLocation' => array(
-						'type'    => 'boolean',
-						'default' => false,
-					),
-				),
-				'render_callback' => array( $this, 'render_donors' ),
-			) );
+			// register_block_type( 'charitable/donors', array(
+			// 	'editor_script' => 'charitable-blocks',
+			// 	'attributes' => array(
+			// 		'number' => array(
+			// 			'type'    => 'number',
+			// 			'default' => 10,
+			// 		),
+			// 		'campaign' => array(
+			// 			'type' => 'string',
+			// 		),
+			// 		'orderBy' => array(
+			// 			'type'    => 'string',
+			// 			'default' => 'recent',
+			// 		),
+			// 		'distinctDonors' => array(
+			// 			'type'    => 'boolean',
+			// 			'default' => false,
+			// 		),
+			// 		'orientation' => array(
+			// 			'type'    => 'string',
+			// 			'default' => 'horizontal',
+			// 		),
+			// 		'displayDonorAmount' => array(
+			// 			'type'    => 'boolean',
+			// 			'default' => true,
+			// 		),
+			// 		'displayDonorAvatar' => array(
+			// 			'type'    => 'boolean',
+			// 			'default' => true,
+			// 		),
+			// 		'displayDonorName' => array(
+			// 			'type'    => 'boolean',
+			// 			'default' => true,
+			// 		),
+			// 		'displayDonorLocation' => array(
+			// 			'type'    => 'boolean',
+			// 			'default' => false,
+			// 		),
+			// 	),
+			// 	'render_callback' => array( $this, 'render_donors' ),
+			// ) );
 
-			register_block_type( 'charitable/campaigns', array(
-				'attributes' => array(
-					'category' => array(
-						'type'    => 'string',
-						'default' => '',
-					),
-					'order' => array(
-						'type'    => 'string',
-						'default' => 'DESC',
-					),
-					'orderBy' => array(
-						'type'    => 'string',
-						'default' => 'post_date',
-					),
-					'number' => array(
-						'type'    => 'number',
-						'default' => 10,
-					),
-					'columns' => array(
-						'type'    => 'number',
-						'default' => 2,
-					),
-					'masonryLayout' => array(
-						'type'    => 'boolean',
-						'default' => false,
-					),
-					'responsiveLayout' => array(
-						'type'    => 'boolean',
-						'default' => true,
-					),
-				),
-				'render_callback' => array( $this, 'render_campaigns' ),
-			) );
+			// register_block_type( 'charitable/campaigns', array(
+			// 	'editor_script' => 'charitable-blocks',
+			// 	'attributes' => array(
+			// 		'category' => array(
+			// 			'type'    => 'string',
+			// 			'default' => '',
+			// 		),
+			// 		'order' => array(
+			// 			'type'    => 'string',
+			// 			'default' => 'DESC',
+			// 		),
+			// 		'orderBy' => array(
+			// 			'type'    => 'string',
+			// 			'default' => 'post_date',
+			// 		),
+			// 		'number' => array(
+			// 			'type'    => 'number',
+			// 			'default' => 10,
+			// 		),
+			// 		'columns' => array(
+			// 			'type'    => 'number',
+			// 			'default' => 2,
+			// 		),
+			// 		'masonryLayout' => array(
+			// 			'type'    => 'boolean',
+			// 			'default' => false,
+			// 		),
+			// 		'responsiveLayout' => array(
+			// 			'type'    => 'boolean',
+			// 			'default' => true,
+			// 		),
+			// 	),
+			// 	'render_callback' => array( $this, 'render_campaigns' ),
+			// ) );
 
-			register_block_type( 'charitable/campaign-summary', array(
-				'attributes' => array(
-					'campaign' => array(
-						'type' => 'string',
-					),
-				),
-				'render_callback' => array( $this, 'render_campaign_summary' ),
-			) );
+			// register_block_type( 'charitable/campaign-summary', array(
+			// 	'editor_script' => 'charitable-blocks',
+			// 	'attributes' => array(
+			// 		'campaign' => array(
+			// 			'type' => 'string',
+			// 		),
+			// 	),
+			// 	'render_callback' => array( $this, 'render_campaign_summary' ),
+			// ) );
 		}
 
 		/**

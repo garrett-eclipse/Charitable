@@ -17,7 +17,6 @@ const {
 const {
     PanelBody,
     PanelRow,
-    withAPIData,
     SelectControl,
     ToggleControl,
     RangeControl

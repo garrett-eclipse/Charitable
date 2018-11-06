@@ -2,14 +2,19 @@ import CampaignSelect from './../../components/campaign-select/index.js';
 import icon from './icon';
 
 const { __ } = wp.i18n;
+
 const {
     registerBlockType,
-    InspectorControls,
-    BlockDescription,
+    BlockDescription
 } = wp.blocks;
+
 const {
-    withAPIData,
-    SelectControl
+    InspectorControls
+} = wp.editor
+
+const {
+    SelectControl,
+    ServerSideRender
 } = wp.components;
 
 registerBlockType( 'charitable/donation-form', {
@@ -23,26 +28,26 @@ registerBlockType( 'charitable/donation-form', {
         __( 'Donate' ),
         __( 'Charitable' ),
     ],
-    
+
     edit:  props => {
         const setCampaign = ( campaign ) => props.setAttributes( { campaign: campaign } );
+        const orderBy = 'recent';
 
         return [
-            props.isSelected && (
-                <InspectorControls key="inspector"
-                    description={ __( 'Configure' ) }
-                    >
-                    <CampaignSelect
-                        key="campaign-select"
-                        label={ __( 'Campaign' ) }
-                        selectedOption={ props.attributes.campaign }
-                        onChange={ setCampaign }
-                    />
-                </InspectorControls>
-            ),
-            <p key="donation-form">
-                { __( 'DONATION FORM' ) }
-            </p>
+            <InspectorControls key="inspector"
+                description={ __( 'Configure' ) }
+                >
+                <CampaignSelect
+                    key="campaign-select"
+                    label={ __( 'Campaign' ) }
+                    selectedOption={ props.attributes.campaign }
+                    onChange={ setCampaign }
+                />
+            </InspectorControls>,
+            <ServerSideRender
+                block="charitable/donation-form"
+                attributes={ props.attributes }
+            />
         ];
     },
 

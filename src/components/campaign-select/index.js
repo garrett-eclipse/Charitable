@@ -6,16 +6,19 @@ import { stringify } from 'querystringify';
 import { concat } from 'lodash';
 
 const {
-	SelectControl,
-	withAPIData
+	SelectControl
 } = wp.components;
 
+const {
+	withSelect
+} = wp.data;
+
 const getCampaignOptions = ( campaigns ) => {
-	if ( campaigns.data.length === 0 ) {
+	if ( campaigns.length === 0 ) {
 		return {};
 	}
 	
-	return campaigns.data.map( ( campaign ) => {
+	return campaigns.map( ( campaign ) => {
 		return {
 			label: campaign.title.rendered,
 			value: campaign.id
@@ -24,7 +27,7 @@ const getCampaignOptions = ( campaigns ) => {
 }
 
 function CampaignSelect( { label, campaigns, withOptions, selectedOption, onChange } ) {
-	if ( ! campaigns.data ) {
+	if ( ! campaigns ) {
 		return "loading!";
 	}
 
@@ -40,12 +43,12 @@ function CampaignSelect( { label, campaigns, withOptions, selectedOption, onChan
 	);
 }
 
-export default withAPIData( () => {
+export default withSelect( ( select ) => {
 	const query = stringify( {
 		per_page: 100,
 		_fields: [ 'id', 'title', 'parent' ],
 	} );
 	return {
-		campaigns: `/wp/v2/campaigns?${ query }`,
+		campaigns: select( 'core' ).getEntityRecords( 'postType', 'campaign', query ),
 	};
 } )( CampaignSelect );

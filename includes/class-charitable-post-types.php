@@ -103,7 +103,10 @@ if ( ! class_exists( 'Charitable_Post_Types' ) ) :
 						'publicly_queryable'    => true,
 						'exclude_from_search'   => false,
 						'hierarchical'          => false,
-						'rewrite'               => array( 'slug' => 'campaigns', 'with_front' => true ),
+						'rewrite'               => array(
+							'slug'       => 'campaigns',
+							'with_front' => true,
+						),
 						'query_var'             => true,
 						'supports'              => array( 'editor', 'title', 'thumbnail', 'comments' ),
 						'has_archive'           => false,
