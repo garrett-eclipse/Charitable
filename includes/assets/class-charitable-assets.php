@@ -81,12 +81,13 @@ if ( ! class_exists( 'Charitable_Assets' ) ) :
 
 			add_action( 'wp_enqueue_scripts', array( $this, 'setup_assets' ) );
 			add_action( 'admin_enqueue_scripts', array( $this, 'setup_admin_assets' ) );
+			add_action( 'enqueue_block_editor_assets', array( $this, 'setup_block_editor_assets' ) );
 		}
 
 		/**
 		 * Set up assets.
 		 *
-		 * @since  1.6.0
+		 * @since  1.7.0
 		 *
 		 * @return void
 		 */
@@ -109,7 +110,7 @@ if ( ! class_exists( 'Charitable_Assets' ) ) :
 		/**
 		 * Set up admin assets.
 		 *
-		 * @since  1.6.0
+		 * @since  1.7.0
 		 *
 		 * @return void
 		 */
@@ -119,9 +120,55 @@ if ( ! class_exists( 'Charitable_Assets' ) ) :
 		}
 
 		/**
+		 * Set up block editor assets.
+		 *
+		 * @since  1.7.0
+		 *
+		 * @return void
+		 */
+		public function setup_block_editor_assets() {
+			wp_enqueue_script(
+				'charitable-blocks',
+				charitable()->get_path( 'assets', false ) . 'js/charitable-blocks.js',
+				array(
+					'wp-blocks',
+					'wp-element',
+					'wp-components',
+					'wp-editor',
+				),
+				filemtime( charitable()->get_path( 'assets', true ) . 'js/charitable-blocks.js' )
+			);
+
+			if ( function_exists( 'gutenberg_get_jed_locale_data' ) ) {
+				$locale  = gutenberg_get_jed_locale_data( 'charitable' );
+				$content = 'wp.i18n.setLocaleData( ' . json_encode( $locale ) . ', "charitable" );';
+				wp_script_add_data( 'charitable-blocks', 'data', $content );
+			}
+
+			$stylesheets = array(
+				'charitable-styles'       => array(
+					'src'     => 'css/charitable' . $this->suffix . '.css',
+					'deps'    => array(),
+					'version' => $this->version,
+				),
+				'charitable-block-editor' => array(
+					'src'     => 'css/charitable-block-editor' . $this->suffix . '.css',
+					'deps'    => array( 'charitable-styles' ),
+					'version' => $this->version,
+				),
+			);
+
+			array_walk( $stylesheets, array( $this, 'register_stylesheet' ) );
+
+			wp_enqueue_style( 'select2' );
+			wp_enqueue_style( 'charitable-styles' );
+			wp_enqueue_style( 'charitable-block-editor' );
+		}
+
+		/**
 		 * Set up styles used both on the frontend and admin.
 		 *
-		 * @since  1.6.0
+		 * @since  1.7.0
 		 *
 		 * @return void
 		 */
@@ -140,7 +187,7 @@ if ( ! class_exists( 'Charitable_Assets' ) ) :
 		/**
 		 * Set up scripts used both on the frontend and admin.
 		 *
-		 * @since  1.6.0
+		 * @since  1.7.0
 		 *
 		 * @return void
 		 */
@@ -151,7 +198,7 @@ if ( ! class_exists( 'Charitable_Assets' ) ) :
 					'deps'    => array( 'jquery-core' ),
 					'version' => '0.4.2',
 				),
-				'selectWoo' => array(
+				'selectWoo'  => array(
 					'src'     => 'js/libraries/selectWoo/selectWoo.full' . $this->suffix . '.js',
 					'deps'    => array( 'jquery-core' ),
 					'version' => '1.0.1',
@@ -164,18 +211,18 @@ if ( ! class_exists( 'Charitable_Assets' ) ) :
 		/**
 		 * Set up styles used only on the frontend.
 		 *
-		 * @since  1.6.0
+		 * @since  1.7.0
 		 *
 		 * @return void
 		 */
 		private function setup_frontend_styles() {
 			$stylesheets = array(
-				'charitable-styles' => array(
+				'charitable-styles'      => array(
 					'src'     => 'css/charitable' . $this->suffix . '.css',
 					'deps'    => array(),
 					'version' => $this->version,
 				),
-				'charitable-datepicker' => array(
+				'charitable-datepicker'  => array(
 					'src'     => 'css/charitable-datepicker' . $this->suffix . '.css',
 					'deps'    => array(),
 					'version' => $this->version,
@@ -183,7 +230,7 @@ if ( ! class_exists( 'Charitable_Assets' ) ) :
 				'charitable-plup-styles' => array(
 					'src'     => 'css/charitable-plupload-fields' . $this->suffix . '.css',
 					'deps'    => array(),
-					'version' => $version,
+					'version' => $this->version,
 				),
 			);
 
@@ -203,7 +250,7 @@ if ( ! class_exists( 'Charitable_Assets' ) ) :
 		/**
 		 * Set up scripts used only on the frontend.
 		 *
-		 * @since  1.6.0
+		 * @since  1.7.0
 		 *
 		 * @return void
 		 */
@@ -224,7 +271,7 @@ if ( ! class_exists( 'Charitable_Assets' ) ) :
 				'charitable-plup-fields' => array(
 					'src'     => 'js/charitable-plupload-fields' . $this->suffix . '.js',
 					'deps'    => array( 'jquery-ui-sortable', 'wp-ajax-response', 'plupload-all' ),
-					'version' => $version,
+					'version' => $this->version,
 				),
 			);
 
@@ -245,7 +292,7 @@ if ( ! class_exists( 'Charitable_Assets' ) ) :
 		/**
 		 * Set up styles used only in the admin.
 		 *
-		 * @since  1.6.0
+		 * @since  1.7.0
 		 *
 		 * @return void
 		 */
@@ -280,7 +327,7 @@ if ( ! class_exists( 'Charitable_Assets' ) ) :
 		/**
 		 * Set up scripts used only in the admin.
 		 *
-		 * @since  1.6.0
+		 * @since  1.7.0
 		 *
 		 * @return void
 		 */
@@ -323,7 +370,7 @@ if ( ! class_exists( 'Charitable_Assets' ) ) :
 		/**
 		 * Register a script.
 		 *
-		 * @since  1.6.0
+		 * @since  1.7.0
 		 *
 		 * @return void
 		 */
@@ -334,7 +381,7 @@ if ( ! class_exists( 'Charitable_Assets' ) ) :
 		/**
 		 * Register a stylesheet.
 		 *
-		 * @since  1.6.0
+		 * @since  1.7.0
 		 *
 		 * @return void
 		 */
@@ -345,7 +392,7 @@ if ( ! class_exists( 'Charitable_Assets' ) ) :
 		/**
 		 * Return the localized vars for the frontend script.
 		 *
-		 * @since  1.6.0
+		 * @since  1.7.0
 		 *
 		 * @return array
 		 */
@@ -365,7 +412,7 @@ if ( ! class_exists( 'Charitable_Assets' ) ) :
 			 */
 			return apply_filters( 'charitable_javascript_vars', array(
 				'ajaxurl'                      => admin_url( 'admin-ajax.php' ),
-				'loading_gif'                  => $assets_dir . '/images/charitable-loading.gif',
+				'loading_gif'                  => $this->assets_dir . '/images/charitable-loading.gif',
 				'currency_format_num_decimals' => esc_attr( $currency->get_decimals() ),
 				'currency_format_decimal_sep'  => esc_attr( $currency->get_decimal_separator() ),
 				'currency_format_thousand_sep' => esc_attr( $currency->get_thousands_separator() ),
@@ -382,7 +429,7 @@ if ( ! class_exists( 'Charitable_Assets' ) ) :
 		/**
 		 * The vars used for picture fields.
 		 *
-		 * @since  1.6.0
+		 * @since  1.7.0
 		 *
 		 * @return array
 		 */
@@ -399,7 +446,7 @@ if ( ! class_exists( 'Charitable_Assets' ) ) :
 		/**
 		 * The vars used in the admin.
 		 *
-		 * @since  1.6.0
+		 * @since  1.7.0
 		 *
 		 * @return array
 		 */

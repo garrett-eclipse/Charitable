@@ -1,0 +1,17 @@
+.charitable-block-donation-form {
+    padding: 14px;
+    background-color: #f8f9f9;
+
+    &.has-preview {
+        padding: 0;
+        background: transparent;
+    }
+} 
+
+// .charitable-block-overlay {
+//     position: absolute;
+//     top: 0;
+//     right: 0;
+//     bottom: 0;
+//     left: 0;
+// }

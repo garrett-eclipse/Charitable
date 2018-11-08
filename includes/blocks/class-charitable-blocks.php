@@ -30,29 +30,8 @@ if ( ! class_exists( 'Charitable_Blocks' ) ) :
 		public function __construct() {
 			add_filter( 'charitable_default_campaign_fields', array( $this, 'change_campaign_fields_settings' ) );
 			add_filter( 'charitable_default_campaign_sections', array( $this, 'add_extra_campaign_settings_sections' ) );
-			// add_filter( 'charitable_campaign_meta_boxes', array( $this, 'setup_block_editor_meta_boxes' ), 9999 );
-			add_action( 'enqueue_block_editor_assets', array( $this, 'enqueue_block_editor_assets' ) );
 
 			$this->register_blocks();
-		}
-
-		/**
-		 * Enqueue block editor assets for Gutenberg integration.
-		 *
-		 * @since  1.6.0
-		 *
-		 * @return void
-		 */
-		public function enqueue_block_editor_assets() {
-			charitable()->registry()->get( 'assets' )->setup_assets();
-
-			wp_enqueue_style( 'select2' );
-			wp_enqueue_script(
-				'charitable-blocks',
-				charitable()->get_path( 'assets', false ) . 'js/charitable-blocks.js',
-				array( 'wp-blocks', 'wp-element', 'wp-components', 'wp-editor' ),
-				filemtime( charitable()->get_path( 'assets', true ) . 'js/charitable-blocks.js' )
-			);
 		}
 
 		/**
@@ -64,10 +43,15 @@ if ( ! class_exists( 'Charitable_Blocks' ) ) :
 		 */
 		public function register_blocks() {
 			register_block_type( 'charitable/donation-form', array(
-				'editor_script' => 'charitable-blocks',
-				'attributes'    => array(
-					'campaign' => array(
-						'type' => 'string',
+				'editor_script'   => 'charitable-blocks',
+				'attributes'      => array(
+					'campaign'  => array(
+						'type'    => 'string',
+						'default' => '',
+					),
+					'edit_mode' => array(
+						'type'    => 'boolean',
+						'default' => true,
 					),
 				),
 				'render_callback' => array( $this, 'render_donation_form' ),
@@ -171,6 +155,7 @@ if ( ! class_exists( 'Charitable_Blocks' ) ) :
 		 * @return string Returns the donation form content.
 		 */
 		public function render_donation_form( $attributes ) {
+			error_log( var_export( $attributes, true ) );
 			ob_start();
 
 			charitable_template_donation_form( $attributes['campaign'] );
@@ -211,9 +196,6 @@ if ( ! class_exists( 'Charitable_Blocks' ) ) :
 		 * @return string Returns the campaigns block content.
 		 */
 		public function render_campaigns( $attributes ) {
-			// echo '<pre>';
-			// var_dump( $attributes );
-			// echo '</pre>';
 			return Charitable_Campaigns_Shortcode::display( array(
 				'number'     => $attributes['number'],
 				'category'   => $attributes['category'],

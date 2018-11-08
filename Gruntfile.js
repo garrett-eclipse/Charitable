@@ -37,10 +37,11 @@ module.exports = function(grunt) {
                     'assets/js/**/*.js',
                     'Gruntfile.js',
                     '!assets/js/*min.js',
+                    '!assets/js/libraries/*.js',
+                    '!assets/js/libraries/**/*.js',
                     '!assets/js/charitable-blocks.js'
                 ],
                 tasks: [
-                    'webpack:build',
                     'jshint'
                 ],
                 options: {
@@ -54,9 +55,10 @@ module.exports = function(grunt) {
         sass: {
             dist: {
                 files: {
-                    'assets/css/charitable-select2.css'         : 'assets/css/scss/charitable-select2.scss', 
-                    'assets/css/charitable-admin-pages.css'     : 'assets/css/scss/charitable-admin-pages.scss', 
-                    'assets/css/charitable-admin-menu.css'      : 'assets/css/scss/charitable-admin-menu.scss', 
+                    'assets/css/charitable-select2.css'         : 'assets/css/scss/charitable-select2.scss',
+                    'assets/css/charitable-block-editor.css'    : 'assets/css/scss/charitable-block-editor.scss',
+                    'assets/css/charitable-admin-pages.css'     : 'assets/css/scss/charitable-admin-pages.scss',
+                    'assets/css/charitable-admin-menu.css'      : 'assets/css/scss/charitable-admin-menu.scss',
                     'assets/css/charitable-admin.css'           : 'assets/css/scss/charitable-admin.scss',
                     'assets/css/charitable-plupload-fields.css' : 'assets/css/scss/charitable-plupload-fields.scss',
                     'assets/css/charitable-datepicker.css'      : 'assets/css/scss/charitable-datepicker.scss',
@@ -174,6 +176,8 @@ module.exports = function(grunt) {
                 'src/**/*.js',
                 'assets/js/**/*.js',
                 '!assets/js/*min.js',
+                '!assets/js/libraries/*.js',
+                '!assets/js/libraries/**/*.js',
                 '!assets/js/charitable-blocks.js'
             ]
         },        
@@ -326,6 +330,9 @@ module.exports = function(grunt) {
 
     // Default task. - grunt watch
     grunt.registerTask( 'default', 'watch' );
+    
+    // Webpack watch
+    grunt.registerTask( 'webpack-watch', 'webpack' );
     
     // Build task(s).
     grunt.registerTask( 'build-scripts', [ 'uglify' ] );
