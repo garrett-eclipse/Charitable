@@ -113,6 +113,8 @@ export default class CharitableDonationFormBlock extends Component {
 
     /**
      * Get the block preview.
+     *
+     * @return Component
      */
     getPreview() {
         return (

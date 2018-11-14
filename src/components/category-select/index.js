@@ -7,16 +7,15 @@ import { get } from 'lodash';
 /**
  * WordPress dependencies
  */
-const { buildTermsTree } = wp.utils;
-const { withAPIData } = wp.components;
-const { TermTreeSelect } = wp.blocks;
+const { withSelect } = wp.data;
+const { TreeSelect } = wp.components;
 
 const getCampaignOptions = ( campaigns ) => {
-	if ( campaigns.data.length === 0 ) {
+	if ( campaigns.length === 0 ) {
 		return {};
 	}
 	
-	return campaigns.data.map( ( campaign ) => {
+	return campaigns.map( ( campaign ) => {
 		return {
 			label: campaign.title.rendered,
 			value: campaign.id
@@ -27,20 +26,21 @@ const getCampaignOptions = ( campaigns ) => {
 function CategorySelect( { label, noOptionLabel, categories, selectedCategory, onChange } ) {
 	const termsTree = buildTermsTree( get( categories, 'data', {} ) );
 	return (
-		<TermTreeSelect
-			{ ...{ label, noOptionLabel, onChange, termsTree } }
-			selectedTerm={ selectedCategory }
+		<TreeSelect
+			{ ...{ label, noOptionLabel, onChange } }
+			tree={ termsTree }
+			selectedId={ selectedCategory }
 		/>
 	);
 }
 
-export default withAPIData( () => {
+export default withSelect( ( select ) => {
 	const query = stringify( {
 		per_page: 100,
 		_fields: [ 'id', 'name', 'parent' ],
 	} );
 	return {
-		categories: `/wp/v2/campaignCategories?${ query }`,
+		categories: select( 'core' ).getEntityRecords( 'term', 'campaignCategories', query ),
 	};
 } )( CategorySelect );
 

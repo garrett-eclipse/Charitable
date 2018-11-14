@@ -99,40 +99,40 @@ if ( ! class_exists( 'Charitable_Blocks' ) ) :
 			// 	'render_callback' => array( $this, 'render_donors' ),
 			// ) );
 
-			// register_block_type( 'charitable/campaigns', array(
-			// 	'editor_script' => 'charitable-blocks',
-			// 	'attributes' => array(
-			// 		'category' => array(
-			// 			'type'    => 'string',
-			// 			'default' => '',
-			// 		),
-			// 		'order' => array(
-			// 			'type'    => 'string',
-			// 			'default' => 'DESC',
-			// 		),
-			// 		'orderBy' => array(
-			// 			'type'    => 'string',
-			// 			'default' => 'post_date',
-			// 		),
-			// 		'number' => array(
-			// 			'type'    => 'number',
-			// 			'default' => 10,
-			// 		),
-			// 		'columns' => array(
-			// 			'type'    => 'number',
-			// 			'default' => 2,
-			// 		),
-			// 		'masonryLayout' => array(
-			// 			'type'    => 'boolean',
-			// 			'default' => false,
-			// 		),
-			// 		'responsiveLayout' => array(
-			// 			'type'    => 'boolean',
-			// 			'default' => true,
-			// 		),
-			// 	),
-			// 	'render_callback' => array( $this, 'render_campaigns' ),
-			// ) );
+			register_block_type( 'charitable/campaigns', array(
+				'editor_script'   => 'charitable-blocks',
+				'attributes'      => array(
+					'category'         => array(
+						'type'    => 'string',
+						'default' => '',
+					),
+					'order'            => array(
+						'type'    => 'string',
+						'default' => 'DESC',
+					),
+					'orderBy'          => array(
+						'type'    => 'string',
+						'default' => 'post_date',
+					),
+					'number'           => array(
+						'type'    => 'number',
+						'default' => 10,
+					),
+					'columns'          => array(
+						'type'    => 'number',
+						'default' => 2,
+					),
+					'masonryLayout'    => array(
+						'type'    => 'boolean',
+						'default' => false,
+					),
+					'responsiveLayout' => array(
+						'type'    => 'boolean',
+						'default' => true,
+					),
+				),
+				'render_callback' => array( $this, 'render_campaigns' ),
+			) );
 
 			// register_block_type( 'charitable/campaign-summary', array(
 			// 	'editor_script' => 'charitable-blocks',

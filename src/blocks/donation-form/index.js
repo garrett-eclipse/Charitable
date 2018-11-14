@@ -68,12 +68,12 @@ registerBlockType( 'charitable/donation-form', {
                     // An attribute can be source from the shortcode attributes
                     campaign: {
                         type: 'string',
-                        shortcode: ( { named: { campaign_id } } ) => {
+                        shortcode: ( { named: { campaign_id = '' } } ) => {
                             if ( ! campaign_id ) {
                                 return '';
                             }
 
-                            return campaign_id;
+                            return parseInt( campaign_id, 10 );
                         },
                     },
                 },
