@@ -7,40 +7,223 @@ import { get } from 'lodash';
 /**
  * WordPress dependencies
  */
+const { __ } = wp.i18n;
 const { withSelect } = wp.data;
-const { TreeSelect } = wp.components;
+const { Component } = wp.element;
+const { TreeSelect, Dashicon } = wp.components;
+const { withState } = wp.compose;
+const { apiFetch } = wp;
 
-const getCampaignOptions = ( campaigns ) => {
-	if ( campaigns.length === 0 ) {
-		return {};
+/**
+ * Display a list of campaign categories with checkboxes, counts and a search filter.
+ */
+export class CampaignCategorySelect extends Component {
+	
+	/**
+	 * Constructor.
+	 */
+	constructor( props ) {
+		super( props );
+
+		this.state = {
+			selectedCategories: [],
+			openAccordion: [],
+			filterQuery: '',
+			firstLoad: true,
+		}
+
+		this.checkboxChange  = this.checkboxChange.bind( this );
+		//this.accordionToggle = this.accordionToggle.bind( this );
+		//this.filterResults   = this.filterResults.bind( this );
+		this.setFirstLoad    = this.setFirstLoad.bind( this );
+	}
+
+	/**
+	 * Handle checkbox toggle.
+	 *
+	 * @param Checked? boolean checked
+	 * @param Categories array categories
+	 */
+	checkboxChange( checked, categories ) {
+		let selectedCategories = this.state.selectedCategories;
+
+		selectedCategories = selectedCategories.filter( category => ! categories.includes( category ) );
+
+		if ( checked ) {
+			selectedCategories.push( ...categories );
+		}
+
+		this.setState( {
+			selectedCategories: selectedCategories
+		} );
+		
+		this.props.update_display_setting_callback( selectedCategories );
+	}
+
+	/**
+	 * Update firstLoad state.
+	 *
+	 * @param Booolean loaded
+	 */
+	setFirstLoad( loaded ) {
+		this.setState( {
+			firstLoad: !! loaded
+		} );
+	}
+
+	/**
+	 * Render the list of categories and the search input.
+	 */
+	render() {
+		return (
+			<div className="charitable-campaign-categories-list">
+				<CampaignCategoryList
+					selectedCategories={ this.state.selectedCategories }
+					checkboxChange={ this.checkboxChange }
+					firstLoad={ this.state.firstLoad }
+					setFirstLoad={ this.setFirstLoad }
+				/>
+			</div>
+		)
+	}
+}
+
+/**
+ * Fetch and build a tree of campaign categories.
+ */
+class CampaignCategoryList extends Component {
+	
+	/**
+	 * Constructor.
+	 */
+	constructor( props ) {
+		super( props );
+		this.state = {
+			categories: [],
+			loaded: false,
+			query: '',
+		};
+
+		this.updatePreview = this.updatePreview.bind( this );
+		this.getQuery      = this.getQuery.bind( this );
+	}
+
+	/**
+	 * Get the preview when component is first loaded.
+	 */
+	componentDidMount() {
+		if ( this.getQuery() !== this.state.query ) {
+			this.updatePreview();
+		}
+	}
+
+	/**
+	 * Update the preview when component is updated.
+	 */
+	componentDidUpdate() {
+		if ( this.getQuery() !== this.state.query && this.state.loaded ) {
+			this.updatePreview();
+		}
+	}
+
+	/**
+	 * Get the endpoint for the current state of the component.
+	 *
+	 * @return string
+	 */
+	getQuery() {
+		const endpoint = '/wp/v2/campaignCategories';
+		return endpoint;
 	}
 	
-	return campaigns.map( ( campaign ) => {
-		return {
-			label: campaign.title.rendered,
-			value: campaign.id
+	/**
+	 * Update the preview with the latest settings.
+	 */
+	updatePreview() {
+		const self  = this;
+		const query = this.getQuery();
+
+		self.setState( {
+			loaded: false,
+		} );
+
+		apiFetch( { path: query } ).then( categories => {
+			self.setState( {
+				categories: categories,
+				loaded: true,
+				query: query
+			} );
+			
+			console.log( self.state );
+		} );
+	}
+
+	/**
+	 * Render.
+	 */
+	render() {
+		const { selectedCategories, checkboxChange, firstLoad, setFirstLoad } = this.props;
+
+		if ( ! this.state.loaded ) {
+			return __( 'Loading', 'charitable' );
+		}
+
+		if ( 0 === this.state.categories.length ) {
+			return __( 'No categories found', 'charitable' );
+		}
+		
+		console.log(selectedCategories);
+
+		const handleCategoriesToCheck = ( evt, parent, categories ) => {
+			let ids = getCategoryChildren( parent, categories ).map( category => {
+				return category.id;
+			} );
+
+			ids.push( parent.id );
+
+			checkboxChange( evt.target.checked, ids );
+		}
+
+		const getCategoryChildren = ( parent, categories ) => {
+			let children = [];
+
+			categories.filter( ( category ) => category.parent === parent.id ).forEach( function( category ) {
+				children.push( category );
+				children.push( ...getCategoryChildren( category, categories ) );
+			} );
+
+			return children;
 		};
-	} );
+
+		const CategoryTree = ( { categories, parent } ) => {
+			let filteredCategories = categories;
+			console.log(filteredCategories);
+			
+			return ( filteredCategories.length > 0 ) && (
+				<ul>
+					{ filteredCategories.map( ( category ) => (
+						<li key={ category.id } className="charitable-category-list-card__item">
+							<label>
+								<input type="checkbox"
+									id={ 'campaign-category-' + category.id }
+									value={ category.id }
+									checked={ selectedCategories.includes( category.id ) }
+									onChange={ ( evt ) => handleCategoriesToCheck( evt, category, categories ) }
+								/> { category.name }
+								<span className="charitable-category-list-card__taxonomy-count">{ category.count }</span>
+							</label>
+						</li>
+					))}
+				</ul>
+			)
+		}
+
+		let categoriesData = this.state.categories;
+
+		return (
+			<div className="charitable-category-list-card__results">
+				<CategoryTree categories={ categoriesData } parent={ 0 } />
+			</div>
+		);
+	}
 }
-
-function CategorySelect( { label, noOptionLabel, categories, selectedCategory, onChange } ) {
-	const termsTree = buildTermsTree( get( categories, 'data', {} ) );
-	return (
-		<TreeSelect
-			{ ...{ label, noOptionLabel, onChange } }
-			tree={ termsTree }
-			selectedId={ selectedCategory }
-		/>
-	);
-}
-
-export default withSelect( ( select ) => {
-	const query = stringify( {
-		per_page: 100,
-		_fields: [ 'id', 'name', 'parent' ],
-	} );
-	return {
-		categories: select( 'core' ).getEntityRecords( 'term', 'campaignCategories', query ),
-	};
-} )( CategorySelect );
-

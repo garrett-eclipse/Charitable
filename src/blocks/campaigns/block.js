@@ -2,7 +2,7 @@
  * Block dependencies
  */
 import CampaignSelect from './../../components/campaign-select/index.js';
-import CampaignCategorySelect from './../../components/category-select/index.js';
+import { CampaignCategorySelect } from './../../components/category-select/index.js';
 
 /**
  * WordPress dependencies
@@ -64,6 +64,9 @@ class CharitableCampaignsBlock extends Component {
 	 * @return Component
 	 */
 	getInspectorControls() {
+		const { attributes, setAttributes } = this.props;
+        const { number, orderBy, order, columns, masonryLayout, responsiveLayout } = attributes;
+
 		return (
 			<InspectorControls
 				key="inspector"
@@ -104,13 +107,13 @@ class CharitableCampaignsBlock extends Component {
 						}
 					} }
 				/>
-				<CampaignCategorySelect
+				{/* <CampaignCategorySelect
 					key="category-select"
 					label={ __( 'Category', 'charitable' ) }
 					noOptionLabel={ __( 'All', 'charitable' ) }
 					selectedCategory={ category }
 					onChange={ ( value ) => setAttributes( { category: '' !== value ? value : undefined } ) }
-				/>
+				/> */}
 				<RangeControl
 					key="number-control"
 					label={ __( 'Number of campaigns', 'charitable' ) }
@@ -119,7 +122,7 @@ class CharitableCampaignsBlock extends Component {
 					min="-1"
 					max="999"
 				/>
-				<CampaignSelect
+				{/* <CampaignSelect
 					key="campaign-select"
 					label={ __( 'Campaigns', 'charitable' ) }
 					withOptions={ [
@@ -131,7 +134,7 @@ class CharitableCampaignsBlock extends Component {
 					selectedOption={ campaigns }
 					onChange={ ( value ) => setAttributes( { campaigns: value } ) }
 					multiple
-				/>
+				/> */}
 				<PanelBody title={ __( 'Display Settings', 'charitable' ) }>
 					<PanelRow>
 						<RangeControl
@@ -198,7 +201,8 @@ class CharitableCampaignsBlock extends Component {
 
 		return (
 			<div class="charitable-block-campaigns">
-				<CharitableCampaignSelect { ...this.props } />
+				<CampaignCategorySelect { ...this.props } 
+				/>
 			</div>
 		);
 	}
@@ -228,7 +232,8 @@ class CharitableCampaignsBlock extends Component {
 		
 		return [
 			this.getInspectorControls(),
-			this.getPreview(),
+			// this.getPreview(),
+			this.getSettingsEditor()
 		];
 	}
 }

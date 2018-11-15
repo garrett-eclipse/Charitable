@@ -4,13 +4,8 @@
 import { stringify } from 'querystringify';
 import { concat } from 'lodash';
 
-const {
-	SelectControl
-} = wp.components;
-
-const {
-	withSelect
-} = wp.data;
+const { SelectControl } = wp.components;
+const { withSelect } = wp.data;
 
 const getCampaignOptions = ( campaigns ) => {
 	if ( campaigns.length === 0 ) {

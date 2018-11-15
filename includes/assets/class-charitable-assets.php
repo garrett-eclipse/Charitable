@@ -139,8 +139,8 @@ if ( ! class_exists( 'Charitable_Assets' ) ) :
 				filemtime( charitable()->get_path( 'assets', true ) . 'js/charitable-blocks.js' )
 			);
 
-			if ( function_exists( 'gutenberg_get_jed_locale_data' ) ) {
-				$locale  = gutenberg_get_jed_locale_data( 'charitable' );
+			if ( function_exists( 'wp_get_jed_locale_data' ) ) {
+				$locale  = wp_get_jed_locale_data( 'charitable' );
 				$content = 'wp.i18n.setLocaleData( ' . json_encode( $locale ) . ', "charitable" );';
 				wp_script_add_data( 'charitable-blocks', 'data', $content );
 			}
