@@ -1,17 +1,79 @@
-.charitable-block-donation-form {
-    padding: 14px;
-    background-color: #f8f9f9;
+/**
+ * Fix broken range control in panel rows.
+ */
+.components-panel__row .components-range-control .components-base-control__label {
+    max-width: none;
+    margin-right: 0;
+}
 
+.charitable-block-settings {
+    padding: 14px;
+    font-size: 13px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Oxygen-Sans', Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
+    background-color: #f8f9f9;
+}
+
+.charitable-block-settings-title {
+    position: relative;
+    text-align: center;
+    
+    svg {
+        position: relative;
+        top: 4px;
+        margin-right: 12px;
+    }
+}
+
+.charitable-block-donation-form {
     &.has-preview {
         padding: 0;
         background: transparent;
     }
-} 
+}
 
-// .charitable-block-overlay {
-//     position: absolute;
-//     top: 0;
-//     right: 0;
-//     bottom: 0;
-//     left: 0;
-// }
+div.charitable-campaign-categories-list {
+    ul {
+        list-style: none;
+    }
+}
+
+span.charitable-category-list-card__taxonomy-count {
+    float: right;
+    border: 1px solid #e6eaee;
+    border-radius: 4px;
+    padding: 3px 8px;
+    color: #aaa;
+    line-height: 1;
+    font-size: 10px;
+    background: #fff;
+}
+
+div.charitable-block-settings-filter {
+    border-bottom: 1px solid #e6eaee;
+
+    &.is-opened {
+        // label {
+        //     padding-bottom: 15px;
+        // }
+    }
+}
+
+.charitable-block-settings-filter-toggle {
+    padding: 8px 0;
+    label {
+        font-weight: bold;
+    }
+
+    .charitable-block-settings-filter-toggle__accordion-button {
+        float: right;
+        padding: 0;
+        border: none;
+        background: transparent;
+        color: #aaa;
+    }
+}
+
+.charitable-block-settings-filter-settings {
+    padding: 8px 0 8px 0;
+}
+

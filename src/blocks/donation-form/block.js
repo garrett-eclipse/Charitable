@@ -56,9 +56,9 @@ export default class CharitableDonationFormBlock extends Component {
 		this.props.attributes.edit_mode = ! this.props.attributes.campaign;
 
 		this.getInspectorControls = this.getInspectorControls.bind( this );
-		this.getToolbarControls = this.getToolbarControls.bind( this );
-		this.getSettingsEditor = this.getSettingsEditor.bind( this );
-		this.getPreview = this.getPreview.bind( this );
+		this.getToolbarControls   = this.getToolbarControls.bind( this );
+		this.getSettingsEditor    = this.getSettingsEditor.bind( this );
+		this.getPreview           = this.getPreview.bind( this );
 	}
 
 	/**
@@ -105,7 +105,7 @@ export default class CharitableDonationFormBlock extends Component {
 		const { attributes, setAttributes } = this.props;
 
 		return (
-			<div class="charitable-block-donation-form">
+			<div class="charitable-block-donation-form charitable-block-settings">
 				<CharitableCampaignSelect { ...this.props } />
 			</div>
 		);

@@ -1,8 +1,10 @@
 /**
  * Block dependencies
  */
+import icon from './icon';
 import CampaignSelect from './../../components/campaign-select/index.js';
 import { CampaignCategorySelect } from './../../components/category-select/index.js';
+import { Filter } from './../../components/filter/index.js';
 
 /**
  * WordPress dependencies
@@ -16,12 +18,93 @@ const {
 	PanelRow,
 	SelectControl,
 	ToggleControl,
-	RangeControl
+	RangeControl,
+	Dashicon
 } = wp.components;
 const {
 	InspectorControls,
 	BlockControls
 } = wp.editor;
+
+/**
+ * The campaigns block settings area in Edit mode.
+ */
+class CampaignsBlockSettingsEditor extends Component {
+	
+	/**
+	 * Construtor.
+	 */
+	constructor( props ) {
+		super( props );
+		// this.state = {
+		// }
+		// this.updateDisplay = this.updateDisplay.bind( this );
+		// this.closeMenu     = this.closeMenu.bind( this );
+		this.toggleIncludeInactive = this.toggleIncludeInactive.bind( this );
+	}
+
+	/**
+	 * Toggle the includeInactive setting.
+	 */
+	toggleIncludeInactive() {
+		const { attributes, setAttributes } = this.props;
+		const { includeInactive } = attributes;
+
+		console.log(this.props);
+		console.log(includeInactive);
+		setAttributes( { includeInactive: ! includeInactive } );
+	}
+	
+	/**
+	 * Render the settings.
+	 */
+	render() {
+		const { attributes, setAttributes } = this.props;
+		const { categories, includeInactive, campaigns, campaignsToExclude, creator } = attributes;
+
+		return (
+			<div class="charitable-block-settings charitable-block-settings-campaigns">
+				<div className="charitable-block-settings-heading">
+					<h4 className="charitable-block-settings-title">{ icon } { __( 'Campaigns', 'charitable' ) }</h4>
+				</div>
+				<h5>{ __( 'Filters', 'charitable' ) }</h5>
+				<Filter title={ __( 'Category', 'charitable' ) }>
+					<CampaignCategorySelect 
+						attributes={ attributes }
+						update_category_setting_callback={ ( value ) => setAttributes( { categories: value } ) }
+					/>
+				</Filter>
+				<Filter title={ __( 'Status', 'charitable' ) } enabled="true">
+					<ToggleControl
+						label={ __( 'Include inactive campaigns', 'charitable' ) }
+						checked={ !! includeInactive }
+						onChange={ this.toggleIncludeInactive }
+					/>
+				</Filter>
+				<Filter title={ __( 'Specific Campaigns', 'charitable' ) }>
+					
+				</Filter>
+				<Filter title={ __( 'Creator', 'charitable' ) }>
+					
+				</Filter>
+					{/* <PanelRow>
+						<ToggleControl
+							label={ __( 'Masonry layout', 'charitable' ) }
+							checked={ masonryLayout }
+							onChange={ this.toggleMasonryLayout }
+						/>
+					</PanelRow>
+					<PanelRow>
+						<ToggleControl
+							label={ __( 'Responsive layout', 'charitable' ) }
+							checked={ responsiveLayout }
+							onChange={ this.toggleResponsiveLayout }
+						/>
+					</PanelRow> */}
+			</div>
+		);
+	}
+}
 
 /**
  * The campaigns block UI.
@@ -30,12 +113,12 @@ class CharitableCampaignsBlock extends Component {
 	constructor() {
 		super( ...arguments );
 
-		this.toggleMasonryLayout = this.toggleMasonryLayout.bind( this );
+		this.toggleMasonryLayout    = this.toggleMasonryLayout.bind( this );
 		this.toggleResponsiveLayout = this.toggleResponsiveLayout.bind( this );
-		this.getInspectorControls = this.getInspectorControls.bind( this );
-		this.getToolbarControls = this.getToolbarControls.bind( this );
-		this.getSettingsEditor = this.getSettingsEditor.bind( this );
-		this.getPreview = this.getPreview.bind( this );
+		this.getInspectorControls   = this.getInspectorControls.bind( this );
+		this.getToolbarControls     = this.getToolbarControls.bind( this );
+		this.getSettingsEditor      = this.getSettingsEditor.bind( this );
+		this.getPreview             = this.getPreview.bind( this );
 	}
 
 	/**
@@ -71,71 +154,55 @@ class CharitableCampaignsBlock extends Component {
 			<InspectorControls
 				key="inspector"
 				description={ __( 'Configure', 'charitable' ) } >
-				<SelectControl
-					key="orderby-select"
-					label={ __( 'Order by', 'charitable' ) }
-					value={ orderBy }
-					options={ [
-						{
-							label: __( 'Date created (newest to oldest)', 'charitable' ),
-							value: 'post_date/DESC',
-						},
-						{
-							label: __( 'Date created (oldest to newest)', 'charitable' ),
-							value: 'post_date/ASC',
-						},
-						{
-							label: __( 'Amount donated', 'charitable' ),
-							value: 'popular/DESC',
-						},
-						{
-							label: __( 'Time left (least first)', 'charitable' ),
-							value: 'ending/DESC',
-						},
-						{
-							label: __( 'Time left (longest first)', 'charitable' ),
-							value: 'ending/ASC',
-						}
-					] }
-					onChange={ ( value ) => {
-						const [ newOrderBy, newOrder ] = value.split( '/' );
-						if ( newOrder !== order ) {
-							setAttributes( { order: newOrder } );
-						}
-						if ( newOrderBy !== orderBy ) {
-							setAttributes( { orderBy: newOrderBy } );
-						}
-					} }
-				/>
-				{/* <CampaignCategorySelect
-					key="category-select"
-					label={ __( 'Category', 'charitable' ) }
-					noOptionLabel={ __( 'All', 'charitable' ) }
-					selectedCategory={ category }
-					onChange={ ( value ) => setAttributes( { category: '' !== value ? value : undefined } ) }
-				/> */}
-				<RangeControl
-					key="number-control"
-					label={ __( 'Number of campaigns', 'charitable' ) }
-					value={ number }
-					onChange={ ( value ) => setAttributes( { number: value } ) }
-					min="-1"
-					max="999"
-				/>
-				{/* <CampaignSelect
-					key="campaign-select"
-					label={ __( 'Campaigns', 'charitable' ) }
-					withOptions={ [
-						{
-							label: __( 'All Campaigns', 'charitable' ),
-							value: 'all',
-						}
-					] }
-					selectedOption={ campaigns }
-					onChange={ ( value ) => setAttributes( { campaigns: value } ) }
-					multiple
-				/> */}
 				<PanelBody title={ __( 'Display Settings', 'charitable' ) }>
+					<PanelRow>
+						<SelectControl
+							key="orderby-select"
+							label={ __( 'Order by', 'charitable' ) }
+							value={ orderBy }
+							options={ [
+								{
+									label: __( 'Date created (newest to oldest)', 'charitable' ),
+									value: 'post_date/DESC',
+								},
+								{
+									label: __( 'Date created (oldest to newest)', 'charitable' ),
+									value: 'post_date/ASC',
+								},
+								{
+									label: __( 'Amount donated', 'charitable' ),
+									value: 'popular/DESC',
+								},
+								{
+									label: __( 'Time left (least first)', 'charitable' ),
+									value: 'ending/DESC',
+								},
+								{
+									label: __( 'Time left (longest first)', 'charitable' ),
+									value: 'ending/ASC',
+								}
+							] }
+							onChange={ ( value ) => {
+								const [ newOrderBy, newOrder ] = value.split( '/' );
+								if ( newOrder !== order ) {
+									setAttributes( { order: newOrder } );
+								}
+								if ( newOrderBy !== orderBy ) {
+									setAttributes( { orderBy: newOrderBy } );
+								}
+							} }
+						/>
+					</PanelRow>
+					<PanelRow>
+						<RangeControl
+							key="number-control"
+							label={ __( 'Number of campaigns', 'charitable' ) }
+							value={ number }
+							onChange={ ( value ) => setAttributes( { number: value } ) }
+							min="-1"
+							max="999"
+						/>
+					</PanelRow>
 					<PanelRow>
 						<RangeControl
 							key="columns-select"
@@ -173,14 +240,14 @@ class CharitableCampaignsBlock extends Component {
 	getToolbarControls() {
 		let props = this.props;
 		const { attributes, setAttributes } = props;
-		const { campaign, edit_mode } = attributes;
+		const { editMode } = attributes;
 
 		const editButton = [
 			{
-				icon: 'edit',
-				title: __( 'Edit' ),
-				onClick: ! campaign ? function(){} : () => setAttributes( { edit_mode: ! edit_mode } ),
-				isActive: edit_mode,
+				icon: 'filter',
+				title: __( 'Filter', 'charitable' ),
+				onClick: () => setAttributes( { editMode: ! editMode } ),
+				isActive: editMode,
 			},
 		];
 
@@ -199,11 +266,13 @@ class CharitableCampaignsBlock extends Component {
 	getSettingsEditor() {
 		const { attributes, setAttributes } = this.props;
 
+		const update_display_callback = ( value ) => {
+			console.log( 'update_display_callback' );
+			console.log( value );
+		}
+		
 		return (
-			<div class="charitable-block-campaigns">
-				<CampaignCategorySelect { ...this.props } 
-				/>
-			</div>
+			<CampaignsBlockSettingsEditor { ...this.props } />
 		);
 	}
 
@@ -213,6 +282,7 @@ class CharitableCampaignsBlock extends Component {
 	 * @return Component
 	 */
 	getPreview() {
+		console.log( this.props.attributes );
 		return (
 			<div class="charitable-block-campaigns has-preview">
 				<ServerSideRender
@@ -227,13 +297,13 @@ class CharitableCampaignsBlock extends Component {
 	 * Render the block UI.
 	 */
 	render() {
-		// const { attributes, isSelected, setAttributes } = this.props;
-		// const { category, number, campaigns, orderBy, order, columns, masonryLayout, responsiveLayout } = attributes;
+		const { attributes } = this.props;
+		const { editMode } = attributes;
 		
 		return [
 			this.getInspectorControls(),
-			// this.getPreview(),
-			this.getSettingsEditor()
+			this.getToolbarControls(),
+			editMode ? this.getSettingsEditor() : this.getPreview()
 		];
 	}
 }

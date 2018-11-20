@@ -6,26 +6,28 @@
  * @author    Eric Daams
  * @copyright Copyright (c) 2018, Studio 164a
  * @license   http://opensource.org/licenses/gpl-2.0.php GNU Public License
- * @since     1.6.0
- * @version   1.6.0
+ * @since     1.7.0
+ * @version   1.7.0
  */
 
 // Exit if accessed directly.
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 if ( ! class_exists( 'Charitable_Assets' ) ) :
 
 	/**
 	 * Charitable_Assets
 	 *
-	 * @since 1.6.0
+	 * @since 1.7.0
 	 */
 	class Charitable_Assets {
 
 		/**
 		 * Whether the setup process has been run.
 		 *
-		 * @since 1.6.0
+		 * @since 1.7.0
 		 *
 		 * @var   boolean
 		 */
@@ -34,7 +36,7 @@ if ( ! class_exists( 'Charitable_Assets' ) ) :
 		/**
 		 * Whether debugging is enabled.
 		 *
-		 * @since 1.6.0
+		 * @since 1.7.0
 		 *
 		 * @var   boolean
 		 */
@@ -43,7 +45,7 @@ if ( ! class_exists( 'Charitable_Assets' ) ) :
 		/**
 		 * Suffix to attach to scripts/styles.
 		 *
-		 * @since 1.6.0
+		 * @since 1.7.0
 		 *
 		 * @var   string
 		 */
@@ -52,7 +54,7 @@ if ( ! class_exists( 'Charitable_Assets' ) ) :
 		/**
 		 * Version to attach to scripts/styles.
 		 *
-		 * @since 1.6.0
+		 * @since 1.7.0
 		 *
 		 * @var   string
 		 */
@@ -61,7 +63,7 @@ if ( ! class_exists( 'Charitable_Assets' ) ) :
 		/**
 		 * URI of assets directory.
 		 *
-		 * @since 1.6.0
+		 * @since 1.7.0
 		 *
 		 * @var   string
 		 */
@@ -70,7 +72,7 @@ if ( ! class_exists( 'Charitable_Assets' ) ) :
 		/**
 		 * Create class object.
 		 *
-		 * @since 1.6.0
+		 * @since 1.7.0
 		 */
 		public function __construct() {
 			$this->setup             = false;
@@ -298,7 +300,7 @@ if ( ! class_exists( 'Charitable_Assets' ) ) :
 		 */
 		private function setup_admin_styles() {
 			$stylesheets = array(
-				'charitable-admin-menu' => array(
+				'charitable-admin-menu'  => array(
 					'src'     => 'css/charitable-admin-menu' . $this->suffix . '.css',
 					'deps'    => array(),
 					'version' => $this->version,
@@ -308,8 +310,13 @@ if ( ! class_exists( 'Charitable_Assets' ) ) :
 					'deps'    => array(),
 					'version' => $this->version,
 				),
-				'charitable-admin' => array(
+				'charitable-admin'       => array(
 					'src'     => 'css/charitable-admin' . $this->suffix . '.css',
+					'deps'    => array(),
+					'version' => $this->version,
+				),
+				'lean-modal-css'         => array(
+					'src'     => 'css/modal' . $this->suffix . '.css',
 					'deps'    => array(),
 					'version' => $this->version,
 				),
@@ -340,9 +347,19 @@ if ( ! class_exists( 'Charitable_Assets' ) ) :
 					'deps'    => array( 'jquery-core' ),
 					'version' => $this->version,
 				),
-				'charitable-admin-media' => array(
+				'charitable-admin-media'  => array(
 					'src'     => 'js/charitable-admin-media' . $this->suffix . '.js',
 					'deps'    => array( 'jquery-core' ),
+					'version' => $this->version,
+				),
+				'lean-modal'              => array(
+					'src'     => 'js/libraries/leanModal' . $this->suffix . '.js',
+					'deps'    => array( 'jquery-core' ),
+					'version' => $this->version,
+				),
+				'charitable-admin-tables' => array(
+					'src'     => 'js/' . $this->suffix . '.js',
+					'deps'    => array( 'lean-modal' ),
 					'version' => $this->version,
 				),
 			);
@@ -372,6 +389,8 @@ if ( ! class_exists( 'Charitable_Assets' ) ) :
 		 *
 		 * @since  1.7.0
 		 *
+		 * @param  array  $args   Script arguments, including src, deps (dependencies) and version.
+		 * @param  string $handle The script handle, or name.
 		 * @return void
 		 */
 		private function register_script( $args, $handle ) {
@@ -383,6 +402,8 @@ if ( ! class_exists( 'Charitable_Assets' ) ) :
 		 *
 		 * @since  1.7.0
 		 *
+		 * @param  array  $args   Stylesheet arguments, including src, deps (dependencies) and version.
+		 * @param  string $handle The stylesheet handle, or name.
 		 * @return void
 		 */
 		private function register_stylesheet( $args, $handle ) {

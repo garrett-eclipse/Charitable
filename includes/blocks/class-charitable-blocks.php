@@ -6,8 +6,8 @@
  * @author    Eric Daams
  * @copyright Copyright (c) 2018, Studio 164a
  * @license   http://opensource.org/licenses/gpl-2.0.php GNU Public License
- * @since     1.6.0
- * @version   1.6.0
+ * @since     1.7.0
+ * @version   1.7.0
  */
 
 // Exit if accessed directly.
@@ -18,14 +18,14 @@ if ( ! class_exists( 'Charitable_Blocks' ) ) :
 	/**
 	 * Charitable_Blocks
 	 *
-	 * @since 1.6.0
+	 * @since 1.7.0
 	 */
 	class Charitable_Blocks {
 
 		/**
 		 * Create class object.
 		 *
-		 * @since 1.6.0
+		 * @since 1.7.0
 		 */
 		public function __construct() {
 			add_filter( 'charitable_default_campaign_fields', array( $this, 'change_campaign_fields_settings' ) );
@@ -37,7 +37,7 @@ if ( ! class_exists( 'Charitable_Blocks' ) ) :
 		/**
 		 * Register Gutenberg blocks.
 		 *
-		 * @since  1.6.0
+		 * @since  1.7.0
 		 *
 		 * @return void
 		 */
@@ -102,33 +102,53 @@ if ( ! class_exists( 'Charitable_Blocks' ) ) :
 			register_block_type( 'charitable/campaigns', array(
 				'editor_script'   => 'charitable-blocks',
 				'attributes'      => array(
-					'category'         => array(
-						'type'    => 'string',
-						'default' => '',
+					'categories'         => array(
+						'type'    => 'array',
+						'default' => array(),
 					),
-					'order'            => array(
-						'type'    => 'string',
-						'default' => 'DESC',
-					),
-					'orderBy'          => array(
-						'type'    => 'string',
-						'default' => 'post_date',
-					),
-					'number'           => array(
-						'type'    => 'number',
-						'default' => 10,
-					),
-					'columns'          => array(
-						'type'    => 'number',
-						'default' => 2,
-					),
-					'masonryLayout'    => array(
+					'includeInactive'    => array(
 						'type'    => 'boolean',
 						'default' => false,
 					),
-					'responsiveLayout' => array(
+					'campaigns'          => array(
+						'type'    => 'array',
+						'default' => array(),
+					),
+					'campaignsToExclude' => array(
+						'type'    => 'array',
+						'default' => array(),
+					),
+					'creator'            => array(
+						'type'    => 'string',
+						'default' => '',
+					),
+					'order'              => array(
+						'type'    => 'string',
+						'default' => 'DESC',
+					),
+					'orderBy'            => array(
+						'type'    => 'string',
+						'default' => 'post_date',
+					),
+					'number'             => array(
+						'type'    => 'number',
+						'default' => 10,
+					),
+					'columns'            => array(
+						'type'    => 'number',
+						'default' => 2,
+					),
+					'masonryLayout'      => array(
+						'type'    => 'boolean',
+						'default' => false,
+					),
+					'responsiveLayout'   => array(
 						'type'    => 'boolean',
 						'default' => true,
+					),
+					'editMode'           => array(
+						'type'    => 'boolean',
+						'default' => false,
 					),
 				),
 				'render_callback' => array( $this, 'render_campaigns' ),
@@ -148,14 +168,13 @@ if ( ! class_exists( 'Charitable_Blocks' ) ) :
 		/**
 		 * Render the donation form.
 		 *
-		 * @since  1.6.0
+		 * @since  1.7.0
 		 *
 		 * @param  array $attributes The block attributes.
 		 *
 		 * @return string Returns the donation form content.
 		 */
 		public function render_donation_form( $attributes ) {
-			error_log( var_export( $attributes, true ) );
 			ob_start();
 
 			charitable_template_donation_form( $attributes['campaign'] );
@@ -166,7 +185,7 @@ if ( ! class_exists( 'Charitable_Blocks' ) ) :
 		/**
 		 * Render the donors block.
 		 *
-		 * @since  1.6.0
+		 * @since  1.7.0
 		 *
 		 * @param  array $attributes The block attributes.
 		 *
@@ -189,28 +208,34 @@ if ( ! class_exists( 'Charitable_Blocks' ) ) :
 		/**
 		 * Display the campaigns block.
 		 *
-		 * @since  1.6.0
+		 * @since  1.7.0
 		 *
 		 * @param  array $attributes The block attributes.
 		 *
 		 * @return string Returns the campaigns block content.
 		 */
 		public function render_campaigns( $attributes ) {
+			error_log( var_export( $attributes, true ) );
+
 			return Charitable_Campaigns_Shortcode::display( array(
-				'number'     => $attributes['number'],
-				'category'   => $attributes['category'],
-				'orderby'    => $attributes['orderBy'],
-				'order'      => $attributes['order'],
-				'columns'    => $attributes['columns'],
-				'masonry'    => $attributes['masonryLayout'],
-				'responsive' => $attributes['responsiveLayout'],
+				'category'         => implode( ',', $attributes['categories'] ),
+				'id'               => implode( ',', $attributes['campaigns'] ),
+				'exclude'          => implode( ',', $attributes['campaignsToExclude'] ),
+				'creator'          => $attributes['creator'],
+				'include_inactive' => $attributes['includeInactive'],
+				'number'           => $attributes['number'],
+				'orderby'          => $attributes['orderBy'],
+				'order'            => $attributes['order'],
+				'columns'          => $attributes['columns'],
+				'masonry'          => $attributes['masonryLayout'],
+				'responsive'       => $attributes['responsiveLayout'],
 			) );
 		}
 
 		/**
 		 * Render the campaign summary block.
 		 *
-		 * @since  1.6.0
+		 * @since  1.7.0
 		 *
 		 * @param  array $attributes The block attributes.
 		 *
@@ -227,7 +252,7 @@ if ( ! class_exists( 'Charitable_Blocks' ) ) :
 		/**
 		 * Add additional sections for the Campaign Settings meta box in the Gutenberg editor.
 		 *
-		 * @since  1.6.0
+		 * @since  1.7.0
 		 *
 		 * @param  array $sections The full array of sections for all forms, including defaults.
 		 * @return array
@@ -246,7 +271,7 @@ if ( ! class_exists( 'Charitable_Blocks' ) ) :
 		/**
 		 * Change the settings of the Goal & End Date fields to place them inside the 'campaign-general-settings' block.
 		 *
-		 * @since  1.6.0
+		 * @since  1.7.0
 		 *
 		 * @param  array $fields The multi-dimensional array of keys in $key => $args format.
 		 * @return array
@@ -277,7 +302,7 @@ if ( ! class_exists( 'Charitable_Blocks' ) ) :
 		/**
 		 * Set up the campaign meta boxes in the block editor.
 		 *
-		 * @since  1.6.0
+		 * @since  1.7.0
 		 *
 		 * @param  array $meta_boxes The meta boxes.
 		 * @return array

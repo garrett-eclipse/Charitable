@@ -50,9 +50,41 @@ registerBlockType( 'charitable/campaigns', {
         /**
          * The category of campaigns to show.
          */
-        category : {
-            type    : 'string',
-            default : '',
+        categories : {
+            type    : 'array',
+            default : [],
+        },
+
+        /**
+         * Whether to hide inactive campaigns.
+         */
+        includeInactive: {
+            type: 'boolean',
+            default: false,
+        },
+
+        /**
+         * Specific campaigns to show.
+         */
+        campaigns: {
+            type: 'array',
+            default: [],
+        },
+
+        /**
+         * Specific campaigns to exclude.
+         */
+        campaignsToExclude: {
+            type: 'array',
+            default: [],
+        },
+        
+        /**
+         * A campaign creator whose campaigns will be shown.
+         */
+        creator: {
+            type: 'string',
+            default: '',
         },
 
         /**
@@ -106,10 +138,10 @@ registerBlockType( 'charitable/campaigns', {
         /**
 		 * Whether the block is in edit or preview mode.
 		 */
-		edit_mode: {
+		editMode: {
 			type: 'boolean',
-			default: true,
-		},
+			default: false,
+        },
     },
 
     /**

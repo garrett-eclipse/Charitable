@@ -57,7 +57,10 @@ export class CampaignCategorySelect extends Component {
 			selectedCategories: selectedCategories
 		} );
 		
-		this.props.update_display_setting_callback( selectedCategories );
+		console.log( 'selectedCategories' );
+		console.log( selectedCategories );
+		
+		this.props.update_category_setting_callback( selectedCategories );
 	}
 
 	/**
@@ -98,6 +101,7 @@ class CampaignCategoryList extends Component {
 	 */
 	constructor( props ) {
 		super( props );
+		console.log( this.state );
 		this.state = {
 			categories: [],
 			loaded: false,
@@ -153,8 +157,6 @@ class CampaignCategoryList extends Component {
 				loaded: true,
 				query: query
 			} );
-			
-			console.log( self.state );
 		} );
 	}
 
@@ -162,17 +164,17 @@ class CampaignCategoryList extends Component {
 	 * Render.
 	 */
 	render() {
-		const { selectedCategories, checkboxChange, firstLoad, setFirstLoad } = this.props;
+		const { selectedCategories, checkboxChange } = this.props;
+
+		console.log( this.state );
 
 		if ( ! this.state.loaded ) {
-			return __( 'Loading', 'charitable' );
+			return __( 'Loading categories', 'charitable' );
 		}
 
 		if ( 0 === this.state.categories.length ) {
 			return __( 'No categories found', 'charitable' );
 		}
-		
-		console.log(selectedCategories);
 
 		const handleCategoriesToCheck = ( evt, parent, categories ) => {
 			let ids = getCategoryChildren( parent, categories ).map( category => {
@@ -197,8 +199,7 @@ class CampaignCategoryList extends Component {
 
 		const CategoryTree = ( { categories, parent } ) => {
 			let filteredCategories = categories;
-			console.log(filteredCategories);
-			
+
 			return ( filteredCategories.length > 0 ) && (
 				<ul>
 					{ filteredCategories.map( ( category ) => (
