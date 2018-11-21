@@ -51,8 +51,11 @@ registerBlockType( 'charitable/campaigns', {
          * The category of campaigns to show.
          */
         categories : {
-            type    : 'array',
+            type : 'array',
             default : [],
+            items : {
+                type: 'string',
+            },
         },
 
         /**
@@ -69,6 +72,9 @@ registerBlockType( 'charitable/campaigns', {
         campaigns: {
             type: 'array',
             default: [],
+            items : {
+                type: 'number',
+            },
         },
 
         /**
@@ -77,6 +83,9 @@ registerBlockType( 'charitable/campaigns', {
         campaignsToExclude: {
             type: 'array',
             default: [],
+            items : {
+                type: 'number',
+            },
         },
         
         /**

@@ -105,6 +105,9 @@ if ( ! class_exists( 'Charitable_Blocks' ) ) :
 					'categories'         => array(
 						'type'    => 'array',
 						'default' => array(),
+						'items'   => array(
+							'type' => 'string',
+						),
 					),
 					'includeInactive'    => array(
 						'type'    => 'boolean',
@@ -113,10 +116,16 @@ if ( ! class_exists( 'Charitable_Blocks' ) ) :
 					'campaigns'          => array(
 						'type'    => 'array',
 						'default' => array(),
+						'items'   => array(
+							'type' => 'integer',
+						),
 					),
 					'campaignsToExclude' => array(
 						'type'    => 'array',
 						'default' => array(),
+						'items'   => array(
+							'type' => 'integer',
+						),
 					),
 					'creator'            => array(
 						'type'    => 'string',
@@ -215,8 +224,6 @@ if ( ! class_exists( 'Charitable_Blocks' ) ) :
 		 * @return string Returns the campaigns block content.
 		 */
 		public function render_campaigns( $attributes ) {
-			error_log( var_export( $attributes, true ) );
-
 			return Charitable_Campaigns_Shortcode::display( array(
 				'category'         => implode( ',', $attributes['categories'] ),
 				'id'               => implode( ',', $attributes['campaigns'] ),

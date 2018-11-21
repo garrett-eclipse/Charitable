@@ -31,7 +31,8 @@
     }
 }
 
-div.charitable-campaign-categories-list {
+div.charitable-campaign-categories-list,
+div.charitable-campaigns-list {
     ul {
         list-style: none;
     }
@@ -77,3 +78,48 @@ div.charitable-block-settings-filter {
     padding: 8px 0 8px 0;
 }
 
+.charitable-campaigns-list-card__input-wrapper {
+    border: 1px solid #e6eaee;
+    background: #fff;
+    position: relative;
+
+    svg {
+        position: absolute;
+        top: 14px;
+        left: 13px;
+    }
+    
+    input.charitable-campaigns-list-card__search {
+        width: 99%;
+        width: calc(100% - 1px);
+        padding: 15px 15px 15px 40px;
+        border: none;
+        box-shadow: none;
+        border-radius: 0;
+    }
+}
+
+.charitable-campaigns-list-card__search-results {
+    border-left: 1px solid #e6eaee;
+    border-right: 1px solid #e6eaee;
+}
+
+.charitable-campaigns-list-card__content {
+    position: relative;
+    padding: 8px 15px;
+    height: 46px;
+    border-bottom: 1px solid #e6eaee;
+    background-color: #fff;
+    
+    .charitable-campaigns-list-card__content-item-name {
+        position: absolute;
+        left: 53px;
+        line-height: 30px;
+    }
+
+    .dashicons-yes {
+        position: absolute;
+        right: 15px;
+        top: 10px;
+    }
+}

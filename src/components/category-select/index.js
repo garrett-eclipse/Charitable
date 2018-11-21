@@ -1,17 +1,8 @@
 /**
- * External dependencies
- */
-import { stringify } from 'querystringify';
-import { get } from 'lodash';
-
-/**
  * WordPress dependencies
  */
 const { __ } = wp.i18n;
-const { withSelect } = wp.data;
 const { Component } = wp.element;
-const { TreeSelect, Dashicon } = wp.components;
-const { withState } = wp.compose;
 const { apiFetch } = wp;
 
 /**
@@ -26,9 +17,7 @@ export class CampaignCategorySelect extends Component {
 		super( props );
 
 		this.state = {
-			selectedCategories: [],
-			openAccordion: [],
-			filterQuery: '',
+			selectedCategories: props.selected_categories,
 			firstLoad: true,
 		}
 
@@ -56,10 +45,7 @@ export class CampaignCategorySelect extends Component {
 		this.setState( {
 			selectedCategories: selectedCategories
 		} );
-		
-		console.log( 'selectedCategories' );
-		console.log( selectedCategories );
-		
+
 		this.props.update_category_setting_callback( selectedCategories );
 	}
 
@@ -101,7 +87,7 @@ class CampaignCategoryList extends Component {
 	 */
 	constructor( props ) {
 		super( props );
-		console.log( this.state );
+
 		this.state = {
 			categories: [],
 			loaded: false,
@@ -166,8 +152,6 @@ class CampaignCategoryList extends Component {
 	render() {
 		const { selectedCategories, checkboxChange } = this.props;
 
-		console.log( this.state );
-
 		if ( ! this.state.loaded ) {
 			return __( 'Loading categories', 'charitable' );
 		}
@@ -177,13 +161,13 @@ class CampaignCategoryList extends Component {
 		}
 
 		const handleCategoriesToCheck = ( evt, parent, categories ) => {
-			let ids = getCategoryChildren( parent, categories ).map( category => {
-				return category.id;
+			let slugs = getCategoryChildren( parent, categories ).map( category => {
+				return category.slug;
 			} );
 
-			ids.push( parent.id );
+			slugs.push( parent.slug );
 
-			checkboxChange( evt.target.checked, ids );
+			checkboxChange( evt.target.checked, slugs );
 		}
 
 		const getCategoryChildren = ( parent, categories ) => {
@@ -206,9 +190,9 @@ class CampaignCategoryList extends Component {
 						<li key={ category.id } className="charitable-category-list-card__item">
 							<label>
 								<input type="checkbox"
-									id={ 'campaign-category-' + category.id }
-									value={ category.id }
-									checked={ selectedCategories.includes( category.id ) }
+									id={ 'campaign-category-' + category.slug }
+									value={ category.slug }
+									checked={ selectedCategories.includes( category.slug ) }
 									onChange={ ( evt ) => handleCategoriesToCheck( evt, category, categories ) }
 								/> { category.name }
 								<span className="charitable-category-list-card__taxonomy-count">{ category.count }</span>

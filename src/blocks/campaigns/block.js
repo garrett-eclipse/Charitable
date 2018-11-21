@@ -2,7 +2,7 @@
  * Block dependencies
  */
 import icon from './icon';
-import CampaignSelect from './../../components/campaign-select/index.js';
+import { CampaignSelect } from './../../components/campaign-select/index.js';
 import { CampaignCategorySelect } from './../../components/category-select/index.js';
 import { Filter } from './../../components/filter/index.js';
 
@@ -50,8 +50,6 @@ class CampaignsBlockSettingsEditor extends Component {
 		const { attributes, setAttributes } = this.props;
 		const { includeInactive } = attributes;
 
-		console.log(this.props);
-		console.log(includeInactive);
 		setAttributes( { includeInactive: ! includeInactive } );
 	}
 	
@@ -62,29 +60,67 @@ class CampaignsBlockSettingsEditor extends Component {
 		const { attributes, setAttributes } = this.props;
 		const { categories, includeInactive, campaigns, campaignsToExclude, creator } = attributes;
 
+		const getOpenFilters = () => {
+			let openFilters = [];
+
+			if ( categories.length > 0 ) {
+				openFilters.push( 'categories' );
+			}
+
+			if ( !! includeInactive ) {
+				openFilters.push( 'status' );
+			}
+			
+			if ( campaigns.length > 0 || campaignsToExclude.length > 0 ) {
+				openFilters.push( 'campaigns' );
+			}
+			
+			if ( creator !== '' ) {
+				openFilters.push( 'creator' );
+			}
+
+			return openFilters;
+		};
+		
+		const openFilters = getOpenFilters();
+
 		return (
 			<div class="charitable-block-settings charitable-block-settings-campaigns">
 				<div className="charitable-block-settings-heading">
 					<h4 className="charitable-block-settings-title">{ icon } { __( 'Campaigns', 'charitable' ) }</h4>
 				</div>
 				<h5>{ __( 'Filters', 'charitable' ) }</h5>
-				<Filter title={ __( 'Category', 'charitable' ) }>
+				<Filter title={ __( 'Category', 'charitable' ) } enabled={ openFilters.includes( 'categories' ) }>
 					<CampaignCategorySelect 
 						attributes={ attributes }
+						selected_categories={ categories }
 						update_category_setting_callback={ ( value ) => setAttributes( { categories: value } ) }
 					/>
 				</Filter>
-				<Filter title={ __( 'Status', 'charitable' ) } enabled="true">
+				<Filter title={ __( 'Status', 'charitable' ) } enabled={ openFilters.includes( 'status' ) }>
 					<ToggleControl
 						label={ __( 'Include inactive campaigns', 'charitable' ) }
 						checked={ !! includeInactive }
 						onChange={ this.toggleIncludeInactive }
 					/>
 				</Filter>
-				<Filter title={ __( 'Specific Campaigns', 'charitable' ) }>
-					
+				<Filter title={ __( 'Specific Campaigns', 'charitable' ) } enabled={ openFilters.includes( 'campaigns' ) }>
+					<h5>{ __( 'Campaigns to Include:', 'charitable' ) }</h5>
+					<CampaignSelect 
+						attributes={ attributes }
+						selected_campaigns={ campaigns }
+						update_campaign_setting_callback={ ( value ) => setAttributes( { campaigns: value } ) }
+						multiple="true"
+					/>
+					<h5>{ __( 'Campaigns to Exclude:', 'charitable' ) }</h5>
+					<CampaignSelect 
+						attributes={ attributes }
+						selected_campaigns={ campaignsToExclude }
+						update_campaign_setting_callback={ ( value ) => setAttributes( { campaignsToExclude: value } ) }
+						multiple="true"
+					/>
 				</Filter>
-				<Filter title={ __( 'Creator', 'charitable' ) }>
+				<Filter title={ __( 'Creator', 'charitable' ) } enabled={ openFilters.includes( 'creator' ) }>
 					
 				</Filter>
 					{/* <PanelRow>
@@ -245,7 +281,7 @@ class CharitableCampaignsBlock extends Component {
 		const editButton = [
 			{
 				icon: 'filter',
-				title: __( 'Filter', 'charitable' ),
+				title: __( 'Filter Campaigns', 'charitable' ),
 				onClick: () => setAttributes( { editMode: ! editMode } ),
 				isActive: editMode,
 			},
@@ -265,11 +301,6 @@ class CharitableCampaignsBlock extends Component {
 	 */
 	getSettingsEditor() {
 		const { attributes, setAttributes } = this.props;
-
-		const update_display_callback = ( value ) => {
-			console.log( 'update_display_callback' );
-			console.log( value );
-		}
 		
 		return (
 			<CampaignsBlockSettingsEditor { ...this.props } />
@@ -282,7 +313,6 @@ class CharitableCampaignsBlock extends Component {
 	 * @return Component
 	 */
 	getPreview() {
-		console.log( this.props.attributes );
 		return (
 			<div class="charitable-block-campaigns has-preview">
 				<ServerSideRender
