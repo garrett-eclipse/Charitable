@@ -13,6 +13,12 @@ const { Dashicon } = wp.components;
 const CAMPAIGN_DATA = {};
 
 /**
+ * Get a campaign thumbnail src.
+ *
+ * @return string
+ */
+
+/**
  * Display a list of campaigns with checkboxes and a search filter.
  */
 export class CampaignSelect extends Component {
@@ -67,6 +73,7 @@ export class CampaignSelect extends Component {
 				<CampaignSelectedResults
 					selectedCampaigns={ this.state.selectedCampaigns }
 					addOrRemoveCampaignCallback={ this.addOrRemoveCampaign.bind( this ) }
+					columns={ this.props.columns }
 				/>
 			</div>
 		)
@@ -324,9 +331,36 @@ class CampaignSearchResultsDropdownElement extends Component {
 		const campaign = this.props.campaign;
 		let icon = this.props.selected ? <Dashicon icon="yes" /> : null;
 
+		const hasCampaignThumbnail = ( campaign ) => {
+			return campaign.hasOwnProperty( '_embedded' ) && campaign._embedded.hasOwnProperty( 'wp:featuredmedia' );
+		}
+
+		const getCampaignThumbnail = ( campaign ) => {
+			if ( hasCampaignThumbnail( campaign ) ) {
+				return (
+					<img src={ campaign._embedded['wp:featuredmedia'][0].media_details.sizes.thumbnail.source_url } width="30" height="30" />
+				)
+			} else {
+				return '';
+			}
+		}
+
+		const getCardClass = ( campaign ) => {
+			let cardClass = 'charitable-campaigns-list-card__content';
+
+			if ( this.props.selected ) {
+				cardClass += ' charitable-campaigns-list-card__content--added';
+			}
+			
+			if ( hasCampaignThumbnail( campaign ) ) {
+				cardClass += ' charitable-campaigns-list-card__content--has-thumbnail';
+			}
+			return cardClass;
+		}
+		
 		return (
-			<div className={ 'charitable-campaigns-list-card__content' + ( this.props.selected ? ' charitable-campaigns-list-card__content--added' : '' ) } onClick={ this.handleClick }>
-				<img src={ campaign._embedded['wp:featuredmedia'][0].media_details.sizes.thumbnail.source_url } width="30" height="30" />
+			<div className={ getCardClass( campaign ) } onClick={ this.handleClick }>
+				{ getCampaignThumbnail( campaign ) }
 				<span className="charitable-campaigns-list-card__content-item-name">{ campaign.title.rendered }</span>
 				{ icon }
 			</div>
@@ -424,6 +458,16 @@ class CampaignSelectedResults extends Component {
 		const self = this;
 		const campaignElements = [];
 
+		const getCampaignThumbnail = ( campaign ) => {
+			if ( campaign.hasOwnProperty( '_embedded' ) && campaign._embedded.hasOwnProperty( 'wp:featuredmedia' ) ) {
+				return (
+					<img src={ campaign._embedded['wp:featuredmedia'][0].source_url } />
+				)
+			} else {
+				return '';
+			}
+		}
+
 		for ( const campaignId of this.props.selectedCampaigns ) {
 
 			// Skip products that aren't in the cache yet or failed to fetch.
@@ -434,14 +478,14 @@ class CampaignSelectedResults extends Component {
 			const campaignData = CAMPAIGN_DATA[ campaignId ];
 
 			campaignElements.push(
-				<li className="charitable-campaigns-list-card__item" key={ campaignData.id + '-specific-select-edit' } >
+				<li className="charitable-campaigns-list-card__item campaign" key={ campaignData.id + '-specific-select-edit' } >
 					<div className="charitable-campaigns-list-card__content">
-						<img src={ campaignData._embedded['wp:featuredmedia'][0].media_details.sizes.medium.source_url } />
+						{ getCampaignThumbnail( campaignData ) }
 						<span className="charitable-campaigns-list-card__content-item-name">{ campaignData.title.rendered }</span>
 						<button
 							type="button"
 							id={ 'campaign-' + campaignData.id }
-							onClick={ function() { self.props.addOrRemoveCampaign( campaignData.id ) } } >
+							onClick={ function() { self.props.addOrRemoveCampaignCallback( campaignData.id ) } } >
 								<Dashicon icon="no-alt" />
 						</button>
 					</div>
@@ -449,13 +493,19 @@ class CampaignSelectedResults extends Component {
 			);
 		}
 
+		let campaignLoopClass = 'campaign-loop';
+
+		if ( this.props.columns > 1 ) {
+			campaignLoopClass += ' campaign-grid campaign-grid-' + this.props.columns;
+		}
+
 		return (
-			<div className={ 'charitable-campaigns-list-card__results-wrapper charitable-campaigns-list-card__results-wrapper--cols-' + this.props.columns }>
-				<div role="menu" className="charitable-campaigns-list-card__results" aria-orientation="vertical" aria-label={ __( 'Selected campaigns', 'charitable' ) }>
+			<div className="charitable-campaigns-list-card__selected-results-wrapper">
+				<div role="menu" className="charitable-campaigns-list-card__selected-results" aria-orientation="vertical" aria-label={ __( 'Selected campaigns', 'charitable' ) }>
 
 					{ campaignElements.length > 0 && <h3>{ __( 'Selected campaigns', 'charitable' ) }</h3> }
 
-					<ul>
+					<ul className={ campaignLoopClass }>
 						{ campaignElements }
 					</ul>
 				</div>

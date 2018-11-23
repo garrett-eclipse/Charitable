@@ -2,6 +2,7 @@
  * Block dependencies
  */
 import icon from './icon';
+import { SettingsEditor } from './settings-editor.js';
 import { CampaignSelect } from './../../components/campaign-select/index.js';
 import { CampaignCategorySelect } from './../../components/category-select/index.js';
 import { Filter } from './../../components/filter/index.js';
@@ -27,128 +28,17 @@ const {
 } = wp.editor;
 
 /**
- * The campaigns block settings area in Edit mode.
- */
-class CampaignsBlockSettingsEditor extends Component {
-	
-	/**
-	 * Construtor.
-	 */
-	constructor( props ) {
-		super( props );
-		// this.state = {
-		// }
-		// this.updateDisplay = this.updateDisplay.bind( this );
-		// this.closeMenu     = this.closeMenu.bind( this );
-		this.toggleIncludeInactive = this.toggleIncludeInactive.bind( this );
-	}
-
-	/**
-	 * Toggle the includeInactive setting.
-	 */
-	toggleIncludeInactive() {
-		const { attributes, setAttributes } = this.props;
-		const { includeInactive } = attributes;
-
-		setAttributes( { includeInactive: ! includeInactive } );
-	}
-	
-	/**
-	 * Render the settings.
-	 */
-	render() {
-		const { attributes, setAttributes } = this.props;
-		const { categories, includeInactive, campaigns, campaignsToExclude, creator } = attributes;
-
-		const getOpenFilters = () => {
-			let openFilters = [];
-
-			if ( categories.length > 0 ) {
-				openFilters.push( 'categories' );
-			}
-
-			if ( !! includeInactive ) {
-				openFilters.push( 'status' );
-			}
-			
-			if ( campaigns.length > 0 || campaignsToExclude.length > 0 ) {
-				openFilters.push( 'campaigns' );
-			}
-			
-			if ( creator !== '' ) {
-				openFilters.push( 'creator' );
-			}
-
-			return openFilters;
-		};
-		
-		const openFilters = getOpenFilters();
-
-		return (
-			<div class="charitable-block-settings charitable-block-settings-campaigns">
-				<div className="charitable-block-settings-heading">
-					<h4 className="charitable-block-settings-title">{ icon } { __( 'Campaigns', 'charitable' ) }</h4>
-				</div>
-				<h5>{ __( 'Filters', 'charitable' ) }</h5>
-				<Filter title={ __( 'Category', 'charitable' ) } enabled={ openFilters.includes( 'categories' ) }>
-					<CampaignCategorySelect 
-						attributes={ attributes }
-						selected_categories={ categories }
-						update_category_setting_callback={ ( value ) => setAttributes( { categories: value } ) }
-					/>
-				</Filter>
-				<Filter title={ __( 'Status', 'charitable' ) } enabled={ openFilters.includes( 'status' ) }>
-					<ToggleControl
-						label={ __( 'Include inactive campaigns', 'charitable' ) }
-						checked={ !! includeInactive }
-						onChange={ this.toggleIncludeInactive }
-					/>
-				</Filter>
-				<Filter title={ __( 'Specific Campaigns', 'charitable' ) } enabled={ openFilters.includes( 'campaigns' ) }>
-					<h5>{ __( 'Campaigns to Include:', 'charitable' ) }</h5>
-					<CampaignSelect 
-						attributes={ attributes }
-						selected_campaigns={ campaigns }
-						update_campaign_setting_callback={ ( value ) => setAttributes( { campaigns: value } ) }
-						multiple="true"
-					/>
-					<h5>{ __( 'Campaigns to Exclude:', 'charitable' ) }</h5>
-					<CampaignSelect 
-						attributes={ attributes }
-						selected_campaigns={ campaignsToExclude }
-						update_campaign_setting_callback={ ( value ) => setAttributes( { campaignsToExclude: value } ) }
-						multiple="true"
-					/>
-				</Filter>
-				<Filter title={ __( 'Creator', 'charitable' ) } enabled={ openFilters.includes( 'creator' ) }>
-					
-				</Filter>
-					{/* <PanelRow>
-						<ToggleControl
-							label={ __( 'Masonry layout', 'charitable' ) }
-							checked={ masonryLayout }
-							onChange={ this.toggleMasonryLayout }
-						/>
-					</PanelRow>
-					<PanelRow>
-						<ToggleControl
-							label={ __( 'Responsive layout', 'charitable' ) }
-							checked={ responsiveLayout }
-							onChange={ this.toggleResponsiveLayout }
-						/>
-					</PanelRow> */}
-			</div>
-		);
-	}
-}
-
-/**
  * The campaigns block UI.
  */
 class CharitableCampaignsBlock extends Component {
 	constructor() {
 		super( ...arguments );
 
+		this.state = {
+			edit_mode: false,
+		};
+
+		this.updateEditMode         = this.updateEditMode.bind( this );
 		this.toggleMasonryLayout    = this.toggleMasonryLayout.bind( this );
 		this.toggleResponsiveLayout = this.toggleResponsiveLayout.bind( this );
 		this.getInspectorControls   = this.getInspectorControls.bind( this );
@@ -157,6 +47,15 @@ class CharitableCampaignsBlock extends Component {
 		this.getPreview             = this.getPreview.bind( this );
 	}
 
+	/**
+	 * Update edit mode in state.
+	 */
+	updateEditMode() {
+		this.setState( {
+			edit_mode: ! this.state.edit_mode
+		} );
+	}
+	
 	/**
 	 * Turn the masonry layout on/off.
 	 */
@@ -282,8 +181,8 @@ class CharitableCampaignsBlock extends Component {
 			{
 				icon: 'filter',
 				title: __( 'Filter Campaigns', 'charitable' ),
-				onClick: () => setAttributes( { editMode: ! editMode } ),
-				isActive: editMode,
+				onClick: this.updateEditMode,
+				isActive: this.state.edit_mode,
 			},
 		];
 
@@ -300,10 +199,8 @@ class CharitableCampaignsBlock extends Component {
 	 * @return Component
 	 */
 	getSettingsEditor() {
-		const { attributes, setAttributes } = this.props;
-		
 		return (
-			<CampaignsBlockSettingsEditor { ...this.props } />
+			<SettingsEditor { ...this.props } />
 		);
 	}
 
@@ -327,13 +224,13 @@ class CharitableCampaignsBlock extends Component {
 	 * Render the block UI.
 	 */
 	render() {
-		const { attributes } = this.props;
-		const { editMode } = attributes;
+		// const { attributes } = this.props;
+		// const { editMode } = attributes;
 		
 		return [
 			this.getInspectorControls(),
 			this.getToolbarControls(),
-			editMode ? this.getSettingsEditor() : this.getPreview()
+			this.state.edit_mode ? this.getSettingsEditor() : this.getPreview()
 		];
 	}
 }
