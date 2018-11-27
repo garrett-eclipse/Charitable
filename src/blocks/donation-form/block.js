@@ -92,6 +92,7 @@ export default class CharitableDonationFormBlock extends Component {
 						} );
 					} }
 					multiple={ false }
+					campaign_active_status="active"
 				/>
 			</div>
 		);

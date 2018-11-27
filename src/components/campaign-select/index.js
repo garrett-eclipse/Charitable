@@ -58,7 +58,7 @@ export class CampaignSelect extends Component {
 	 * Render the list of campaigns and the search input.
 	 */
 	render() {
-		const { label, columns } = this.props;
+		const { label, columns, campaign_active_status } = this.props;
 
 		let fieldLabel = label ? <label>{ label }</label> : null;
 
@@ -68,11 +68,13 @@ export class CampaignSelect extends Component {
 				<CampaignSearchField
 					addOrRemoveCampaignCallback={ this.addOrRemoveCampaign.bind( this ) }
 					selectedCampaigns={ this.state.selectedCampaigns }
+					campaign_active_status={ campaign_active_status }
 				/>
 				<CampaignSelectedResults
 					selectedCampaigns={ this.state.selectedCampaigns }
 					addOrRemoveCampaignCallback={ this.addOrRemoveCampaign.bind( this ) }
 					columns={ columns }
+					campaign_active_status={ campaign_active_status }
 				/>
 			</div>
 		)
@@ -85,6 +87,7 @@ export class CampaignSelect extends Component {
 class CampaignSearchField extends Component {
 	
 	/**
+	 * campaign_active_status={ campaign_active_status }
 	 * Constructor.
 	 */
 	constructor( props ) {
@@ -139,6 +142,7 @@ class CampaignSearchField extends Component {
 					addOrRemoveCampaignCallback={ this.props.addOrRemoveCampaignCallback }
 					selectedCampaigns={ this.props.selectedCampaigns }
 					isDropdownOpenCallback={ this.isDropdownOpen }
+					campaign_active_status={ this.props.campaign_active_status }
 				/>
 			</div>
 		);
@@ -180,7 +184,7 @@ class CampaignSearchResults extends Component {
 		const self = this;
 
 		wp.apiFetch( {
-			path: '/wp/v2/campaigns?_embed&per_page=100',
+			path: '/wp/v2/campaigns?_embed&per_page=100&active_status=' + this.props.campaign_active_status,
 			parse: false
 		} ).then( ( response ) => {
 			response.json().then( ( campaigns ) => {
