@@ -40,10 +40,11 @@ export class SettingsEditor extends Component {
 
 		// this.updateDisplay = this.updateDisplay.bind( this );
 		// this.closeMenu     = this.closeMenu.bind( this );
-		this.toggleIncludeInactive   = this.toggleIncludeInactive.bind( this );
-		this.updateDisplayOption     = this.updateDisplayOption.bind( this );
-		this.getCurrentDisplayOption = this.getCurrentDisplayOption.bind( this );
-		this.getCurrentView          = this.getCurrentView.bind( this );
+		this.toggleIncludeInactive      = this.toggleIncludeInactive.bind( this );
+		this.closeDisplayOptionSettings = this.closeDisplayOptionSettings.bind( this );
+		this.updateDisplayOption        = this.updateDisplayOption.bind( this );
+		this.getCurrentDisplayOption    = this.getCurrentDisplayOption.bind( this );
+		this.getCurrentView             = this.getCurrentView.bind( this );
 	}
 
 	/**
@@ -67,7 +68,16 @@ export class SettingsEditor extends Component {
 			display_option: display_option,
 		} );
 	}
-	
+
+	/**
+	 * Close the display option settings view.
+	 */
+	closeDisplayOptionSettings() {
+		this.setState( {
+			display_option_settings_open: false,
+		} );
+	}
+	 
 	/**
 	 * Toggle the includeInactive setting.
 	 */
@@ -123,35 +133,30 @@ export class SettingsEditor extends Component {
 	 * @return Component
 	 */
 	getCurrentView() {
+		const { attributes, setAttributes } = this.props;
+
 		let settingsView = null;
 
 		if ( !! this.state.display_option_settings_open ) {
 			
 			switch ( this.state.display_option ) {
 				case 'all' :
-					settingsView = <DisplayOptions
+					settingsView = <AllSettingsView
 						attributes={ attributes }
-						title={ __( 'Filter campaigns', 'charitable' ) }
-						selected_display_option={ ( this.state.display_option ) }
-						update_display_option_callback={ this.updateDisplayOption }
+						update_include_inactive_callback={ this.toggleIncludeInactive }
 					/>
 					break;
 
 				case 'filter' :
-					settingsView = <DisplayOptions
+					settingsView = <FilterSettingsView
 						attributes={ attributes }
-						title={ __( 'Filter campaigns', 'charitable' ) }
-						selected_display_option={ ( this.state.display_option ) }
-						update_display_option_callback={ this.updateDisplayOption }
+						update_include_inactive_callback={ this.toggleIncludeInactive }
 					/>
 					break;
 
 				case 'specific' :
-					settingsView = <DisplayOptions
+					settingsView = <SpecificSettingsView
 						attributes={ attributes }
-						title={ __( 'Filter campaigns', 'charitable' ) }
-						selected_display_option={ ( this.state.display_option ) }
-						update_display_option_callback={ this.updateDisplayOption }
 					/>
 					break;
 			}
@@ -175,53 +180,16 @@ export class SettingsEditor extends Component {
 		const { attributes, setAttributes } = this.props;
 		const { categories, includeInactive, campaigns, campaignsToExclude, creator, columns, displayOption } = attributes;
 
-		const getOpenFilters = () => {
-			let openFilters = [];
-
-			if ( categories.length > 0 ) {
-				openFilters.push( 'categories' );
-			}
-
-			if ( !! includeInactive ) {
-				openFilters.push( 'status' );
-			}
-			
-			if ( campaigns.length > 0 || campaignsToExclude.length > 0 ) {
-				openFilters.push( 'campaigns' );
-			}
-			
-			if ( creator !== '' ) {
-				openFilters.push( 'creator' );
-			}
-
-			return openFilters;
-		};
-		
-		const openFilters = getOpenFilters();
-
-		let settingsView = null;
+		let returnLink = null;
 
 		if ( !! this.state.display_option_settings_open ) {
-			switch ( this.state.display_option ) {
-				case 'all' :
-					currentDisplayOption = __( 'All active campaigns', 'charitable' );
-					break;
-	
-				case 'filter' :
-					currentDisplayOption = __( 'Filtered campaigns', 'charitable' );
-					break;
-	
-				case 'specific' :
-					currentDisplayOption = __( 'Specific campaigns', 'charitable' );
-					break;
-			}
-		} else {
-			settingsView = <DisplayOptions
-				attributes={ attributes }
-				title={ __( 'Filter campaigns', 'charitable' ) }
-				selected_display_option={ ( this.state.display_option ) }
-				update_display_option_callback={ this.updateDisplayOption }
-			/>
+			returnLink = (
+				<div className="charitable-block-settings-breadcrumbs">
+					<a href="#" onClick={ this.closeDisplayOptionSettings }>
+						{ __( 'Display different campaigns', 'charitable' ) }
+					</a>
+				</div>
+			);
 		}
 
 		return (
@@ -232,7 +200,8 @@ export class SettingsEditor extends Component {
 				<div className="charitable-block-settings-campaigns-subheading">
 					<p><strong>{ __( 'Currently showing:', 'charitable' ) }</strong>&nbsp;{ this.getCurrentDisplayOption() }</p>
 				</div>
-				{ settingsView }
+				{ returnLink }
+				{ this.getCurrentView() }
 				{/* <Filter title={ __( 'Category', 'charitable' ) } enabled={ openFilters.includes( 'categories' ) }>
 					<CampaignCategorySelect 
 						attributes={ attributes }
@@ -286,14 +255,10 @@ export class SettingsEditor extends Component {
 	}
 }
 
+/**
+ * List all display options.
+ */
 class DisplayOptions extends Component {
-
-	/**
-	 * Constructor.
-	 */
-	constructor( props ) {
-		super( props )
-	}
 
 	/**
 	 * Render the display options.
@@ -307,28 +272,136 @@ class DisplayOptions extends Component {
 			<div className="charitable-block-settings-campaigns--display-options-wrapper">
 				{ header }
 				<ul className="charitable-block-settings-campaigns--display-options">
-					<li className={ 'all' === selected_display_option ? 'active-option' : '' }  onClick={ () => update_display_option_callback( 'all' ) }>
-						{ 'all' === selected_display_option ? <Dashicon icon="yes" /> : '' }
-						{ __( 'Show all campaigns', 'charitable' ) }
-						<button onClick={ () => update_display_option_callback( 'all' ) } className="charitable-block-settings-campaigns--display-options-button" type="button">
-							<Dashicon icon="arrow-right-alt2" />
-						</button>
-					</li>
-					<li className={ 'filter' === selected_display_option ? 'active-option' : '' }  onClick={ () => update_display_option_callback( 'filter' ) }>
-						{ 'filter' === selected_display_option ? <Dashicon icon="yes" /> : '' }
-						{ __( 'Filter by category, tag or campaign creator', 'charitable' ) }
-						<button onClick={ () => update_display_option_callback( 'filter' ) } className="charitable-block-settings-campaigns--display-options-button" type="button">
-							<Dashicon icon="arrow-right-alt2" />
-						</button>
-					</li>
-					<li className={ 'specific' === selected_display_option ? 'active-option' : '' }  onClick={ () => update_display_option_callback( 'specific' ) }>
-					{ 'specific' === selected_display_option ? <Dashicon icon="yes" /> : '' }
-						{ __( 'Choose specific campaigns', 'charitable' ) }
-						<button onClick={ () => update_display_option_callback( 'specific' ) } className="charitable-block-settings-campaigns--display-options-button" type="button">
-							<Dashicon icon="arrow-right-alt2" />
-						</button>
-					</li>
+					<DisplayOption
+						selected_display_option={ selected_display_option }
+						update_display_option_callback={ update_display_option_callback }
+						option="all"
+						label={ __( 'Show all campaigns', 'charitable' ) }
+					/>
+					<DisplayOption
+						selected_display_option={ selected_display_option }
+						update_display_option_callback={ update_display_option_callback }
+						option="filter"
+						label={ __( 'Filter by category, tag or campaign creator', 'charitable' ) }
+					/>
+					<DisplayOption
+						selected_display_option={ selected_display_option }
+						update_display_option_callback={ update_display_option_callback }
+						option="specific"
+						label={ __( 'Choose specific campaigns', 'charitable' ) }
+					/>
 				</ul>
+			</div>
+		);
+	}
+}
+
+/**
+ * Display a single display option row.
+ */
+class DisplayOption extends Component {
+
+	/**
+	 * Render the display options.
+	 */
+	render() {
+		const { option, label, selected_display_option, update_display_option_callback } = this.props;
+
+		return (
+			<li className={ option === selected_display_option ? 'active-option' : '' }  onClick={ () => update_display_option_callback( option ) }>
+				{ option === selected_display_option ? <Dashicon icon="yes" /> : '' }
+				{ label }
+				<button onClick={ () => update_display_option_callback( option ) } className="charitable-block-settings-campaigns--display-options-button" type="button">
+					<Dashicon icon="admin-generic" />
+				</button>
+			</li>
+		);
+	}
+}
+
+/**
+ * Specific campaign settings view.
+ */
+class SpecificSettingsView extends Component {
+	
+	/**
+	 * Render the view.
+	 */
+	render() {
+		const { attributes, setAttributes } = this.props;
+		const { campaigns, columns }        = attributes;
+
+		return (
+			<div className="charitable-block-settings-view charitable-block-settings-view--specific">
+				<CampaignSelect 
+					attributes={ attributes }
+					label={ __( 'Choose campaigns', 'charitable' ) }
+					selected_campaigns={ campaigns }
+					update_campaign_setting_callback={ ( value ) => setAttributes( { campaigns: value } ) }
+					multiple={ true }
+					columns={ columns }
+				/>
+			</div>
+		);
+	}
+}
+
+/**
+ * All campaigns settings view.
+ */
+class AllSettingsView extends Component {
+	
+	/**
+	 * Render the view.
+	 */
+	render() {
+		const { attributes, setAttributes, update_include_inactive_callback } = this.props;
+		const { campaignsToExclude, includeInactive } = attributes;
+		
+		return (
+			<div className="charitable-block-settings-view charitable-block-settings-view--all">
+				{/* <Filter title={ __( 'Status', 'charitable' ) } enabled={ !! includeInactive }> */}
+					<ToggleControl
+						label={ __( 'Include inactive campaigns', 'charitable' ) }
+						checked={ !! includeInactive }
+						onChange={ update_include_inactive_callback }
+					/>
+				{/* </Filter>
+				<Filter title={ __( 'Exclude campaigns', 'charitable' ) } enabled={ campaignsToExclude.length > 0 }> */}
+					<CampaignSelect 
+						attributes={ attributes }
+						label={ __( 'Campaigns to exclude', 'charitable' ) }
+						selected_campaigns={ campaignsToExclude }
+						update_campaign_setting_callback={ ( value ) => setAttributes( { campaignsToExclude: value } ) }
+						multiple="true"
+					/>
+				{/* </Filter> */}
+			</div>
+		);
+	}
+}
+
+/**
+ * Filtered campaigns settings view.
+ */
+class FilterSettingsView extends Component {
+	
+	/**
+	 * Render the view.
+	 */
+	render() {
+		const { attributes, setAttributes } = this.props;
+		const { campaigns, columns }        = attributes;
+
+		return (
+			<div className="charitable-block-settings-view charitable-block-settings-view--filter">
+				<CampaignSelect 
+					attributes={ attributes }
+					selected_campaigns={ campaigns }
+					update_campaign_setting_callback={ ( value ) => setAttributes( { campaigns: value } ) }
+					multiple={ true }
+					columns={ columns }
+				/>
 			</div>
 		);
 	}

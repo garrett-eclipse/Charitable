@@ -162,7 +162,7 @@ module.exports = function(grunt) {
             options: {
                 stats: ! process.env.NODE_ENV || process.env.NODE_ENV === 'development'
             },
-            build: Object.assign({ watch: true }, webpackConfig)
+            build: Object.assign( { watch: true }, webpackConfig )
         },
 
         // javascript linting with jshint

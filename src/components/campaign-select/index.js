@@ -13,12 +13,6 @@ const { Dashicon } = wp.components;
 const CAMPAIGN_DATA = {};
 
 /**
- * Get a campaign thumbnail src.
- *
- * @return string
- */
-
-/**
  * Display a list of campaigns with checkboxes and a search filter.
  */
 export class CampaignSelect extends Component {
@@ -28,7 +22,7 @@ export class CampaignSelect extends Component {
 	 */
 	constructor( props ) {
 		super( props );
-
+		
 		this.state = {
 			selectedCampaigns: props.selected_campaigns || []
 		}
@@ -44,7 +38,7 @@ export class CampaignSelect extends Component {
 
 		// Add the campaign
 		if ( ! selectedCampaigns.includes( id ) ) {
-			if ( this.props.multiple ) {
+			if ( !! this.props.multiple ) {
 				selectedCampaigns.push( id );
 			} else {
 				selectedCampaigns = [ id ];
@@ -64,8 +58,13 @@ export class CampaignSelect extends Component {
 	 * Render the list of campaigns and the search input.
 	 */
 	render() {
+		const { label, columns } = this.props;
+
+		let fieldLabel = label ? <label>{ label }</label> : null;
+
 		return (
 			<div className="charitable-campaigns-field">
+				{ fieldLabel }
 				<CampaignSearchField
 					addOrRemoveCampaignCallback={ this.addOrRemoveCampaign.bind( this ) }
 					selectedCampaigns={ this.state.selectedCampaigns }
@@ -73,7 +72,7 @@ export class CampaignSelect extends Component {
 				<CampaignSelectedResults
 					selectedCampaigns={ this.state.selectedCampaigns }
 					addOrRemoveCampaignCallback={ this.addOrRemoveCampaign.bind( this ) }
-					columns={ this.props.columns }
+					columns={ columns }
 				/>
 			</div>
 		)
@@ -157,10 +156,14 @@ class CampaignSearchResults extends Component {
 	 */
 	constructor( props ) {
 		super( props );
+
 		this.state = {
+			filtered: [],
+			campaignCount: null, 
 			campaigns: [],
 			query: '',
-			loaded: false
+			loaded: false,
+			controllers: [],
 		};
 
 		this.getQuery      = this.getQuery.bind( this );
@@ -169,17 +172,35 @@ class CampaignSearchResults extends Component {
 	}
 
 	/**
-	 * Get the preview when component is first loaded.
+	 * Fetch the first 100 campaigns into memory, for faster search.
+	 *
+	 * We also record how many campaigns there are, in case there are more than 100.
 	 */
 	componentDidMount() {
-		this.updateResults();
+		const self = this;
+
+		wp.apiFetch( {
+			path: '/wp/v2/campaigns?_embed&per_page=100',
+			parse: false
+		} ).then( ( response ) => {
+			response.json().then( ( campaigns ) => {
+
+				self.setState( {
+					campaigns: campaigns,
+					loaded: true,
+					campaignCount: response.headers.get( 'X-WP-Total' ),
+				})
+
+				self.updateResults();
+			} )
+		} );
 	}
 
 	/**
 	 * Update the preview when component is updated.
 	 */
 	componentDidUpdate() {
-		if ( this.getQuery() !== this.state.query ) {
+		if ( this.props.searchString !== this.state.query ) {
 			this.updateResults();
 		}
 	}
@@ -200,33 +221,31 @@ class CampaignSearchResults extends Component {
 	/**
 	 * Update the search results.
 	 */
-	updateResults() {
-		const self = this;
-		const query = this.getQuery();
+	updateResults( retry = 0 ) {
+		// Campaigns haven't loaded yet, so retry in 500ms.
+		if ( ! this.state.loaded ) {
 
-		self.setState( {
-			query: query,
-			loaded: false
-		} );
+			// Avoid retrying forever.
+			if ( retry < 25 ) {
+				retry += 1;
+				return window.setTimeout( this.updateResults, 500, retry );
+			}
 
-		if ( query.length ) {
-			apiFetch( { path: query } ).then( campaigns => {
-				// Only update the results if they are for the latest query.
-				if ( query === self.getQuery() ) {
-					self.setState( {
-						campaigns: campaigns,
-						loaded: true
-					} );
-				}
-				
-				console.log( campaigns );
-			} );
-		} else {
-			self.setState( {
-				campaigns: [],
-				loaded: true
+			this.setState( {
+				loaded: true,
 			} );
 		}
+
+		const query          = this.props.searchString;
+		const queryLowercase = query.toLowerCase();
+		const filtered       = this.state.campaigns.filter( ( campaign ) => {
+			return campaign.title.rendered.toLowerCase().includes( queryLowercase );
+		} );
+
+		this.setState( {
+			query: query,
+			filtered: filtered,
+		} );
 	}
 
 	/**
@@ -237,17 +256,17 @@ class CampaignSearchResults extends Component {
 			return null;
 		}
 
-		if ( 0 === this.state.campaigns.length ) {
+		if ( 0 === this.state.filtered.length ) {
 			return <span className="charitable-campaign-list-card__search-no-results"> { __( 'No campaigns found' ) } </span>;
 		}
 
 		// Populate the cache.
-		for ( let campaign of this.state.campaigns ) {
+		for ( let campaign of this.state.filtered ) {
 			CAMPAIGN_DATA[ campaign.id ] = campaign;
 		}
 
 		return <CampaignSearchResultsDropdown
-			campaigns={ this.state.campaigns }
+			campaigns={ this.state.filtered }
 			addOrRemoveCampaignCallback={ this.props.addOrRemoveCampaignCallback }
 			selectedCampaigns={ this.props.selectedCampaigns }
 			isDropdownOpenCallback={ this.props.isDropdownOpenCallback }

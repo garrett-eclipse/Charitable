@@ -78,6 +78,13 @@ div.charitable-block-settings-filter {
     padding: 8px 0 8px 0;
 }
 
+.charitable-campaigns-field {
+    label {
+        margin: 0 0 4px;
+        display: block;
+    }
+}
+
 .charitable-campaigns-list-card__input-wrapper {
     border: 1px solid #e6eaee;
     background: #fff;
@@ -211,4 +218,19 @@ div.charitable-block-settings-filter {
     border: none;
     background: transparent;
     color: #555;
+}
+
+.charitable-block-settings-breadcrumbs {
+    padding: 8px 0;
+    border-bottom: 1px solid #e6eaee;
+    text-align: center;
+}
+
+.charitable-block-settings-view {
+    margin: 22px 0 0;
+    
+    .components-base-control,
+    .charitable-campaigns-field {
+        margin-bottom: 22px;
+    }
 }

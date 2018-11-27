@@ -184,6 +184,7 @@ if ( ! class_exists( 'Charitable_Blocks' ) ) :
 		 * @return string Returns the donation form content.
 		 */
 		public function render_donation_form( $attributes ) {
+			error_log( var_export( $attributes, true ) );
 			ob_start();
 
 			charitable_template_donation_form( $attributes['campaign'] );
