@@ -6,11 +6,24 @@
     margin-right: 0;
 }
 
-.charitable-block-settings {
+div.charitable-block-settings {
     padding: 14px;
     font-size: 13px;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Oxygen-Sans', Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
     background-color: #f8f9f9;
+
+    h2 {
+        font-size: 18px;
+    }
+
+    h3 {
+        font-size: 16px;
+    }
+
+    h2:before, 
+    h3:before {
+        display: none;
+    }
 }
 
 .charitable-block-settings-title {
@@ -24,11 +37,8 @@
     }
 }
 
-.charitable-block-donation-form {
-    &.has-preview {
-        padding: 0;
-        background: transparent;
-    }
+.charitable-block-settings .campaign-loop {
+    list-style: none;
 }
 
 div.charitable-campaign-categories-list,
@@ -117,6 +127,12 @@ div.charitable-block-settings-filter {
         border-bottom: 1px solid #e6eaee;
         background-color: #fff;
 
+        &:focus, 
+        &:hover,
+        &:active {
+            background-color: #fef4e8;
+        }
+        
         .charitable-campaigns-list-card__content-item-name {
             line-height: 30px;
         }
@@ -161,7 +177,6 @@ div.charitable-block-settings-filter {
 .charitable-campaigns-list-card__selected-results-wrapper--cols-2 .charitable-campaigns-list-card__item {
     width: 49%;
 }
-
 
 .charitable-block-settings-campaigns-subheading {
     border-top: 1px solid #e6eaee;
@@ -232,5 +247,26 @@ div.charitable-block-settings-filter {
     .components-base-control,
     .charitable-campaigns-field {
         margin-bottom: 22px;
+    }
+}
+
+/**
+ * Preview styles.
+ */
+ .charitable-form-field.charitable-form-field-checkbox {
+    input[type=checkbox] {
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+    }
+}
+
+.charitable-block-donation-form.has-preview {
+    padding: 0;
+    background: transparent;
+
+    // Prevent clicking within the donation form.
+    .charitable-donation-form {
+        pointer-events: none;
     }
 }

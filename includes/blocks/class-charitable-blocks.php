@@ -46,12 +46,8 @@ if ( ! class_exists( 'Charitable_Blocks' ) ) :
 				'editor_script'   => 'charitable-blocks',
 				'attributes'      => array(
 					'campaign'  => array(
-						'type'    => 'string',
-						'default' => '',
-					),
-					'edit_mode' => array(
-						'type'    => 'boolean',
-						'default' => true,
+						'type'    => 'number',
+						'default' => 0,
 					),
 				),
 				'render_callback' => array( $this, 'render_donation_form' ),

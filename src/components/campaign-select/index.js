@@ -24,7 +24,7 @@ export class CampaignSelect extends Component {
 		super( props );
 		
 		this.state = {
-			selectedCampaigns: props.selected_campaigns || []
+			selected_campaigns: props.selected_campaigns || []
 		}
 	}
 
@@ -34,24 +34,24 @@ export class CampaignSelect extends Component {
 	 * @param id int Campaign ID.
 	 */
 	addOrRemoveCampaign( id ) {
-		let selectedCampaigns = this.state.selectedCampaigns;
+		let selected_campaigns = this.state.selected_campaigns;
 
 		// Add the campaign
-		if ( ! selectedCampaigns.includes( id ) ) {
+		if ( ! selected_campaigns.includes( id ) ) {
 			if ( !! this.props.multiple ) {
-				selectedCampaigns.push( id );
+				selected_campaigns.push( id );
 			} else {
-				selectedCampaigns = [ id ];
+				selected_campaigns = [ id ];
 			}
 		} else {
-			selectedCampaigns = selectedCampaigns.filter( campaign => campaign !== id );
+			selected_campaigns = selected_campaigns.filter( campaign => campaign !== id );
 		}
 
 		this.setState( {
-			selectedCampaigns: selectedCampaigns
+			selected_campaigns: selected_campaigns
 		} );
 
-		this.props.update_campaign_setting_callback( selectedCampaigns );
+		this.props.update_campaign_setting_callback( selected_campaigns );
 	}
 	
 	/**
@@ -66,13 +66,13 @@ export class CampaignSelect extends Component {
 			<div className="charitable-campaigns-field">
 				{ fieldLabel }
 				<CampaignSearchField
-					addOrRemoveCampaignCallback={ this.addOrRemoveCampaign.bind( this ) }
-					selectedCampaigns={ this.state.selectedCampaigns }
+					add_or_remove_campaign_callback={ this.addOrRemoveCampaign.bind( this ) }
+					selected_campaigns={ this.state.selected_campaigns }
 					campaign_active_status={ campaign_active_status }
 				/>
 				<CampaignSelectedResults
-					selectedCampaigns={ this.state.selectedCampaigns }
-					addOrRemoveCampaignCallback={ this.addOrRemoveCampaign.bind( this ) }
+					selected_campaigns={ this.state.selected_campaigns }
+					add_or_remove_campaign_callback={ this.addOrRemoveCampaign.bind( this ) }
 					columns={ columns }
 					campaign_active_status={ campaign_active_status }
 				/>
@@ -87,17 +87,17 @@ export class CampaignSelect extends Component {
 class CampaignSearchField extends Component {
 	
 	/**
-	 * campaign_active_status={ campaign_active_status }
 	 * Constructor.
 	 */
 	constructor( props ) {
 		super( props );
 
 		this.state = {
-			searchText: '',
-			dropdownOpen: false,
+			search_text: '',
+			dropdown_open: false,
 		};
 
+		this.handleKeyDown       = this.handleKeyDown.bind( this );
 		this.updateSearchResults = this.updateSearchResults.bind( this );
 		this.isDropdownOpen      = this.isDropdownOpen.bind( this );
 	}
@@ -107,7 +107,7 @@ class CampaignSearchField extends Component {
 	 */
 	isDropdownOpen( isOpen ) {
 		this.setState( {
-			dropdownOpen: !! isOpen,
+			dropdown_open: !! isOpen,
 		} );
 	}
 
@@ -116,10 +116,21 @@ class CampaignSearchField extends Component {
 	 */
 	updateSearchResults( evt ) {
 		this.setState( {
-			searchText: evt.target.value
+			search_text: evt.target.value
 		} );
 	}
-
+	
+	/**
+	 * Handle key strokes.
+	 *
+	 * When a down arrow key is pressed, shift focus to first search result.
+	 */
+	handleKeyDown( evt ) {
+		if ( 'ArrowDown' === evt.key ) {
+			evt.stopPropagation();
+		}
+	}
+	
 	/**
 	 * Render the campaign search UI.
 	 */
@@ -127,21 +138,23 @@ class CampaignSearchField extends Component {
 		const divClass = 'charitable-campaigns-list-card__search-wrapper';
 
 		return (
-			<div className={ divClass + ( this.state.dropdownOpen ? ' ' + divClass + '--with-results' : '' ) }>
+			<div className={ divClass + ( this.state.dropdown_open ? ' ' + divClass + '--with-results' : '' ) }>
 				<div className="charitable-campaigns-list-card__input-wrapper">
 					<Dashicon icon="search" />
 					<input type="search"
 						className="charitable-campaigns-list-card__search"
-						value={ this.state.searchText }
+						value={ this.state.search_text }
 						placeholder={ __( 'Search for campaigns to display', 'charitable' ) }
+						tabIndex="0"
+						onKeyDown={ this.handleKeyDown }
 						onChange={ this.updateSearchResults }
 					/>
 				</div>
 				<CampaignSearchResults 
-					searchString={ this.state.searchText }
-					addOrRemoveCampaignCallback={ this.props.addOrRemoveCampaignCallback }
-					selectedCampaigns={ this.props.selectedCampaigns }
-					isDropdownOpenCallback={ this.isDropdownOpen }
+					search_string={ this.state.search_text }
+					add_or_remove_campaign_callback={ this.props.add_or_remove_campaign_callback }
+					selected_campaigns={ this.props.selected_campaigns }
+					is_dropdown_open_callback={ this.isDropdownOpen }
 					campaign_active_status={ this.props.campaign_active_status }
 				/>
 			</div>
@@ -163,7 +176,7 @@ class CampaignSearchResults extends Component {
 
 		this.state = {
 			filtered: [],
-			campaignCount: null, 
+			campaign_count: null,
 			campaigns: [],
 			query: '',
 			loaded: false,
@@ -192,7 +205,7 @@ class CampaignSearchResults extends Component {
 				self.setState( {
 					campaigns: campaigns,
 					loaded: true,
-					campaignCount: response.headers.get( 'X-WP-Total' ),
+					campaign_count: response.headers.get( 'X-WP-Total' ),
 				})
 
 				self.updateResults();
@@ -204,7 +217,7 @@ class CampaignSearchResults extends Component {
 	 * Update the preview when component is updated.
 	 */
 	componentDidUpdate() {
-		if ( this.props.searchString !== this.state.query ) {
+		if ( this.props.search_string !== this.state.query ) {
 			this.updateResults();
 		}
 	}
@@ -215,11 +228,11 @@ class CampaignSearchResults extends Component {
 	 * @return string
 	 */
 	getQuery() {
-		if ( ! this.props.searchString.length ) {
+		if ( ! this.props.search_string.length ) {
 			return '';
 		}
 
-		return '/wp/v2/campaigns?_embed&per_page=10&search=' + this.props.searchString;
+		return '/wp/v2/campaigns?_embed&per_page=10&search=' + this.props.search_string;
 	}
 	
 	/**
@@ -240,7 +253,7 @@ class CampaignSearchResults extends Component {
 			} );
 		}
 
-		const query          = this.props.searchString;
+		const query          = this.props.search_string;
 		const queryLowercase = query.toLowerCase();
 		const filtered       = this.state.campaigns.filter( ( campaign ) => {
 			return campaign.title.rendered.toLowerCase().includes( queryLowercase );
@@ -271,9 +284,9 @@ class CampaignSearchResults extends Component {
 
 		return <CampaignSearchResultsDropdown
 			campaigns={ this.state.filtered }
-			addOrRemoveCampaignCallback={ this.props.addOrRemoveCampaignCallback }
-			selectedCampaigns={ this.props.selectedCampaigns }
-			isDropdownOpenCallback={ this.props.isDropdownOpenCallback }
+			add_or_remove_campaign_callback={ this.props.add_or_remove_campaign_callback }
+			selected_campaigns={ this.props.selected_campaigns }
+			is_dropdown_open_callback={ this.props.is_dropdown_open_callback }
 		/>
 
 	}
@@ -288,32 +301,36 @@ class CampaignSearchResultsDropdown extends Component {
 	 * Set the state of the dropdown to open.
 	 */
 	componentDidMount() {
-		this.props.isDropdownOpenCallback( true );
+		this.props.is_dropdown_open_callback( true );
 	}
 
 	/**
 	 * Set the state of the dropdown to closed.
 	 */
 	componentDidUnmount() {
-		this.props.isDropdownOpenCallback( false );
+		this.props.is_dropdown_open_callback( false );
 	}
 
 	/**
 	 * Render dropdown.
 	 */
 	render() {
-		const { campaigns, addOrRemoveCampaignCallback, selectedCampaigns } = this.props;
+		const { campaigns, add_or_remove_campaign_callback, selected_campaigns } = this.props;
 
 		let campaignElements = [];
+		let index = 0;
 
 		for ( let campaign of campaigns ) {
 			campaignElements.push(
 				<CampaignSearchResultsDropdownElement
-					campaign={campaign}
-					addOrRemoveCampaignCallback={ addOrRemoveCampaignCallback }
-					selected={ selectedCampaigns.includes( campaign.id ) }
+					key={ 'campaign-search-result-' + index }
+					campaign={ campaign }
+					add_or_remove_campaign_callback={ add_or_remove_campaign_callback }
+					selected={ selected_campaigns.includes( campaign.id ) }
 				/>
 			);
+
+			index += 1;
 		}
 
 		return (
@@ -344,7 +361,7 @@ class CampaignSearchResultsDropdownElement extends Component {
 	 * Add campaign to main list and change UI to show it was added.
 	 */
 	handleClick() {
-		this.props.addOrRemoveCampaignCallback( this.props.campaign.id );
+		this.props.add_or_remove_campaign_callback( this.props.campaign.id );
 	}
 
 	/**
@@ -382,7 +399,7 @@ class CampaignSearchResultsDropdownElement extends Component {
 		}
 		
 		return (
-			<div className={ getCardClass( campaign ) } onClick={ this.handleClick }>
+			<div className={ getCardClass( campaign ) } onClick={ this.handleClick } key={ this.props.key }>
 				{ getCampaignThumbnail( campaign ) }
 				<span className="charitable-campaigns-list-card__content-item-name">{ campaign.title.rendered }</span>
 				{ icon }
@@ -401,6 +418,7 @@ class CampaignSelectedResults extends Component {
 	 */
 	constructor( props ) {
 		super( props );
+
 		this.state = {
 			query: '',
 			loaded: false,
@@ -409,7 +427,6 @@ class CampaignSelectedResults extends Component {
 		this.getQuery            = this.getQuery.bind( this );
 		this.updateCampaignCache = this.updateCampaignCache.bind( this );
 	}
-
 	
 	/**
 	 * Get the preview when component is first loaded.
@@ -431,13 +448,13 @@ class CampaignSelectedResults extends Component {
 	 * Get the endpoint for the current state of the component.
 	 */
 	getQuery() {
-		if ( ! this.props.selectedCampaigns.length ) {
+		if ( ! this.props.selected_campaigns.length ) {
 			return '';
 		}
 
 		// Determine which campaigns are not already in the cache and only fetch uncached campaigns.
 		let uncachedCampaigns = [];
-		for( const campaignId of this.props.selectedCampaigns ) {
+		for( const campaignId of this.props.selected_campaigns ) {
 			if ( ! CAMPAIGN_DATA.hasOwnProperty( campaignId ) ) {
 				uncachedCampaigns.push( campaignId );
 			}
@@ -491,7 +508,7 @@ class CampaignSelectedResults extends Component {
 			}
 		}
 
-		for ( const campaignId of this.props.selectedCampaigns ) {
+		for ( const campaignId of this.props.selected_campaigns ) {
 
 			// Skip products that aren't in the cache yet or failed to fetch.
 			if ( ! CAMPAIGN_DATA.hasOwnProperty( campaignId ) ) {
@@ -508,7 +525,7 @@ class CampaignSelectedResults extends Component {
 						<button
 							type="button"
 							id={ 'campaign-' + campaignData.id }
-							onClick={ function() { self.props.addOrRemoveCampaignCallback( campaignData.id ) } } >
+							onClick={ function() { self.props.add_or_remove_campaign_callback( campaignData.id ) } } >
 								<Dashicon icon="no-alt" />
 						</button>
 					</div>
@@ -522,164 +539,24 @@ class CampaignSelectedResults extends Component {
 			campaignLoopClass += ' campaign-grid campaign-grid-' + this.props.columns;
 		}
 
+		let header = null;
+
+		if ( campaignElements.length > 0 ) {
+			if ( 1 === campaignElements.length ) {
+				header = <h2>{ __( 'Selected campaign', 'charitable' ) }</h2>
+			} else {
+				header = <h2>{ __( 'Selected campaigns', 'charitable' ) }</h2>
+			}
+		}
+		
 		return (
 			<div className="charitable-campaigns-list-card__selected-results-wrapper">
 				<div role="menu" className="charitable-campaigns-list-card__selected-results" aria-orientation="vertical" aria-label={ __( 'Selected campaigns', 'charitable' ) }>
-
-					{ campaignElements.length > 0 && <h3>{ __( 'Selected campaigns', 'charitable' ) }</h3> }
-
+					{ header }
 					<ul className={ campaignLoopClass }>
 						{ campaignElements }
 					</ul>
 				</div>
-			</div>
-		);
-	}
-}
-
-class CampaignFeaturedImage extends Component {
-
-	/**
-	 * Constructor
-	 */
-	constructor( props ) {
-		super( props );
-		this.state = {
-			query: '',
-			loaded: false,
-		};
-
-		this.getQuery            = this.getQuery.bind( this );
-		this.updateCampaignCache = this.updateCampaignCache.bind( this );
-	}
-
-	
-	/**
-	 * Get the preview when component is first loaded.
-	 */
-	componentDidMount() {
-		this.updateCampaignImageCache();
-	}
-
-	/**
-	 * Update the preview when component is updated.
-	 */
-	componentDidUpdate() {
-		if ( this.state.loaded && this.getQuery() !== this.state.query ) {
-			this.updateCampaignCache();
-		}
-	}
-}
-
-/**
- * Fetch and build a tree of campaigns.
- */
-class CampaignList extends Component {
-	
-	/**
-	 * Constructor.
-	 */
-	constructor( props ) {
-		super( props );
-
-		this.state = {
-			campaigns: [],
-			loaded: false,
-			query: '',
-		};
-
-		this.updatePreview = this.updatePreview.bind( this );
-		this.getQuery      = this.getQuery.bind( this );
-	}
-
-	/**
-	 * Get the preview when component is first loaded.
-	 */
-	componentDidMount() {
-		if ( this.getQuery() !== this.state.query ) {
-			this.updatePreview();
-		}
-	}
-
-	/**
-	 * Update the preview when component is updated.
-	 */
-	componentDidUpdate() {
-		if ( this.getQuery() !== this.state.query && this.state.loaded ) {
-			this.updatePreview();
-		}
-	}
-
-	/**
-	 * Get the endpoint for the current state of the component.
-	 *
-	 * @return string
-	 */
-	getQuery() {
-		const endpoint = '/wp/v2/campaigns';
-		return endpoint;
-	}
-	
-	/**
-	 * Update the preview with the latest settings.
-	 */
-	updatePreview() {
-		const self  = this;
-		const query = this.getQuery();
-
-		self.setState( {
-			loaded: false,
-		} );
-
-		apiFetch( { path: query } ).then( campaigns => {
-			self.setState( {
-				campaigns: campaigns,
-				loaded: true,
-				query: query
-			} );
-			
-			console.log( campaigns );
-		} );
-	}
-
-	/**
-	 * Render.
-	 */
-	render() {
-		const { selectedCampaigns, checkboxChange } = this.props;
-
-		if ( ! this.state.loaded ) {
-			return __( 'Loading campaigns', 'charitable' );
-		}
-
-		if ( 0 === this.state.campaigns.length ) {
-			return __( 'No campaigns found', 'charitable' );
-		}
-
-		const CampaignTree = ( { campaigns, parent } ) => {
-			return ( campaigns.length > 0 ) && (
-				<ul>
-					{ campaigns.map( ( campaign ) => (
-						<li key={ campaign.id } className="charitable-campaign-list-card__item">
-							<label>
-								<input type="checkbox"
-									id={ 'campaign-' + campaign.id }
-									value={ campaign.id }
-									checked={ selectedCampaigns.includes( campaign.id ) }
-									onChange={ ( evt ) => checkboxChange( evt.target.checked, campaign.id ) }
-								/> { campaign.title.rendered }
-							</label>
-						</li>
-					))}
-				</ul>
-			)
-		}
-
-		let campaignsData = this.state.campaigns;
-
-		return (
-			<div className="charitable-campaign-list-card__results">
-				<CampaignTree campaigns={ campaignsData } />
 			</div>
 		);
 	}

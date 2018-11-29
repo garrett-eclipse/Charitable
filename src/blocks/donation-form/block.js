@@ -86,9 +86,9 @@ export default class CharitableDonationFormBlock extends Component {
 						setAttributes( {
 							campaign: campaign[0]
 						} );
-			
+
 						self.setState( {
-							edit_mode: ! campaign
+							edit_mode: ! campaign.length
 						} );
 					} }
 					multiple={ false }

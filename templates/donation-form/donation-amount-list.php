@@ -83,7 +83,15 @@ if ( empty( $suggested ) && ! $custom ) {
 								type="radio"
 								name="donation_amount"
 								value="custom" <?php checked( $has_custom_donation_amount ) ?>
-							/><span class="description"><?php echo apply_filters( 'charitable_donation_amount_form_custom_amount_text', __( 'Custom amount', 'charitable' ) ) ?></span>
+							/><span class="description"><?php
+							/**
+							 * Filter the custom amount field description.
+							 *
+							 * @param string $label The default label.
+							 */
+							echo apply_filters( 'charitable_donation_amount_form_custom_amount_text', __( 'Custom amount', 'charitable' ) );
+							?>
+							</span>
 						</label>
 						<input
 							type="text"

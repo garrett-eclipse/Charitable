@@ -5,11 +5,18 @@
   max-width: none;
   margin-right: 0; }
 
-.charitable-block-settings {
+div.charitable-block-settings {
   padding: 14px;
   font-size: 13px;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Oxygen-Sans', Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
   background-color: #f8f9f9; }
+  div.charitable-block-settings h2 {
+    font-size: 18px; }
+  div.charitable-block-settings h3 {
+    font-size: 16px; }
+  div.charitable-block-settings h2:before,
+  div.charitable-block-settings h3:before {
+    display: none; }
 
 .charitable-block-settings-title {
   position: relative;
@@ -19,9 +26,8 @@
     top: 4px;
     margin-right: 12px; }
 
-.charitable-block-donation-form.has-preview {
-  padding: 0;
-  background: transparent; }
+.charitable-block-settings .campaign-loop {
+  list-style: none; }
 
 div.charitable-campaign-categories-list ul,
 div.charitable-campaigns-list ul {
@@ -83,6 +89,8 @@ div.charitable-block-settings-filter {
     height: 46px;
     border-bottom: 1px solid #e6eaee;
     background-color: #fff; }
+    .charitable-campaigns-list-card__search-results .charitable-campaigns-list-card__content:focus, .charitable-campaigns-list-card__search-results .charitable-campaigns-list-card__content:hover, .charitable-campaigns-list-card__search-results .charitable-campaigns-list-card__content:active {
+      background-color: #fef4e8; }
     .charitable-campaigns-list-card__search-results .charitable-campaigns-list-card__content .charitable-campaigns-list-card__content-item-name {
       line-height: 30px; }
     .charitable-campaigns-list-card__search-results .charitable-campaigns-list-card__content .dashicons-yes {
@@ -163,5 +171,19 @@ div.charitable-block-settings-filter {
   .charitable-block-settings-view .components-base-control,
   .charitable-block-settings-view .charitable-campaigns-field {
     margin-bottom: 22px; }
+
+/**
+ * Preview styles.
+ */
+.charitable-form-field.charitable-form-field-checkbox input[type=checkbox] {
+  display: inline-block;
+  width: 16px;
+  height: 16px; }
+
+.charitable-block-donation-form.has-preview {
+  padding: 0;
+  background: transparent; }
+  .charitable-block-donation-form.has-preview .charitable-donation-form {
+    pointer-events: none; }
 
 /*# sourceMappingURL=charitable-block-editor.css.map */
