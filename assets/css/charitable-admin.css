@@ -119,14 +119,6 @@
   font-size: 14px;
   margin-top: 0;
   margin-bottom: 6px; }
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-.charitable-metabox .charitable-metabox .charitable-metabox-wrap {
-  margin-bottom: 24px; }
->>>>>>> Added initial draft of campaign fields API, with classes added for the registry and the fields. One left to do for Campaign_Fields to retrieve field values. Added Charitable_Field_Filter and Charitable_Field_Sorter to provide an easy way to filter and sort fields in registries. Also added initial use-case for campaign fields in the Campaign Settings meta box as the Donation Options panel.
-=======
->>>>>>> Doubled the margin below fields in meta boxes.
 .charitable-metabox .widefat th {
   font-size: 13px; }
 .charitable-metabox .widefat tbody th {
@@ -308,17 +300,6 @@ body.post-type-campaign .postbox-container .empty-container {
   font-size: 14px;
   margin-top: 0;
   margin-bottom: 6px; }
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-#campaign-title .charitable-metabox .charitable-metabox-wrap,
-#campaign-goal .charitable-metabox .charitable-metabox-wrap,
-#campaign-end-date .charitable-metabox .charitable-metabox-wrap,
-#campaign-description .charitable-metabox .charitable-metabox-wrap {
-  margin-bottom: 24px; }
->>>>>>> Added initial draft of campaign fields API, with classes added for the registry and the fields. One left to do for Campaign_Fields to retrieve field values. Added Charitable_Field_Filter and Charitable_Field_Sorter to provide an easy way to filter and sort fields in registries. Also added initial use-case for campaign fields in the Campaign Settings meta box as the Donation Options panel.
-=======
->>>>>>> Doubled the margin below fields in meta boxes.
 #campaign-title .widefat th,
 #campaign-goal .widefat th,
 #campaign-end-date .widefat th,

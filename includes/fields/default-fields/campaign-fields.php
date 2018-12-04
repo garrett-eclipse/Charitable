@@ -227,7 +227,6 @@ return apply_filters( 'charitable_default_campaign_fields', array(
 		),
 		'show_in_export' => true,
 	),
-<<<<<<< HEAD
 	'status'                   => array(
 		'label'          => __( 'Campaign Status', 'charitable' ),
 		'data_type'      => 'core',
@@ -236,8 +235,6 @@ return apply_filters( 'charitable_default_campaign_fields', array(
 		'email_tag'      => false,
 		'show_in_export' => true,
 	),
-=======
->>>>>>> Added all campaign email fields into the campaign fields API.
 	'permalink'                => array(
 		'label'          => __( 'Campaign Permalink', 'charitable' ),
 		'data_type'      => 'core',

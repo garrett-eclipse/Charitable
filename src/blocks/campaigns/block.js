@@ -173,10 +173,6 @@ class CharitableCampaignsBlock extends Component {
 	 * @return Component
 	 */
 	getToolbarControls() {
-		let props = this.props;
-		const { attributes, setAttributes } = props;
-		const { editMode } = attributes;
-
 		const editButton = [
 			{
 				icon: 'filter',
@@ -224,9 +220,6 @@ class CharitableCampaignsBlock extends Component {
 	 * Render the block UI.
 	 */
 	render() {
-		// const { attributes } = this.props;
-		// const { editMode } = attributes;
-		
 		return [
 			this.getInspectorControls(),
 			this.getToolbarControls(),

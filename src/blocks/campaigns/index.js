@@ -143,14 +143,6 @@ registerBlockType( 'charitable/campaigns', {
 			type    : 'boolean',
 			default : true,
 		},
-
-		/**
-		 * Whether the block is in edit or preview mode.
-		 */
-		editMode: {
-			type: 'boolean',
-			default: false,
-		},
 	},
 
 	/**
