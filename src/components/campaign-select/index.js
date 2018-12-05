@@ -13,6 +13,15 @@ const { Dashicon, TabbableContainer, NavigableMenu } = wp.components;
 const CAMPAIGN_DATA = {};
 
 /**
+ * Refs.
+ */
+const REFS = {		
+	search_field : createRef(),
+	search_results : createRef(),
+	selected_results : createRef(),
+};
+
+/**
  * Check whether a campaign has a thumbnail.
  *
  * @return boolean
@@ -126,6 +135,8 @@ class CampaignSearchField extends Component {
 		this.handleKeyDown       = this.handleKeyDown.bind( this );
 		this.updateSearchResults = this.updateSearchResults.bind( this );
 		this.isDropdownOpen      = this.isDropdownOpen.bind( this );
+
+		REFS.search_results = createRef();
 	}
 
 	/**
@@ -155,10 +166,10 @@ class CampaignSearchField extends Component {
 		if ( 'ArrowDown' === evt.key ) {
 			evt.stopPropagation();
 			
-			const first_result = findDOMNode( 1 );
+			const results = findDOMNode( REFS.search_results.current );
 
-			if ( 'undefined' !== typeof first_result ) {
-				first_result.focus();
+			if ( results ) {
+				results.firstElementChild.focus();
 			}
 		}
 	}
@@ -178,11 +189,12 @@ class CampaignSearchField extends Component {
 						value={ this.state.search_text }
 						placeholder={ __( 'Search for campaigns to display', 'charitable' ) }
 						tabIndex="0"
-						// onKeyDown={ this.handleKeyDown }
+						onKeyDown={ this.handleKeyDown }
 						onChange={ this.updateSearchResults }
+						ref={ REFS.search_field }
 					/>
 				</div>
-				<CampaignSearchResults 
+				<CampaignSearchResults
 					search_string={ this.state.search_text }
 					add_or_remove_campaign_callback={ this.props.add_or_remove_campaign_callback }
 					selected_campaigns={ this.props.selected_campaigns }
@@ -314,13 +326,14 @@ class CampaignSearchResults extends Component {
 			CAMPAIGN_DATA[ campaign.id ] = campaign;
 		}
 
-		return <CampaignSearchResultsDropdown
-			campaigns={ this.state.filtered }
-			add_or_remove_campaign_callback={ this.props.add_or_remove_campaign_callback }
-			selected_campaigns={ this.props.selected_campaigns }
-			is_dropdown_open_callback={ this.props.is_dropdown_open_callback }
-		/>
-
+		return (
+			<CampaignSearchResultsDropdown
+				campaigns={ this.state.filtered }
+				add_or_remove_campaign_callback={ this.props.add_or_remove_campaign_callback }
+				selected_campaigns={ this.props.selected_campaigns }
+				is_dropdown_open_callback={ this.props.is_dropdown_open_callback }
+			/>
+		);
 	}
 }
 
@@ -366,10 +379,10 @@ class CampaignSearchResultsDropdown extends Component {
 		}
 
 		return (
-			<NavigableMenu onNavigate={ ( e ) => console.log( e ) }
-				className="my-class-name"
+			<NavigableMenu
 				className="charitable-campaigns-list-card__search-results"
 				aria-label={ __( 'Campaign list', 'charitable' ) }
+				ref={ REFS.search_results }
 			>
 				{ campaignElements }
 			</NavigableMenu>
@@ -403,14 +416,8 @@ class CampaignSearchResultsDropdownElement extends Component {
 	 * Respond to keyboard events on dropdown elements.
 	 */
 	handleKeyDown( evt ) {
-		if ( 'ArrowDown' === evt.key ) {
-			evt.stopPropagation();
-
-			const next_result = findDOMNode( this.props.index + 1 );
-			
-			if ( next_result ) {
-				next_result.focus();
-			}
+		if ( 'Enter' === evt.key ) {
+			this.props.add_or_remove_campaign_callback( this.props.campaign.id );
 		}
 	}
 
@@ -437,7 +444,7 @@ class CampaignSearchResultsDropdownElement extends Component {
 		let isDefault = this.props.index === 0 ? isDefault : '';
 		
 		return (
-			<div className={ getCardClass( campaign ) } onClick={ this.handleClick } isDefault >
+			<div className={ getCardClass( campaign ) } onClick={ this.handleClick } onKeyDown={ this.handleKeyDown } isDefault tabIndex={ this.props.index } >
 				{ getCampaignThumbnail( campaign ) }
 				<span className="charitable-campaigns-list-card__content-item-name">{ campaign.title.rendered }</span>
 				{ icon }
@@ -581,9 +588,6 @@ class CampaignSelectedResults extends Component {
 					{ header }
 					<ul className="charitable-campaigns-list-card__selected-results-list">
 						{ campaigns }
-						{/* <TabbableContainer onNavigate={ ( index, target ) => console.log( index ) }> */}
-							{/* { campaigns } */}
-						{/* </TabbableContainer> */}
 					</ul>
 				</div>
 			</div>
