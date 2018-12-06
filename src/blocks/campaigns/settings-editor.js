@@ -107,6 +107,7 @@ export class SettingsEditor extends Component {
 						categories: [],
 						campaigns: [],
 						creator: '',
+						includeInactive: false,
 					} );
 					break;
 
@@ -224,61 +225,13 @@ export class SettingsEditor extends Component {
 		return (
 			<div class="charitable-block-settings charitable-block-settings-campaigns">
 				<div className="charitable-block-settings-heading">
-					<h4 className="charitable-block-settings-title">{ icon } { __( 'Campaigns', 'charitable' ) }</h4>
+					<h2 className="charitable-block-settings-title">{ icon } { __( 'Campaigns', 'charitable' ) }</h2>
 				</div>
 				<div className="charitable-block-settings-campaigns-subheading">
 					<p><strong>{ __( 'Currently showing:', 'charitable' ) }</strong>&nbsp;{ this.getCurrentDisplayOption() }</p>
 				</div>
 				{ returnLink }
 				{ this.getCurrentView() }
-				{/* <Filter title={ __( 'Category', 'charitable' ) } enabled={ openFilters.includes( 'categories' ) }>
-					<CampaignCategorySelect 
-						attributes={ attributes }
-						selected_categories={ categories }
-						update_category_setting_callback={ ( value ) => setAttributes( { categories: value } ) }
-					/>
-				</Filter>
-				<Filter title={ __( 'Status', 'charitable' ) } enabled={ openFilters.includes( 'status' ) }>
-					<ToggleControl
-						label={ __( 'Include inactive campaigns', 'charitable' ) }
-						checked={ !! includeInactive }
-						onChange={ this.toggleIncludeInactive }
-					/>
-				</Filter>
-				<Filter title={ __( 'Specific Campaigns', 'charitable' ) } enabled={ openFilters.includes( 'campaigns' ) }>
-					<h5>{ __( 'Campaigns to Include:', 'charitable' ) }</h5>
-					<CampaignSelect 
-						attributes={ attributes }
-						selected_campaigns={ campaigns }
-						update_campaign_setting_callback={ ( value ) => setAttributes( { campaigns: value } ) }
-						multiple="true"
-						columns={ columns }
-					/>
-					<h5>{ __( 'Campaigns to Exclude:', 'charitable' ) }</h5>
-					<CampaignSelect 
-						attributes={ attributes }
-						selected_campaigns={ campaignsToExclude }
-						update_campaign_setting_callback={ ( value ) => setAttributes( { campaignsToExclude: value } ) }
-						multiple="true"
-					/>
-				</Filter>
-				<Filter title={ __( 'Creator', 'charitable' ) } enabled={ openFilters.includes( 'creator' ) }>
-					
-				</Filter> */}
-					{/* <PanelRow>
-						<ToggleControl
-							label={ __( 'Masonry layout', 'charitable' ) }
-							checked={ masonryLayout }
-							onChange={ this.toggleMasonryLayout }
-						/>
-					</PanelRow>
-					<PanelRow>
-						<ToggleControl
-							label={ __( 'Responsive layout', 'charitable' ) }
-							checked={ responsiveLayout }
-							onChange={ this.toggleResponsiveLayout }
-						/>
-					</PanelRow> */}
 			</div>
 		);
 	}
@@ -365,6 +318,7 @@ class SpecificSettingsView extends Component {
 				<CampaignSelect 
 					attributes={ attributes }
 					label={ __( 'Choose campaigns', 'charitable' ) }
+					search_placeholder={ __( 'Search for campaigns to display', 'charitable' ) }
 					selected_campaigns={ campaigns }
 					update_campaign_setting_callback={ ( value ) => setAttributes( { campaigns: value } ) }
 					multiple={ true }
@@ -398,6 +352,7 @@ class AllSettingsView extends Component {
 				<CampaignSelect 
 					attributes={ attributes }
 					label={ __( 'Campaigns to exclude', 'charitable' ) }
+					search_placeholder={ __( 'Search for campaigns to exclude', 'charitable' ) }
 					selected_campaigns={ campaignsToExclude }
 					update_campaign_setting_callback={ ( value ) => setAttributes( { campaignsToExclude: value } ) }
 					multiple="true"
@@ -417,18 +372,42 @@ class FilterSettingsView extends Component {
 	 * Render the view.
 	 */
 	render() {
-		const { attributes, setAttributes } = this.props;
-		const { campaigns, columns }        = attributes;
+		const { attributes, setAttributes, update_include_inactive_callback } = this.props;
+		const { categories, campaignsToExclude, includeInactive, campaigns, columns } = attributes;
 
 		return (
 			<div className="charitable-block-settings-view charitable-block-settings-view--filter">
-				<CampaignSelect 
-					attributes={ attributes }
-					selected_campaigns={ campaigns }
-					update_campaign_setting_callback={ ( value ) => setAttributes( { campaigns: value } ) }
-					multiple={ true }
-					columns={ columns }
+				<ToggleControl
+					label={ __( 'Include inactive campaigns', 'charitable' ) }
+					checked={ !! includeInactive }
+					onChange={ update_include_inactive_callback }
 				/>
+				<Filter title={ __( 'Category', 'charitable' ) } enabled={ false }>
+					<CampaignCategorySelect 
+						attributes={ attributes }
+						label={ __( 'Filter by category', 'charitable' ) }
+						selected_categories={ categories }
+						update_category_setting_callback={ ( value ) => setAttributes( { categories: value } ) }
+					/>
+				</Filter>
+				{/* <CampaignCategorySelect 
+					attributes={ attributes }
+					label={ __( 'Filter by category', 'charitable' ) }
+					selected_categories={ categories }
+					update_category_setting_callback={ ( value ) => setAttributes( { categories: value } ) }
+				/> */}
+				<Filter title={ __( 'Exclude Campaigns', 'charitable' ) } enabled={ false }>
+					<CampaignSelect
+						attributes={ attributes }
+						label={ __( 'Campaigns to exclude', 'charitable' ) }
+						search_placeholder={ __( 'Search for campaigns to exclude', 'charitable' ) }
+						selected_campaigns={ campaignsToExclude }
+						update_campaign_setting_callback={ ( value ) => setAttributes( { campaignsToExclude: value } ) }
+						multiple={ true }
+						columns={ columns }
+						campaign_active_status=""
+					/>
+				</Filter>
 			</div>
 		);
 	}

@@ -187,7 +187,7 @@ class CampaignSearchField extends Component {
 					<input type="search"
 						className="charitable-campaigns-list-card__search"
 						value={ this.state.search_text }
-						placeholder={ __( 'Search for campaigns to display', 'charitable' ) }
+						placeholder={ this.props.search_placeholder }
 						tabIndex="0"
 						onKeyDown={ this.handleKeyDown }
 						onChange={ this.updateSearchResults }
@@ -570,25 +570,24 @@ class CampaignSelectedResults extends Component {
 			);
 		}
 
-		let header = null;
+		let header    = null;
+		let campaigns = null;
 
 		if ( selected_campaigns.length > 0 ) {
+			campaigns = <ul className="charitable-campaigns-list-card__selected-results-list">{ campaignElements.length ? campaignElements : __( 'Loading...', 'charitable' ) }</ul>
+
 			if ( 1 === selected_campaigns.length ) {
-				header = <h2>{ __( 'Selected campaign', 'charitable' ) }</h2>
+				header = <h3>{ __( 'Selected campaign', 'charitable' ) }</h3>
 			} else {
-				header = <h2>{ __( 'Selected campaigns', 'charitable' ) }</h2>
+				header = <h3>{ __( 'Selected campaigns', 'charitable' ) }</h3>
 			}
 		}
 
-		let campaigns = campaignElements.length ? campaignElements : __( 'Loading...', 'charitable' );
-		
 		return (
 			<div className="charitable-campaigns-list-card__selected-results-wrapper">
 				<div role="menu" className="charitable-campaigns-list-card__selected-results" aria-orientation="vertical" aria-label={ __( 'Selected campaigns', 'charitable' ) }>
 					{ header }
-					<ul className="charitable-campaigns-list-card__selected-results-list">
-						{ campaigns }
-					</ul>
+					{ campaigns }
 				</div>
 			</div>
 		);

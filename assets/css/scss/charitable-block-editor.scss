@@ -17,17 +17,25 @@ div.charitable-block-settings {
     }
 
     h3 {
-        font-size: 16px;
+        margin: 22px 0 4px;
+        font-size: 13px;
     }
 
     h2:before, 
     h3:before {
         display: none;
     }
+
+    .charitable-campaign-categories-list,
+    .components-base-control,
+    .charitable-campaigns-field {
+        margin-bottom: 22px;
+    }
 }
 
 .charitable-block-settings-title {
     position: relative;
+    font-size: 15px;
     text-align: center;
     
     svg {
@@ -48,15 +56,43 @@ div.charitable-campaigns-list {
     }
 }
 
+.charitable-campaigns-field,
+.charitable-campaign-categories-list {
+    label {
+        margin: 0 0 4px;
+        display: block;
+    }
+}
+
+.charitable-category-list-card__results {
+    ul {
+        border: 1px solid #e6eaee;
+        border-bottom-width: 0;
+    }
+    
+    li.charitable-category-list-card__item {        
+        margin: 0;
+        padding: 8px 15px;
+        border-bottom: 1px solid #e6eaee;
+        background-color: #fff;
+        
+        label {
+            margin: 0;
+        }
+    }
+}
+
 span.charitable-category-list-card__taxonomy-count {
     float: right;
+    width: 21px;
+    height: 21px;
     border: 1px solid #e6eaee;
     border-radius: 4px;
-    padding: 3px 8px;
-    color: #aaa;
-    line-height: 1;
+    line-height: 21px;
     font-size: 10px;
+    color: #aaa;
     background: #fff;
+    text-align: center;
 }
 
 div.charitable-block-settings-filter {
@@ -86,13 +122,6 @@ div.charitable-block-settings-filter {
 
 .charitable-block-settings-filter-settings {
     padding: 8px 0 8px 0;
-}
-
-.charitable-campaigns-field {
-    label {
-        margin: 0 0 4px;
-        display: block;
-    }
 }
 
 .charitable-campaigns-list-card__input-wrapper {
@@ -156,6 +185,8 @@ div.charitable-block-settings-filter {
 
 .charitable-campaigns-list-card__selected-results {
     .charitable-campaigns-list-card__item {
+        display: inline-block;
+        margin: 0 10px 10px 0;
         padding: 0;
         height: 38px;
         border: 1px solid #11a0d2;
@@ -168,6 +199,7 @@ div.charitable-block-settings-filter {
     
     .charitable-campaigns-list-card__content {
         position: relative;
+        padding-right: 44px;
         
         span {
             margin-left: 10px;

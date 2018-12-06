@@ -64,8 +64,15 @@ export class CampaignCategorySelect extends Component {
 	 * Render the list of categories and the search input.
 	 */
 	render() {
+		let label = null;
+
+		if ( this.props.label.length ) {
+			label = <label>{ this.props.label }</label>;
+		}
+		
 		return (
 			<div className="charitable-campaign-categories-list">
+				{ label }
 				<CampaignCategoryList
 					selectedCategories={ this.state.selectedCategories }
 					checkboxChange={ this.checkboxChange }

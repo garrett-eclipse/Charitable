@@ -83,7 +83,9 @@ class CharitableCampaignsBlock extends Component {
 	 */
 	getInspectorControls() {
 		const { attributes, setAttributes } = this.props;
-        const { number, orderBy, order, columns, masonryLayout, responsiveLayout } = attributes;
+		const { number, orderBy, order, columns, masonryLayout, responsiveLayout } = attributes;
+
+		const fullOrderBy = orderBy + '/' + order;
 
 		return (
 			<InspectorControls
@@ -94,7 +96,7 @@ class CharitableCampaignsBlock extends Component {
 						<SelectControl
 							key="orderby-select"
 							label={ __( 'Order by', 'charitable' ) }
-							value={ orderBy }
+							value={ fullOrderBy }
 							options={ [
 								{
 									label: __( 'Date created (newest to oldest)', 'charitable' ),
