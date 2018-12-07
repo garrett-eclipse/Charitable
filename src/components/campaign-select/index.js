@@ -577,9 +577,9 @@ class CampaignSelectedResults extends Component {
 			campaigns = <ul className="charitable-campaigns-list-card__selected-results-list">{ campaignElements.length ? campaignElements : __( 'Loading...', 'charitable' ) }</ul>
 
 			if ( 1 === selected_campaigns.length ) {
-				header = <h3>{ __( 'Selected campaign', 'charitable' ) }</h3>
+				header = <h4>{ __( 'Selected campaign', 'charitable' ) }</h4>
 			} else {
-				header = <h3>{ __( 'Selected campaigns', 'charitable' ) }</h3>
+				header = <h4>{ __( 'Selected campaigns', 'charitable' ) }</h4>
 			}
 		}
 

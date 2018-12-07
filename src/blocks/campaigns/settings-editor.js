@@ -349,15 +349,17 @@ class AllSettingsView extends Component {
 					checked={ !! includeInactive }
 					onChange={ update_include_inactive_callback }
 				/>
-				<CampaignSelect 
-					attributes={ attributes }
-					label={ __( 'Campaigns to exclude', 'charitable' ) }
-					search_placeholder={ __( 'Search for campaigns to exclude', 'charitable' ) }
-					selected_campaigns={ campaignsToExclude }
-					update_campaign_setting_callback={ ( value ) => setAttributes( { campaignsToExclude: value } ) }
-					multiple="true"
-					campaign_active_status=""
-				/>
+				<Filter title={ __( 'Exclude Campaigns', 'charitable' ) } enabled={ false }>
+					<CampaignSelect
+						attributes={ attributes }
+						label={ __( 'Campaigns to exclude', 'charitable' ) }
+						search_placeholder={ __( 'Search for campaigns to exclude', 'charitable' ) }
+						selected_campaigns={ campaignsToExclude }
+						update_campaign_setting_callback={ ( value ) => setAttributes( { campaignsToExclude: value } ) }
+						multiple={ true }
+						campaign_active_status=""
+					/>
+				</Filter>
 			</div>
 		);
 	}

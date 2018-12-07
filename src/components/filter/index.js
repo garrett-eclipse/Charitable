@@ -51,12 +51,12 @@ export class Filter extends Component {
 		return (
 			<div className={ 'charitable-block-settings-filter' + ( this.state.enabled ? ' is-opened' : '' ) }>
 				<div className="charitable-block-settings-filter-toggle">
-					<label>
+					<h3 className="charitable-block-settings-filter-header">
 						{ this.props.title }
 						<button onClick={ toggleFilter } className="charitable-block-settings-filter-toggle__accordion-button" type="button">
 							<Dashicon icon={ icon } />
 						</button>
-					</label>
+					</h3>
 				</div>
 				<div className="charitable-block-settings-filter-settings" style={ filterStyles }>
 					{ this.props.children }
