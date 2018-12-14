@@ -159,7 +159,7 @@ if ( ! class_exists( 'Charitable_User_Dashboard' ) ) :
 		 */
 		public function flush_menu_object_cache( $menu_id ) {
 			$nav_menu = wp_get_nav_menu_object( $this->get_nav_id() );
-            
+
             //if $nav_menu is not set that means the location 'charitable-dashboard' is not checked
 			if ( $nav_menu == 0 || $menu_id == $nav_menu->term_id ) {
 
