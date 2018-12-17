@@ -275,7 +275,7 @@ if ( ! class_exists( 'Charitable_Query' ) ) :
 			if ( $this->show_all() ) {
 				return count( $this->query );
 			}
-			
+
 			/**
 			 * Filters the query used to retrieve the query result count.
 			 *
